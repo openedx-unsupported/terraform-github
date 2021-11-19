@@ -1,0 +1,15 @@
+build-test-release-wg
+community-wg
+data-wg
+frontend-wg
+metrics-dashboard
+olxcleaner
+onboarding-course-introduction
+openedx-conference-website
+openedx-i18n
+openedx-slack-invite
+openedx-tech-radar
+platform-roadmap
+pr_watcher_notifier
+public-engineering
+terraform-github
