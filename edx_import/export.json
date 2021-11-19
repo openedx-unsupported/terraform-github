@@ -1,0 +1,4647 @@
+{
+    // Exports weren't timestamped when I generated this file.
+    // I manually added this timestamp based on the commit time.
+    // We'll probably want to re-generate this file before applying
+    // any Terraform.
+    "export_date_utc": "2021-11-17T18:14:39.000000",
+    "repos": [
+        {
+            "name": ".github",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "AnimationXBlock",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "AudioXBlock",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "ConceptXBlock",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "DoneXBlock",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "MongoDBProxy",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "RateXBlock",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "RecommenderXBlock",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "TinCanPython",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "XBlock",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "account-edx-deployment-push": 2,
+                "arbi-bom": 2,
+                "arch-bom": 2,
+                "ccp-committer-bradenmacdonald": 3,
+                "ccp-committer-felipemontoya": 3,
+                "ccp-committer-pdpinch": 3,
+                "ccp-committer-symbolist": 3,
+                "edx-webhook-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1,
+                "teaching-and-learning": 4
+            }
+        },
+        {
+            "name": "acclaimbadge-xblock",
+            "user_access": {
+                "mslotkeEDX": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "acid-block",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "account-edx-deployment-push": 2,
+                "community-engineering": 4,
+                "edx-webhook-admin": 4,
+                "incr-reviewers": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1
+            }
+        },
+        {
+            "name": "api-doc-tools",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "edx-testeng-robot-rw": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "teaching-and-learning": 2
+            }
+        },
+        {
+            "name": "auth-backends",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 2,
+                "arch-bom": 4,
+                "ccp-committer-idegtiarov": 3,
+                "learner-admins": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "blockstore",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "ccp-committer-bradenmacdonald": 3,
+                "ccp-committer-symbolist": 3,
+                "community-release-managers": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "teaching-and-learning": 4
+            }
+        },
+        {
+            "name": "bok-choy",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 2,
+                "arch-bom": 4,
+                "bok-choy-push": 2,
+                "edx-testeng-robot-rw": 2,
+                "edx-webhook-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1
+            }
+        },
+        {
+            "name": "brand-openedx",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arch-bom": 4,
+                "edx-ux-team": 4,
+                "fedx-team": 4,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "teaching-and-learning": 4
+            }
+        },
+        {
+            "name": "cc2olx",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "masters-devs-cosmonauts": 2,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "ccx-keys",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arch-bom": 4,
+                "ccp-committer-pdpinch": 3,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1,
+                "teaching-and-learning": 4
+            }
+        },
+        {
+            "name": "code-annotations",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "ccp-committer-regisb": 3,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "codejail",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "edx-testeng-robot-rw": 2,
+                "edx-webhook-admin": 4,
+                "incr-reviewers": 2,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "completion",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "edx-testeng-robot-rw": 2,
+                "engage-squad": 4,
+                "masters-admins": 4,
+                "masters-all": 4,
+                "masters-devs": 2,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "configuration",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "ccp-committer-jfavellar90": 2,
+                "ccp-committer-pomegranited": 3,
+                "community-release-managers": 2,
+                "configuration-pull": 1,
+                "configuration-push": 2,
+                "devops": 2,
+                "devops-review-pull": 1,
+                "docker-builder-bot": 1,
+                "edx-community-bot": 4,
+                "edx-webhook-admin": 4,
+                "open-release-maintainers": 1,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1
+            }
+        },
+        {
+            "name": "course-discovery",
+            "user_access": {
+                "edx-transifex-bot": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-release-managers": 2,
+                "course-discovery-admins": 4,
+                "edx-codecov-bot": 1,
+                "edx-testeng-robot-rw": 2,
+                "edx-transifex-translations": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1
+            }
+        },
+        {
+            "name": "credentials",
+            "user_access": {
+                "edx-deployment": 2
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-release-managers": 2,
+                "edx-aperture": 2,
+                "edx-codecov-bot": 1,
+                "edx-programs-admin": 4,
+                "edx-testeng-robot-rw": 2,
+                "edx-transifex-translations": 2,
+                "learner-admins": 4,
+                "masters-devs": 2,
+                "masters-mm-dev": 4,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1
+            }
+        },
+        {
+            "name": "credentials-themes",
+            "user_access": {
+                "edx-deployment": 2
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "edx-aperture": 2,
+                "edx-codecov-bot": 1,
+                "edx-transifex-translations": 2,
+                "learner-admins": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "crowdsourcehinter",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "cs_comments_service",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "ccp-committer-xitij2000": 2,
+                "community-release-managers": 2,
+                "cs_comments_service-push": 2,
+                "edx-codecov-bot": 1,
+                "edx-webhook-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "teaching-and-learning": 4
+            }
+        },
+        {
+            "name": "cypress-e2e-tests",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "ccp-committer-cmltawt0": 2,
+                "edx-community-bot": 4,
+                "open-release-maintainers": 1,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "demo-performance-course",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "edx-webhook-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "demo-test-course",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "devstack",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 4,
+                "arch-bom": 4,
+                "ccp-committer-cmltawt0": 2,
+                "ccp-committer-regisb": 3,
+                "community-release-managers": 2,
+                "edx-codecov-bot": 2,
+                "edx-community-bot": 4,
+                "edx-testeng-robot-rw": 2,
+                "learner-admins": 4,
+                "open-release-maintainers": 1,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "django-config-models",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 2,
+                "arch-bom": 4,
+                "ccp-committer-regisb": 3,
+                "edx-testeng-robot-rw": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "testeng": 2
+            }
+        },
+        {
+            "name": "django-lang-pref-middleware",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 2,
+                "arch-bom": 4,
+                "edx-webhook-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "django-pyfs",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arch-bom": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "django-ratelimit-backend",
+            "user_access": {
+                "schenedx": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "django-splash",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arch-bom": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "django-user-tasks",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 2,
+                "arch-bom": 4,
+                "edx-codecov-bot": 1,
+                "edx-testeng-robot-rw": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1,
+                "testeng": 2
+            }
+        },
+        {
+            "name": "django-wiki",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 2,
+                "engage-squad": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "docs.edx.org",
+            "user_access": {
+                "awaisdar001": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "ease",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "edx-webhook-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "ecommerce",
+            "user_access": {
+                "edx-revenue-tasks": 4,
+                "edx-transifex-bot": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-release-managers": 2,
+                "ecommerce": 1,
+                "edx-codecov-bot": 1,
+                "edx-testeng-robot-rw": 2,
+                "edx-transifex-translations": 2,
+                "edx-webhook-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1,
+                "revenue-squad": 4
+            }
+        },
+        {
+            "name": "ecommerce-scripts",
+            "user_access": {
+                "edx-revenue-tasks": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "revenue-squad": 4
+            }
+        },
+        {
+            "name": "ecommerce-worker",
+            "user_access": {
+                "edx-revenue-tasks": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-release-managers": 2,
+                "edx-codecov-bot": 1,
+                "edx-webhook-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "revenue-squad": 4
+            }
+        },
+        {
+            "name": "edx-ace",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 2,
+                "ccp-committer-omarithawi": 3,
+                "engage-squad": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "edx-analytics-configuration",
+            "user_access": {
+                "DawoudSheraz": 2
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "analytics-admin": 4,
+                "analytics-push": 2,
+                "community-release-managers": 2,
+                "edx-analytics-arbisoft-push": 2,
+                "edx-webhook-admin": 4,
+                "pull-all": 1,
+                "requires-io": 1
+            }
+        },
+        {
+            "name": "edx-analytics-dashboard",
+            "user_access": {
+                "schenedx": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "analytics-admin": 4,
+                "analytics-pull": 1,
+                "analytics-push": 2,
+                "community-release-managers": 2,
+                "edx-data-engineering": 2,
+                "edx-testeng-robot-rw": 2,
+                "edx-transifex-translations": 2,
+                "edx-webhook-admin": 4,
+                "masters-devs-cosmonauts": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1
+            }
+        },
+        {
+            "name": "edx-analytics-data-api",
+            "user_access": {
+                "schenedx": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "analytics-admin": 4,
+                "analytics-push": 2,
+                "community-release-managers": 2,
+                "edx-data-engineering": 2,
+                "edx-testeng-robot-rw": 2,
+                "edx-webhook-admin": 4,
+                "enterprise-online-campus": 2,
+                "masters-devs-cosmonauts": 3,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1
+            }
+        },
+        {
+            "name": "edx-analytics-data-api-client",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "analytics-admin": 4,
+                "analytics-push": 2,
+                "edx-webhook-admin": 4,
+                "incr-reviewers": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1
+            }
+        },
+        {
+            "name": "edx-analytics-exporter",
+            "user_access": {
+                "edx-travis": 2
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "analytics-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "edx-app-android",
+            "user_access": {
+                "edx-status-bot": 2
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-release-managers": 2,
+                "edx-codecov-bot": 1,
+                "edx-mobile-admin": 4,
+                "edx-mobile-push": 2,
+                "edx-travis-admin": 4,
+                "edx-webhook-admin": 4,
+                "openedx-support-team": 2,
+                "pull-all": 1,
+                "pull-private-all": 1
+            }
+        },
+        {
+            "name": "edx-app-gradle-plugin",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "edx-mobile-push": 2,
+                "edx-webhook-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "edx-app-ios",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "community-release-managers": 2,
+                "edx-codecov-bot": 1,
+                "edx-mobile-admin": 4,
+                "edx-mobile-push": 2,
+                "edx-travis-admin": 4,
+                "edx-webhook-admin": 4,
+                "pull-all": 1,
+                "pull-private-all": 1
+            }
+        },
+        {
+            "name": "edx-app-test",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "ccp-committer-cmltawt0": 2,
+                "edx-codecov-bot": 1,
+                "edx-community-bot": 4,
+                "edx-mobile-admin": 4,
+                "edx-mobile-push": 2,
+                "edx-travis-admin": 4,
+                "edx-webhook-admin": 4,
+                "open-release-maintainers": 1,
+                "pull-all": 1
+            }
+        },
+        {
+            "name": "edx-bootstrap",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arch-bom": 4,
+                "community-engineering": 4,
+                "edx-semantic-release-bot": 2,
+                "fedx-admin": 4,
+                "fedx-team": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "edx-bulk-grades",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "masters-dahlia": 2,
+                "masters-devs-gta": 3,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "edx-celeryutils",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 2,
+                "arch-bom": 4,
+                "edx-webhook-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "edx-certificates",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "community-release-managers": 2,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "edx-cookiecutters",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 2,
+                "arch-bom": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "edx-custom-a11y-rules",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arch-bom": 4,
+                "edx-semantic-release-bot": 1,
+                "fedx-team": 1,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "edx-demo-course",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "community-release-managers": 2,
+                "edx-webhook-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "edx-developer-docs",
+            "user_access": {
+                "PrecisionWordcraft": 2,
+                "edx-travis": 1
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "community-release-managers": 2,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "edx-django-release-util",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "edx-django-sites-extensions",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "edx-django-utils",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 2,
+                "arch-bom": 4,
+                "ccp-committer-felipemontoya": 3,
+                "ccp-committer-regisb": 3,
+                "configuration-pull": 1,
+                "configuration-secure-pull": 1,
+                "edx-cache-uploader-bot": 2,
+                "edx-testeng-robot-rw": 2,
+                "edx-transifex-translations": 2,
+                "edx-webhook-admin": 4,
+                "fedx-team": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "tools-core": 4
+            }
+        },
+        {
+            "name": "edx-documentation",
+            "user_access": {
+                "carolguest": 2
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "community-release-managers": 2,
+                "edx-documentation-admin": 4,
+                "edx-webhook-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "edx-drf-extensions",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 2,
+                "arch-bom": 4,
+                "learner-admins": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "edx-enterprise",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "business-enterprise-team": 2,
+                "edx-testeng-robot-rw": 2,
+                "edx-webhook-admin": 4,
+                "enterprise-online-campus": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1
+            }
+        },
+        {
+            "name": "edx-enterprise-data",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "edx-webhook-admin": 4,
+                "enterprise-online-campus": 2,
+                "enterprise-titans": 1,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "edx-lint",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 2,
+                "arch-bom": 4,
+                "configuration-pull": 1,
+                "edx-testeng-robot-rw": 2,
+                "edx-webhook-admin": 4,
+                "incr-reviewers": 2,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "edx-milestones",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "edx-milestones": 2,
+                "edx-webhook-admin": 4,
+                "incr-reviewers": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1
+            }
+        },
+        {
+            "name": "edx-notes-api",
+            "user_access": {
+                "edx-atlantis": 3
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-release-managers": 2,
+                "devops": 2,
+                "edx-travis-admin": 4,
+                "edx-webhook-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1
+            }
+        },
+        {
+            "name": "edx-notifications",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "edx-webhook-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1
+            }
+        },
+        {
+            "name": "edx-ora2",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "ccp-committer-pomegranited": 3,
+                "edx-ora2-push": 2,
+                "edx-transifex-translations": 2,
+                "edx-webhook-admin": 4,
+                "masters-admins": 4,
+                "masters-devs": 1,
+                "masters-devs-gta": 4,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1
+            }
+        },
+        {
+            "name": "edx-organizations",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 2,
+                "arch-bom": 2,
+                "ccp-committer-idegtiarov": 3,
+                "edx-testeng-robot-rw": 2,
+                "edx-webhook-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "testeng": 1
+            }
+        },
+        {
+            "name": "edx-platform",
+            "user_access": {
+                "edx-deployment": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 2,
+                "arch-bom": 4,
+                "ccp-committer-agrendalath": 3,
+                "ccp-committer-arbrandes": 2,
+                "ccp-committer-bradenmacdonald": 3,
+                "ccp-committer-felipemontoya": 3,
+                "ccp-committer-giovannicimolin": 2,
+                "ccp-committer-pdpinch": 3,
+                "ccp-committer-ziafazal": 3,
+                "community-engineering": 2,
+                "community-release-managers": 2,
+                "configuration-pull": 1,
+                "configuration-secure-pull": 1,
+                "edx-cache-uploader-bot": 2,
+                "edx-community-bot": 4,
+                "edx-data-engineering": 1,
+                "edx-testeng-robot-rw": 2,
+                "edx-transifex-translations": 2,
+                "edx-webhook-admin": 4,
+                "open-release-maintainers": 1,
+                "pipeline-bot": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1,
+                "teaching-and-learning": 4
+            }
+        },
+        {
+            "name": "edx-proctoring",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arch-bom": 1,
+                "ccp-committer-idegtiarov": 3,
+                "edx-testeng-robot-rw": 2,
+                "edx-transifex-translations": 2,
+                "edx-webhook-admin": 4,
+                "masters-admins": 4,
+                "masters-dahlia": 1,
+                "masters-devs": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1,
+                "testeng": 2
+            }
+        },
+        {
+            "name": "edx-rbac",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 2,
+                "arch-bom": 4,
+                "ccp-committer-idegtiarov": 3,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "edx-repo-health",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 2,
+                "arch-bom": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "edx-rest-api-client",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 2,
+                "arch-bom": 4,
+                "ccp-committer-idegtiarov": 3,
+                "ecommerce": 4,
+                "edx-testeng-robot-rw": 2,
+                "edx-webhook-admin": 4,
+                "learner-admins": 4,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1
+            }
+        },
+        {
+            "name": "edx-search",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "ccp-committer-idegtiarov": 3,
+                "edx-webhook-admin": 4,
+                "incr-reviewers": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1
+            }
+        },
+        {
+            "name": "edx-sphinx-theme",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 2,
+                "arch-bom": 2,
+                "community-engineering": 4,
+                "edx-testeng-robot-rw": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "testeng": 2
+            }
+        },
+        {
+            "name": "edx-submissions",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "edx-webhook-admin": 4,
+                "incr-reviewers": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1
+            }
+        },
+        {
+            "name": "edx-toggles",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 2,
+                "arch-bom": 4,
+                "ccp-committer-regisb": 3,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "edx-tools",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arch-bom": 4,
+                "edx-tools-push": 2,
+                "edx-webhook-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "edx-ui-toolkit",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "account-edx-deployment-push": 2,
+                "community-engineering": 4,
+                "configuration-secure-pull": 1,
+                "edx-semantic-release-bot": 1,
+                "edx-webhook-admin": 4,
+                "fedx-admin": 4,
+                "fedx-team": 2,
+                "pull-all": 1,
+                "pull-private-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "edx-user-state-client",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arch-bom": 1,
+                "engage-squad": 4,
+                "incr-reviewers": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "teaching-and-learning": 4
+            }
+        },
+        {
+            "name": "edx-val",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "edx-testeng-robot-rw": 2,
+                "edx-webhook-admin": 4,
+                "incident-management": 2,
+                "incr-reviewers": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1,
+                "sustaining-vulcans": 2
+            }
+        },
+        {
+            "name": "edx-when",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "engage-squad": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "edx-zoom",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "masters-dahlia": 2,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "edx4edx_lite",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arch-bom": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "enmerkar-underscore",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arch-bom": 4,
+                "edx-travis-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "enterprise-catalog",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "business-enterprise-team": 2,
+                "community-release-managers": 2,
+                "enterprise-catalog-admins": 4,
+                "enterprise-titans": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1
+            }
+        },
+        {
+            "name": "eslint-config",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "fedx-admin": 4,
+                "fedx-team": 2,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "eslint-config-edx",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "edx-semantic-release-bot": 1,
+                "fedx-admin": 4,
+                "fedx-team": 1,
+                "pull-all": 1,
+                "push-pull-all": 1
+            }
+        },
+        {
+            "name": "event-routing-backends",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 3,
+                "arch-bom": 4,
+                "ccp-committer-ziafazal": 3,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "event-tracking",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "analytics-push": 2,
+                "arbi-bom": 2,
+                "edx-webhook-admin": 4,
+                "incr-reviewers": 2,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "frontend-app-account",
+            "user_access": {
+                "edx-transifex-bot": 4,
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "community-release-managers": 2,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "frontend-app-admin-portal",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "enterprise-online-campus": 2,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "frontend-app-authn",
+            "user_access": {
+                "edx-transifex-bot": 4,
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-release-managers": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "vanguards": 4
+            }
+        },
+        {
+            "name": "frontend-app-course-authoring",
+            "user_access": {
+                "Zacharis278": 4,
+                "edx-transifex-bot": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "ccp-committer-xitij2000": 2,
+                "masters-devs": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "teaching-and-learning": 2
+            }
+        },
+        {
+            "name": "frontend-app-discussions",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "ccp-committer-xitij2000": 2,
+                "community-release-managers": 2,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "frontend-app-ecommerce",
+            "user_access": {
+                "edx-revenue-tasks": 4,
+                "edx-transifex-bot": 4,
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-release-managers": 2,
+                "ecommerce": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "revenue-squad": 4
+            }
+        },
+        {
+            "name": "frontend-app-enterprise-public-catalog",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "edx-semantic-release-bot": 2,
+                "enterprise-online-campus": 4,
+                "fedx-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "frontend-app-gradebook",
+            "user_access": {
+                "edx-travis": 2,
+                "iloveagent57": 4,
+                "schenedx": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "ccp-committer-bbrsofiane": 2,
+                "community-release-managers": 2,
+                "edx-semantic-release-bot": 2,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "frontend-app-learner-portal-enterprise",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "edx-semantic-release-bot": 2,
+                "enterprise-online-campus": 2,
+                "fedx-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "frontend-app-learner-portal-programs",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "edx-programs-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "frontend-app-learning",
+            "user_access": {
+                "edx-transifex-bot": 4,
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "ccp-committer-bbrsofiane": 2,
+                "community-release-managers": 2,
+                "engage-squad": 4,
+                "fedx-team": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "teaching-and-learning": 4
+            }
+        },
+        {
+            "name": "frontend-app-library-authoring",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "ccp-committer-arbrandes": 2,
+                "community-release-managers": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "teaching-and-learning": 4
+            }
+        },
+        {
+            "name": "frontend-app-payment",
+            "user_access": {
+                "edx-revenue-tasks": 4,
+                "edx-transifex-bot": 4,
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-release-managers": 2,
+                "ecommerce": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "revenue-squad": 4
+            }
+        },
+        {
+            "name": "frontend-app-profile",
+            "user_access": {
+                "edx-transifex-bot": 4,
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "ccp-committer-bbrsofiane": 2,
+                "community-engineering": 4,
+                "community-release-managers": 2,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "frontend-app-program-console",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "edx-semantic-release-bot": 2,
+                "masters-mm-dev": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "frontend-app-programs-dashboard",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "frontend-app-publisher",
+            "user_access": {
+                "Dillon-Dumesnil": 4,
+                "edx-travis": 4,
+                "jmyatt": 4,
+                "mikix": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "account-edx-deployment-push": 2,
+                "community-release-managers": 2,
+                "course-discovery-admins": 4,
+                "edx-travis-admin": 4,
+                "pipeline-bot": 2,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "frontend-app-support-tools",
+            "user_access": {
+                "albemarle": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-release-managers": 2,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "frontend-build",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "ccp-committer-bbrsofiane": 2,
+                "fedx-admin": 4,
+                "fedx-team": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "frontend-component-cookie-policy-banner",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "edx-semantic-release-bot": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "website": 4
+            }
+        },
+        {
+            "name": "frontend-component-footer",
+            "user_access": {
+                "edx-transifex-bot": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "frontend-component-header",
+            "user_access": {
+                "edx-travis": 2
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "frontend-enterprise",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "edx-semantic-release-bot": 2,
+                "fedx-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "frontend-learner-portal-base",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "edx-semantic-release-bot": 2,
+                "fedx-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "frontend-platform",
+            "user_access": {
+                "BbrSofiane": 3,
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "arch-bom": 4,
+                "ccp-committer-bbrsofiane": 2,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "frontend-template-application",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "community-release-managers": 2,
+                "edx-semantic-release-bot": 2,
+                "fedx-team": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "help-tokens",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arch-bom": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "html-webpack-new-relic-plugin",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arch-bom": 4,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "i18n-tools",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "edx-webhook-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1
+            }
+        },
+        {
+            "name": "license-manager",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-release-managers": 2,
+                "enterprise-catalog-admins": 4,
+                "enterprise-titans": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "mdrst",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "mockprock",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "opaque-keys",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 2,
+                "arch-bom": 2,
+                "ccp-committer-bradenmacdonald": 3,
+                "ccp-committer-felipemontoya": 3,
+                "ccp-committer-pdpinch": 3,
+                "configuration-pull": 1,
+                "edx-webhook-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "teaching-and-learning": 4
+            }
+        },
+        {
+            "name": "open-edx-proposals",
+            "user_access": {
+                "michellephilbrick": 3
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 2,
+                "arch-bom": 4,
+                "core-contributor-program-committers": 3,
+                "edx-community-bot": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "openedx-calc",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "arch-bom": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "openedx-census",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "openedx-chem",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "teaching-and-learning": 4
+            }
+        },
+        {
+            "name": "openedx-conference-pages",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "github-pages-only": 4,
+                "pull-all": 1
+            }
+        },
+        {
+            "name": "openedx-webhooks",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "edx-codecov-bot": 1,
+                "edx-webhook-admin": 4,
+                "openedx-tooling": 4,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "sustaining-team": 2
+            }
+        },
+        {
+            "name": "openedxstats",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "edx-testeng-robot-rw": 2,
+                "open-source-team": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1,
+                "teaching-and-learning": 2
+            }
+        },
+        {
+            "name": "paragon",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "fedx-admin": 4,
+                "fedx-team": 2,
+                "paragon-working-group": 2,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "pr_watcher_configuration",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "pull-all": 1
+            }
+        },
+        {
+            "name": "pytest-repo-health",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 2,
+                "arch-bom": 4,
+                "edx-testeng-robot-rw": 2,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "pytest-warnings-report",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arch-bom": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "reactifex",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "registrar",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "edx-testeng-robot-rw": 2,
+                "masters-devs": 2,
+                "masters-mm-dev": 4,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1
+            }
+        },
+        {
+            "name": "repo-tools",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 2,
+                "arch-bom": 4,
+                "community-release-managers": 2,
+                "edx-webhook-admin": 4,
+                "pull-all": 1,
+                "pull-private-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1
+            }
+        },
+        {
+            "name": "repo-tools-data-schema",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "sample-themes",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "solutions-team": 2
+            }
+        },
+        {
+            "name": "schoolyourself-xblock",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "staff_graded-xblock",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "studio-frontend",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "edx-semantic-release-bot": 2,
+                "edx-testeng-robot-rw": 2,
+                "edx-transifex-translations": 4,
+                "masters-dahlia": 4,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "teaching-and-learning": 4
+            }
+        },
+        {
+            "name": "stylelint-config-edx",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "account-edx-deployment-push": 2,
+                "community-engineering": 4,
+                "configuration-secure-pull": 1,
+                "edx-semantic-release-bot": 1,
+                "edx-webhook-admin": 4,
+                "fedx-admin": 4,
+                "fedx-team": 2,
+                "pull-all": 1,
+                "pull-private-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "super-csv",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "masters-dahlia": 2,
+                "masters-devs-gta": 2,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "taxonomy-connector",
+            "user_access": {
+                "edx-travis": 4,
+                "georgebabey": 4,
+                "moconnell1453": 4,
+                "rgraber": 2
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "edx-semantic-release-bot": 3,
+                "enterprise-markhors": 3,
+                "pull-all": 1,
+                "push-pull-all": 1
+            }
+        },
+        {
+            "name": "tinymce-language-selector",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "edx-semantic-release-bot": 4,
+                "engage-squad": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "tubular",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "community-release-managers": 2,
+                "devops": 4,
+                "pipeline-team": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "user-util",
+            "user_access": {
+                "doctoryes": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "edx-travis-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "web-fragments",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arch-bom": 4,
+                "edx-codecov-bot": 1,
+                "edx-webhook-admin": 4,
+                "fedx-admin": 4,
+                "incr-reviewers": 2,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "webhook-test-repo",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "tools-edx-jenkins-pull-request-builder": 2
+            }
+        },
+        {
+            "name": "xblock-free-text-response",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "xblock-image-modal",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "xblock-in-video-quiz",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "xblock-lti-consumer",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arch-bom": 4,
+                "ccp-committer-agrendalath": 3,
+                "ccp-committer-giovannicimolin": 2,
+                "ccp-committer-idegtiarov": 3,
+                "ccp-committer-xitij2000": 2,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "xblock-qualtrics-survey",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "xblock-sdk",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "ccp-committer-bradenmacdonald": 3,
+                "ccp-committer-felipemontoya": 3,
+                "ccp-committer-pdpinch": 3,
+                "ccp-committer-symbolist": 3,
+                "edx-webhook-admin": 4,
+                "incr-reviewers": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1,
+                "teaching-and-learning": 4
+            }
+        },
+        {
+            "name": "xblock-sql-grader",
+            "user_access": {
+                "edx-travis": 1
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "xblock-submit-and-compare",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "pull-all": 1,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "xblock-utils",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 2,
+                "arch-bom": 2,
+                "ccp-committer-bradenmacdonald": 3,
+                "ccp-committer-felipemontoya": 3,
+                "ccp-committer-pdpinch": 3,
+                "ccp-committer-symbolist": 3,
+                "edx-testeng-robot-rw": 2,
+                "edx-webhook-admin": 4,
+                "incr-reviewers": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1,
+                "teaching-and-learning": 4
+            }
+        },
+        {
+            "name": "xqueue",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 2,
+                "community-release-managers": 2,
+                "devops": 4,
+                "edx-testeng-robot-rw": 2,
+                "edx-webhook-admin": 4,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1,
+                "sustaining-team": 2,
+                "xqueue-new-push": 2
+            }
+        },
+        {
+            "name": "xqueue-watcher",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "edx-webhook-admin": 4,
+                "pull-all": 1,
+                "pull-private-all": 1,
+                "push-pull-all": 2,
+                "xqueue-watcher-push": 2
+            }
+        },
+        {
+            "name": "xss-utils",
+            "user_access": {
+                "edx-travis": 4
+            },
+            "team_access": {
+                "edx-admin": 4,
+                "arbi-bom": 2,
+                "arch-bom": 4,
+                "configuration-pull": 1,
+                "configuration-secure-pull": 1,
+                "devops": 2,
+                "edx-cache-uploader-bot": 2,
+                "edx-testeng-robot-rw": 2,
+                "edx-transifex-translations": 2,
+                "edx-webhook-admin": 4,
+                "fedx-team": 1,
+                "pipeline-bot": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "tools-core": 4
+            }
+        }
+    ],
+    "teams": [
+        {
+            "slug": "edx-admin",
+            "members": [
+                "NIXKnight",
+                "adzuci",
+                "arbabkhalil",
+                "augustoverride",
+                "caplan188",
+                "christopappas",
+                "davidjoy",
+                "dianakhuang",
+                "e0d",
+                "edx-github-actions-runner",
+                "edx-webhook",
+                "estute",
+                "feanil",
+                "jazibhumayun",
+                "jdmulloy",
+                "jmbowman",
+                "kdmccormick",
+                "loucicchese",
+                "matthugs",
+                "mulby",
+                "nadeemshahzad",
+                "nedbat",
+                "ormsbee",
+                "robrap",
+                "saleem-latif",
+                "sarina",
+                "syed-awais-ali",
+                "syedimranhassan",
+                "tnamgyal",
+                "tuchfarber",
+                "wesmason"
+            ]
+        },
+        {
+            "slug": "account-edx-deployment-push",
+            "members": [
+                "edx-deployment"
+            ]
+        },
+        {
+            "slug": "analytics",
+            "members": [
+                "bmedx",
+                "brianhw",
+                "doctoryes",
+                "katymyw",
+                "macdiesel",
+                "mulby",
+                "pwnage101"
+            ]
+        },
+        {
+            "slug": "analytics-admin",
+            "members": [
+                "macdiesel"
+            ]
+        },
+        {
+            "slug": "analytics-jenkins-access",
+            "members": [
+                "bmedx"
+            ]
+        },
+        {
+            "slug": "analytics-prefect",
+            "members": [
+                "MichaelRoytman",
+                "Zacharis278",
+                "ahsanshafiq742",
+                "alangsto",
+                "ashultz0",
+                "bmedx",
+                "brianhw",
+                "bseverino",
+                "debbiejacob",
+                "doctoryes",
+                "e0d",
+                "edx-analytics-automation",
+                "estute",
+                "jazibhumayun",
+                "macdiesel",
+                "mulby",
+                "openedx-release-bot",
+                "pwnage101",
+                "schenedx",
+                "usama101"
+            ]
+        },
+        {
+            "slug": "analytics-pull",
+            "members": [
+                "edx-secure"
+            ]
+        },
+        {
+            "slug": "analytics-push",
+            "members": [
+                "ahsanshafiq742",
+                "bmedx",
+                "brianhw",
+                "debbiejacob",
+                "doctoryes",
+                "e0d",
+                "edx-analytics-automation",
+                "estute",
+                "macdiesel",
+                "mulby",
+                "openedx-release-bot",
+                "pwnage101",
+                "usama101"
+            ]
+        },
+        {
+            "slug": "android-devs",
+            "members": [
+                "HamzaIsrar-arbisoft",
+                "farhan-arshad-dev",
+                "miankhalid",
+                "omerhabib26"
+            ]
+        },
+        {
+            "slug": "app-permission-managers",
+            "members": [
+                "feanil",
+                "georgebabey",
+                "jdmulloy",
+                "jmbowman",
+                "macdiesel",
+                "mulby",
+                "nadeemshahzad",
+                "schenedx",
+                "syed-awais-ali",
+                "wesmason"
+            ]
+        },
+        {
+            "slug": "arbi-bom",
+            "members": [
+                "UsamaSadiq",
+                "awais786",
+                "iamsobanjaved",
+                "jmbowman",
+                "mraarif"
+            ]
+        },
+        {
+            "slug": "arch-bom",
+            "members": [
+                "davidjoy",
+                "dianakhuang",
+                "jinder1s",
+                "jmbowman",
+                "nedbat",
+                "rgraber",
+                "robrap",
+                "timmc-edx"
+            ]
+        },
+        {
+            "slug": "aws-users",
+            "members": [
+                "enavarro",
+                "natabene"
+            ]
+        },
+        {
+            "slug": "bok-choy-push",
+            "members": [
+                "muhammad-ammar"
+            ]
+        },
+        {
+            "slug": "build-testeng-admins",
+            "members": [
+                "estute",
+                "feanil",
+                "jmbowman"
+            ]
+        },
+        {
+            "slug": "business",
+            "members": [
+                "adamstankiewicz",
+                "alex-sheehan-edx",
+                "binodpant",
+                "carolguest",
+                "christopappas",
+                "georgebabey",
+                "iloveagent57",
+                "irfanuddinahmad",
+                "johnnagro",
+                "kiram15",
+                "long74100",
+                "macdiesel",
+                "manny-m",
+                "mattdrayer",
+                "moconnell1453",
+                "muhammad-ammar",
+                "tuchfarber",
+                "zamanafzal"
+            ]
+        },
+        {
+            "slug": "business-enterprise-team",
+            "members": [
+                "adamstankiewicz",
+                "alex-sheehan-edx",
+                "binodpant",
+                "christopappas",
+                "georgebabey",
+                "iloveagent57",
+                "irfanuddinahmad",
+                "johnnagro",
+                "kiram15",
+                "long74100",
+                "macdiesel",
+                "manny-m",
+                "moconnell1453",
+                "muhammad-ammar",
+                "zamanafzal"
+            ]
+        },
+        {
+            "slug": "business-intelligence",
+            "members": [
+                "Nickett3",
+                "alangsto",
+                "ccarbs",
+                "ccmelo",
+                "debbiejacob",
+                "hbwhbw",
+                "mulby",
+                "sbishop0905"
+            ]
+        },
+        {
+            "slug": "business-product",
+            "members": [
+                "carolguest"
+            ]
+        },
+        {
+            "slug": "ccp-committer-agrendalath",
+            "members": [
+                "Agrendalath"
+            ]
+        },
+        {
+            "slug": "ccp-committer-arbrandes",
+            "members": [
+                "arbrandes"
+            ]
+        },
+        {
+            "slug": "ccp-committer-bbrsofiane",
+            "members": [
+                "BbrSofiane"
+            ]
+        },
+        {
+            "slug": "ccp-committer-bradenmacdonald",
+            "members": [
+                "bradenmacdonald"
+            ]
+        },
+        {
+            "slug": "ccp-committer-cmltawt0",
+            "members": [
+                "cmltaWt0"
+            ]
+        },
+        {
+            "slug": "ccp-committer-felipemontoya",
+            "members": [
+                "felipemontoya"
+            ]
+        },
+        {
+            "slug": "ccp-committer-giovannicimolin",
+            "members": [
+                "giovannicimolin"
+            ]
+        },
+        {
+            "slug": "ccp-committer-idegtiarov",
+            "members": [
+                "idegtiarov"
+            ]
+        },
+        {
+            "slug": "ccp-committer-jfavellar90",
+            "members": [
+                "jfavellar90",
+                "sarina"
+            ]
+        },
+        {
+            "slug": "ccp-committer-omarithawi",
+            "members": [
+                "OmarIthawi"
+            ]
+        },
+        {
+            "slug": "ccp-committer-pdpinch",
+            "members": [
+                "pdpinch"
+            ]
+        },
+        {
+            "slug": "ccp-committer-pomegranited",
+            "members": [
+                "pomegranited"
+            ]
+        },
+        {
+            "slug": "ccp-committer-regisb",
+            "members": [
+                "regisb"
+            ]
+        },
+        {
+            "slug": "ccp-committer-symbolist",
+            "members": [
+                "symbolist"
+            ]
+        },
+        {
+            "slug": "ccp-committer-xitij2000",
+            "members": [
+                "xitij2000"
+            ]
+        },
+        {
+            "slug": "ccp-committer-ziafazal",
+            "members": [
+                "ziafazal"
+            ]
+        },
+        {
+            "slug": "certificates-push-pull",
+            "members": []
+        },
+        {
+            "slug": "community-engineering",
+            "members": [
+                "davidjoy",
+                "nedbat"
+            ]
+        },
+        {
+            "slug": "community-release-managers",
+            "members": [
+                "nedbat"
+            ]
+        },
+        {
+            "slug": "conference-website",
+            "members": [
+                "joedolson",
+                "nedbat"
+            ]
+        },
+        {
+            "slug": "configuration-pull",
+            "members": [
+                "edx-mckinsey",
+                "edx-sandbox",
+                "edx-wef"
+            ]
+        },
+        {
+            "slug": "configuration-push",
+            "members": []
+        },
+        {
+            "slug": "configuration-secure-pull",
+            "members": [
+                "edx-secure"
+            ]
+        },
+        {
+            "slug": "content-aurora",
+            "members": [
+                "jansenk",
+                "jnlapierre",
+                "leangseu-edx",
+                "mattcarter",
+                "muselesscreator",
+                "nsprenkle",
+                "wesmason"
+            ]
+        },
+        {
+            "slug": "core-committer-champions",
+            "members": [
+                "asadazam93",
+                "awaisdar001",
+                "davidjoy",
+                "feanil",
+                "jmbowman",
+                "kdmccormick",
+                "nedbat",
+                "ormsbee",
+                "sarina",
+                "schenedx"
+            ]
+        },
+        {
+            "slug": "core-contributor-program-committers",
+            "members": [
+                "Agrendalath",
+                "BbrSofiane",
+                "OmarIthawi",
+                "arbrandes",
+                "bradenmacdonald",
+                "cmltaWt0",
+                "edx-community-bot",
+                "felipemontoya",
+                "giovannicimolin",
+                "idegtiarov",
+                "jfavellar90",
+                "pdpinch",
+                "pomegranited",
+                "regisb",
+                "sarina",
+                "symbolist",
+                "xitij2000",
+                "ziafazal"
+            ]
+        },
+        {
+            "slug": "course-discovery-admins",
+            "members": [
+                "adeelehsan",
+                "albemarle",
+                "attiyaIshaque",
+                "mubbsharanwar",
+                "shafqatfarhan",
+                "uzairr",
+                "waheedahmed",
+                "zainab-amir"
+            ]
+        },
+        {
+            "slug": "cs_comments_service-push",
+            "members": []
+        },
+        {
+            "slug": "devops",
+            "members": [
+                "NIXKnight",
+                "adzuci",
+                "arbabkhalil",
+                "christopappas",
+                "jdmulloy",
+                "loucicchese",
+                "nadeemshahzad",
+                "oel8man",
+                "syed-awais-ali",
+                "syedimranhassan"
+            ]
+        },
+        {
+            "slug": "devops-alumni",
+            "members": [
+                "feanil"
+            ]
+        },
+        {
+            "slug": "devops-review-pull",
+            "members": []
+        },
+        {
+            "slug": "discovery-all",
+            "members": [
+                "dianakhuang"
+            ]
+        },
+        {
+            "slug": "django-team",
+            "members": [
+                "doctoryes",
+                "macdiesel",
+                "nedbat"
+            ]
+        },
+        {
+            "slug": "doc",
+            "members": []
+        },
+        {
+            "slug": "doc-a-thon-reviewers",
+            "members": [
+                "BbrSofiane",
+                "eLRuLL",
+                "felipemontoya",
+                "natabene",
+                "pdpinch"
+            ]
+        },
+        {
+            "slug": "docker-builder-bot",
+            "members": [
+                "edx-docker-builder",
+                "feanil"
+            ]
+        },
+        {
+            "slug": "docker-devstack-working-group",
+            "members": [
+                "jmbowman",
+                "mulby",
+                "robrap"
+            ]
+        },
+        {
+            "slug": "dsa-all",
+            "members": [
+                "Nickett3",
+                "ahsanshafiq742",
+                "ccarbs",
+                "ccmelo",
+                "debbiejacob",
+                "doctoryes",
+                "hbwhbw",
+                "sbishop0905",
+                "wblarsen"
+            ]
+        },
+        {
+            "slug": "dsa-financial",
+            "members": [
+                "ccarbs",
+                "debbiejacob",
+                "hbwhbw"
+            ]
+        },
+        {
+            "slug": "dummy-webapp-pushers",
+            "members": [
+                "doctoryes",
+                "edx-pipeline-bot",
+                "edx-secure"
+            ]
+        },
+        {
+            "slug": "ecommerce",
+            "members": [
+                "MatthewPiatetsky",
+                "dianekaplan",
+                "georgebabey",
+                "inventhouse",
+                "jmyatt",
+                "julianajlk",
+                "mulby",
+                "pshiu",
+                "robrap",
+                "waheedahmed"
+            ]
+        },
+        {
+            "slug": "edge-hammer-admin",
+            "members": [
+                "NIXKnight",
+                "adzuci",
+                "arbabkhalil",
+                "christopappas",
+                "colinbrash",
+                "doctoryes",
+                "e0d",
+                "feanil",
+                "jdmulloy",
+                "loucicchese",
+                "macdiesel",
+                "matthugs",
+                "nadeemshahzad",
+                "oel8man",
+                "syed-awais-ali",
+                "syedimranhassan",
+                "tuchfarber"
+            ]
+        },
+        {
+            "slug": "edly-wordpress",
+            "members": [
+                "e0d"
+            ]
+        },
+        {
+            "slug": "edx-accessibility",
+            "members": []
+        },
+        {
+            "slug": "edx-alumni",
+            "members": [
+                "wesmason"
+            ]
+        },
+        {
+            "slug": "edx-analytics-arbisoft-push",
+            "members": [
+                "HassanJaveed84"
+            ]
+        },
+        {
+            "slug": "edx-aperture",
+            "members": [
+                "Tj-Tracy",
+                "georgebabey",
+                "justinhynes",
+                "oliviaruizknott",
+                "tuchfarber"
+            ]
+        },
+        {
+            "slug": "edx-app-permission-bot",
+            "members": [
+                "edx-build-bot",
+                "edx-pipeline-bot",
+                "edx-status-bot",
+                "nadeemshahzad",
+                "syed-awais-ali",
+                "syedimranhassan"
+            ]
+        },
+        {
+            "slug": "edx-blog-accessibility-fix",
+            "members": [
+                "wittjeff"
+            ]
+        },
+        {
+            "slug": "edx-cache-uploader-bot",
+            "members": [
+                "edx-cache-uploader-bot"
+            ]
+        },
+        {
+            "slug": "edx-codecov-bot",
+            "members": [
+                "edx-codecov-bot"
+            ]
+        },
+        {
+            "slug": "edx-community-bot",
+            "members": [
+                "edx-community-bot"
+            ]
+        },
+        {
+            "slug": "edx-contractors-opencraft",
+            "members": [
+                "antoviaque"
+            ]
+        },
+        {
+            "slug": "edx-data-czar-keys-automations",
+            "members": [
+                "edx-analytics-automation",
+                "edx-secure"
+            ]
+        },
+        {
+            "slug": "edx-data-czar-support",
+            "members": [
+                "JAAkana",
+                "alfredoguillem",
+                "enavarro",
+                "jsongedx",
+                "llewenstein",
+                "mondiaz"
+            ]
+        },
+        {
+            "slug": "edx-data-engineering",
+            "members": [
+                "HassanJaveed84",
+                "ark-edly",
+                "brianhw",
+                "estute",
+                "jazibhumayun",
+                "macdiesel",
+                "pwnage101"
+            ]
+        },
+        {
+            "slug": "edx-data-engineering-admin",
+            "members": [
+                "estute",
+                "macdiesel",
+                "pwnage101"
+            ]
+        },
+        {
+            "slug": "edx-devops-interns",
+            "members": []
+        },
+        {
+            "slug": "edx-diff-cover-community-managers",
+            "members": []
+        },
+        {
+            "slug": "edx-django-profiler",
+            "members": [
+                "doctoryes",
+                "mattdrayer",
+                "nedbat"
+            ]
+        },
+        {
+            "slug": "edx-documentation-admin",
+            "members": []
+        },
+        {
+            "slug": "edx-e2e-tests-push",
+            "members": []
+        },
+        {
+            "slug": "edx-github-io-push",
+            "members": [
+                "nedbat"
+            ]
+        },
+        {
+            "slug": "edx-hammer-admin",
+            "members": [
+                "NIXKnight",
+                "adzuci",
+                "arbabkhalil",
+                "christopappas",
+                "colinbrash",
+                "doctoryes",
+                "e0d",
+                "feanil",
+                "jdmulloy",
+                "loucicchese",
+                "macdiesel",
+                "matthugs",
+                "nadeemshahzad",
+                "oel8man",
+                "syed-awais-ali",
+                "syedimranhassan",
+                "tuchfarber"
+            ]
+        },
+        {
+            "slug": "edx-hubot-push",
+            "members": []
+        },
+        {
+            "slug": "edx-infinity",
+            "members": [
+                "AhtishamShahid",
+                "asadazam93",
+                "awais-ansari",
+                "awaisdar001",
+                "mehaknasir",
+                "saadyousafarbi"
+            ]
+        },
+        {
+            "slug": "edx-it-operations-team",
+            "members": [
+                "caplan188"
+            ]
+        },
+        {
+            "slug": "edx-labs-ocw-push",
+            "members": []
+        },
+        {
+            "slug": "edx-learner-operations",
+            "members": [
+                "nrobertson1992"
+            ]
+        },
+        {
+            "slug": "edx-media-push",
+            "members": []
+        },
+        {
+            "slug": "edx-milestones",
+            "members": [
+                "antoviaque",
+                "macdiesel",
+                "mattdrayer",
+                "muhammad-ammar",
+                "mulby",
+                "ormsbee"
+            ]
+        },
+        {
+            "slug": "edx-mktg-admin",
+            "members": [
+                "iloveagent57"
+            ]
+        },
+        {
+            "slug": "edx-mktg-owner",
+            "members": []
+        },
+        {
+            "slug": "edx-mktg-pull",
+            "members": [
+                "jasperho"
+            ]
+        },
+        {
+            "slug": "edx-mktg-push",
+            "members": []
+        },
+        {
+            "slug": "edx-mobile-admin",
+            "members": [
+                "colinbrash",
+                "mulby"
+            ]
+        },
+        {
+            "slug": "edx-mobile-pull",
+            "members": [
+                "edx-status-bot",
+                "tools-edx-jenkins-mobile"
+            ]
+        },
+        {
+            "slug": "edx-mobile-push",
+            "members": [
+                "HamzaIsrar-arbisoft",
+                "bilalawan321",
+                "colinbrash",
+                "edx-travis-rw",
+                "farhan-arshad-dev",
+                "jawad-khan",
+                "miankhalid",
+                "mulby",
+                "mumer92",
+                "omerhabib26",
+                "saeedbashir"
+            ]
+        },
+        {
+            "slug": "edx-ora-push",
+            "members": []
+        },
+        {
+            "slug": "edx-ora2-push",
+            "members": [
+                "JAAkana",
+                "dianakhuang"
+            ]
+        },
+        {
+            "slug": "edx-programs-admin",
+            "members": [
+                "schenedx"
+            ]
+        },
+        {
+            "slug": "edx-read-only-bots",
+            "members": [
+                "edx-readonly"
+            ]
+        },
+        {
+            "slug": "edx-recruiting-team",
+            "members": [
+                "Stevefavazza"
+            ]
+        },
+        {
+            "slug": "edx-sandbox-pull",
+            "members": [
+                "edx-sandbox"
+            ]
+        },
+        {
+            "slug": "edx-semantic-release-bot",
+            "members": [
+                "edx-semantic-release"
+            ]
+        },
+        {
+            "slug": "edx-serverapi-push",
+            "members": [
+                "mattdrayer",
+                "ormsbee"
+            ]
+        },
+        {
+            "slug": "edx-testeng-robot-rw",
+            "members": [
+                "edx-requirements-bot",
+                "edx-status-bot"
+            ]
+        },
+        {
+            "slug": "edx-tools-push",
+            "members": []
+        },
+        {
+            "slug": "edx-transifex-translations",
+            "members": [
+                "edx-transifex-bot"
+            ]
+        },
+        {
+            "slug": "edx-travis-admin",
+            "members": [
+                "adzuci",
+                "edx-travis-rw",
+                "feanil",
+                "timmc-edx"
+            ]
+        },
+        {
+            "slug": "edx-ux-team",
+            "members": [
+                "ekangedx"
+            ]
+        },
+        {
+            "slug": "edx-webhook-admin",
+            "members": [
+                "edx-webhook"
+            ]
+        },
+        {
+            "slug": "edx-www-push",
+            "members": []
+        },
+        {
+            "slug": "edxanalytics-push",
+            "members": []
+        },
+        {
+            "slug": "embedded-sres",
+            "members": [
+                "colinbrash",
+                "jazibhumayun",
+                "matthugs",
+                "saleem-latif",
+                "tuchfarber"
+            ]
+        },
+        {
+            "slug": "engage-squad",
+            "members": [
+                "Dillon-Dumesnil",
+                "MatthewPiatetsky",
+                "cdeery",
+                "ciduarte",
+                "jmyatt",
+                "mikix"
+            ]
+        },
+        {
+            "slug": "enterprise-catalog-admins",
+            "members": [
+                "adamstankiewicz",
+                "georgebabey",
+                "iloveagent57"
+            ]
+        },
+        {
+            "slug": "enterprise-data",
+            "members": [
+                "ccmelo",
+                "georgebabey",
+                "mattdrayer",
+                "moconnell1453"
+            ]
+        },
+        {
+            "slug": "enterprise-markhors",
+            "members": [
+                "HammadAhmadWaqas",
+                "irfanuddinahmad",
+                "moconnell1453",
+                "muhammad-ammar",
+                "saleem-latif",
+                "sameenfatima78",
+                "zamanafzal"
+            ]
+        },
+        {
+            "slug": "enterprise-online-campus",
+            "members": [
+                "alex-sheehan-edx",
+                "binodpant",
+                "georgebabey",
+                "johnnagro",
+                "kiram15"
+            ]
+        },
+        {
+            "slug": "enterprise-titans",
+            "members": [
+                "adamstankiewicz",
+                "binodpant",
+                "christopappas",
+                "iloveagent57",
+                "long74100",
+                "macdiesel",
+                "manny-m"
+            ]
+        },
+        {
+            "slug": "fedx-admin",
+            "members": [
+                "adamstankiewicz",
+                "davidjoy"
+            ]
+        },
+        {
+            "slug": "fedx-team",
+            "members": [
+                "MichaelRoytman",
+                "Tj-Tracy",
+                "adamstankiewicz",
+                "davidjoy",
+                "georgebabey",
+                "julianajlk",
+                "justinhynes",
+                "matthugs",
+                "mikix",
+                "muselesscreator",
+                "wittjeff"
+            ]
+        },
+        {
+            "slug": "forumacademy-theme-pull",
+            "members": [
+                "edx-wef"
+            ]
+        },
+        {
+            "slug": "fresh-tilled-soil",
+            "members": []
+        },
+        {
+            "slug": "github-pages-only",
+            "members": [
+                "nedbat"
+            ]
+        },
+        {
+            "slug": "helio",
+            "members": []
+        },
+        {
+            "slug": "hiring-coding",
+            "members": []
+        },
+        {
+            "slug": "incident-management",
+            "members": [
+                "Ali-D-Akbar",
+                "DawoudSheraz",
+                "ansabgillani",
+                "azanbinzahid",
+                "kashifch"
+            ]
+        },
+        {
+            "slug": "incr-reviewers",
+            "members": [
+                "awais786",
+                "estute",
+                "jmbowman",
+                "mraarif"
+            ]
+        },
+        {
+            "slug": "insights-push",
+            "members": []
+        },
+        {
+            "slug": "internal-pull",
+            "members": [
+                "edx-readonly"
+            ]
+        },
+        {
+            "slug": "interviewers",
+            "members": []
+        },
+        {
+            "slug": "ios-devs",
+            "members": [
+                "mumer92",
+                "saeedbashir"
+            ]
+        },
+        {
+            "slug": "jenkins-build-user-management-jobs",
+            "members": [
+                "bmedx",
+                "doctoryes",
+                "estute",
+                "feanil",
+                "macdiesel",
+                "pwnage101"
+            ]
+        },
+        {
+            "slug": "jenkins-clamps",
+            "members": [
+                "adzuci"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-analytics-toolkit",
+            "members": [
+                "brianhw",
+                "mulby"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-app-permissions",
+            "members": [
+                "NIXKnight",
+                "caplan188",
+                "feanil",
+                "georgebabey",
+                "jdmulloy",
+                "jmbowman",
+                "macdiesel",
+                "mulby",
+                "nadeemshahzad",
+                "syed-awais-ali",
+                "wesmason"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-blockstore-jobs",
+            "members": [
+                "feanil",
+                "ormsbee"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-catalog-jobs",
+            "members": [
+                "Dillon-Dumesnil",
+                "MatthewPiatetsky",
+                "MichaelRoytman",
+                "adamstankiewicz",
+                "albemarle",
+                "attiyaIshaque",
+                "awais786",
+                "brianhw",
+                "bseverino",
+                "ciduarte",
+                "dianakhuang",
+                "georgebabey",
+                "iloveagent57",
+                "inventhouse",
+                "irfanuddinahmad",
+                "jmyatt",
+                "matthugs",
+                "mikix",
+                "ormsbee",
+                "rgraber",
+                "robrap",
+                "sameenfatima78",
+                "schenedx",
+                "srwang",
+                "tuchfarber",
+                "uzairr",
+                "waheedahmed",
+                "zainab-amir"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-coaching-jobs",
+            "members": [
+                "adzuci",
+                "justinhynes"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-course-goals-jobs",
+            "members": [
+                "Dillon-Dumesnil",
+                "MatthewPiatetsky",
+                "adzuci",
+                "ciduarte",
+                "jmyatt",
+                "mikix"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-course_runs-jobs",
+            "members": [
+                "adeelehsan",
+                "awaisdar001",
+                "mikix"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-coursegraph-jobs",
+            "members": [
+                "kdmccormick",
+                "kenclary"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-credentials-jobs",
+            "members": [
+                "Dillon-Dumesnil",
+                "MichaelRoytman",
+                "Tj-Tracy",
+                "UsamaSadiq",
+                "Zacharis278",
+                "adeelehsan",
+                "awaisdar001",
+                "dianakhuang",
+                "doctoryes",
+                "iloveagent57",
+                "jansenk",
+                "jmyatt",
+                "justinhynes",
+                "kdmccormick",
+                "matthugs",
+                "mikix",
+                "nsprenkle",
+                "oliviaruizknott",
+                "pwnage101",
+                "schenedx",
+                "tuchfarber",
+                "uzairr",
+                "waheedahmed",
+                "zainab-amir"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-docker-ci",
+            "members": [
+                "brianhw",
+                "doctoryes",
+                "estute",
+                "jmbowman",
+                "macdiesel",
+                "pwnage101",
+                "schenedx"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-e2e-learner",
+            "members": [
+                "Dillon-Dumesnil",
+                "MatthewPiatetsky",
+                "Tj-Tracy",
+                "awais786",
+                "christopappas",
+                "dianakhuang",
+                "dianekaplan",
+                "doctoryes",
+                "edx-pipeline-bot",
+                "georgebabey",
+                "jmbowman",
+                "jmyatt",
+                "mikix",
+                "pwnage101",
+                "robrap",
+                "schenedx",
+                "tuchfarber",
+                "uzairr",
+                "waheedahmed"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-ecommerce-jobs",
+            "members": [
+                "Dillon-Dumesnil",
+                "MatthewPiatetsky",
+                "Tj-Tracy",
+                "dianakhuang",
+                "dianekaplan",
+                "doctoryes",
+                "feanil",
+                "georgebabey",
+                "inventhouse",
+                "jmyatt",
+                "julianajlk",
+                "mikix",
+                "pwnage101",
+                "robrap",
+                "tuchfarber"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-engagement-jobs",
+            "members": [
+                "KAfable",
+                "MatthewPiatetsky",
+                "adzuci",
+                "albemarle",
+                "marekwrobel",
+                "mulby",
+                "srwang"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-enterprise-catalog-jobs",
+            "members": [
+                "adamstankiewicz",
+                "alex-sheehan-edx",
+                "binodpant",
+                "georgebabey",
+                "iloveagent57",
+                "johnnagro",
+                "kiram15",
+                "long74100",
+                "mattdrayer"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-enterprise-jobs",
+            "members": [
+                "Tj-Tracy",
+                "UsamaSadiq",
+                "adamstankiewicz",
+                "alex-sheehan-edx",
+                "binodpant",
+                "christopappas",
+                "georgebabey",
+                "iloveagent57",
+                "irfanuddinahmad",
+                "johnnagro",
+                "kashifch",
+                "mattdrayer",
+                "muhammad-ammar",
+                "natabene",
+                "robrap",
+                "tuchfarber"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-entitlements-jobs",
+            "members": [
+                "Dillon-Dumesnil",
+                "dianakhuang",
+                "inventhouse",
+                "jmyatt",
+                "mikix",
+                "syed-awais-ali"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-experiments-jobs",
+            "members": [
+                "dianekaplan",
+                "jdmulloy",
+                "mulby"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-fbe-jobs",
+            "members": [
+                "MatthewPiatetsky",
+                "mulby"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-geoipupdate",
+            "members": [
+                "adeelehsan",
+                "mikix",
+                "uzairr",
+                "waheedahmed",
+                "zainab-amir"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-grading-jobs",
+            "members": [
+                "Dillon-Dumesnil",
+                "MichaelRoytman",
+                "Tj-Tracy",
+                "UsamaSadiq",
+                "Zacharis278",
+                "adeelehsan",
+                "awaisdar001",
+                "dianakhuang",
+                "iloveagent57",
+                "inventhouse",
+                "jansenk",
+                "jmyatt",
+                "jnlapierre",
+                "justinhynes",
+                "mattcarter",
+                "matthugs",
+                "mikix",
+                "nsprenkle",
+                "oliviaruizknott",
+                "schenedx",
+                "tuchfarber",
+                "uzairr",
+                "waheedahmed"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-it-jobs",
+            "members": [
+                "caplan188",
+                "tnamgyal",
+                "wesmason"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-mckinsey-tasks",
+            "members": [
+                "attiyaIshaque",
+                "georgebabey",
+                "natabene",
+                "shafqatfarhan"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-mobileapps-jobs",
+            "members": []
+        },
+        {
+            "slug": "jenkins-tools-ora-jobs",
+            "members": [
+                "bseverino",
+                "edx-pipeline-bot",
+                "georgebabey",
+                "iloveagent57",
+                "jansenk",
+                "kashifch",
+                "mattcarter",
+                "matthugs",
+                "nadeemshahzad",
+                "nsprenkle",
+                "schenedx"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-partner-support-jobs",
+            "members": [
+                "beckrecca",
+                "enavarro",
+                "jsongedx",
+                "nadeemshahzad"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-programs-jobs",
+            "members": [
+                "Dillon-Dumesnil",
+                "Tj-Tracy",
+                "UsamaSadiq",
+                "Zacharis278",
+                "adeelehsan",
+                "alangsto",
+                "bseverino",
+                "dianakhuang",
+                "doctoryes",
+                "iloveagent57",
+                "inventhouse",
+                "jansenk",
+                "jmyatt",
+                "jristau1984",
+                "justinhynes",
+                "kdmccormick",
+                "mattcarter",
+                "matthugs",
+                "mikix",
+                "nsprenkle",
+                "oliviaruizknott",
+                "robrap",
+                "schenedx",
+                "tuchfarber",
+                "uzairr",
+                "waheedahmed",
+                "zainab-amir"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-registrar-jobs",
+            "members": [
+                "MichaelRoytman",
+                "Zacharis278",
+                "alangsto",
+                "bseverino",
+                "mattcarter",
+                "matthugs",
+                "schenedx"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-remote-config-jobs",
+            "members": [
+                "feanil",
+                "jdmulloy"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-sailthru-jobs",
+            "members": [
+                "attiyaIshaque",
+                "schenedx",
+                "uzairr",
+                "waheedahmed"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-saml-jobs",
+            "members": [
+                "adamstankiewicz",
+                "georgebabey",
+                "mattdrayer",
+                "matthugs"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-schedules-jobs",
+            "members": [
+                "Dillon-Dumesnil",
+                "MatthewPiatetsky",
+                "ciduarte",
+                "jmyatt",
+                "mikix",
+                "mulby",
+                "schenedx",
+                "tuchfarber",
+                "zainab-amir"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-seedjob-managers",
+            "members": [
+                "wesmason"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-software-secure-photo-verification",
+            "members": [
+                "schenedx",
+                "syedimranhassan"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-student-jobs",
+            "members": [
+                "adeelehsan",
+                "nadeemshahzad"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-translation-jobs",
+            "members": [
+                "DawoudSheraz",
+                "Dillon-Dumesnil",
+                "KAfable",
+                "MatthewPiatetsky",
+                "MichaelRoytman",
+                "Zacharis278",
+                "albemarle",
+                "ashultz0",
+                "bseverino",
+                "ciduarte",
+                "davidjoy",
+                "dianakhuang",
+                "dianekaplan",
+                "e0d",
+                "georgebabey",
+                "inventhouse",
+                "jmyatt",
+                "julianajlk",
+                "justinhynes",
+                "kdmccormick",
+                "leangseu-edx",
+                "matthugs",
+                "mikix",
+                "natabene",
+                "nsprenkle",
+                "oliviaruizknott",
+                "rgraber",
+                "robrap",
+                "schenedx",
+                "srwang",
+                "tuchfarber",
+                "uzairr",
+                "waheedahmed",
+                "zainab-amir"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-user-retirement-jobs",
+            "members": [
+                "bmedx",
+                "brianhw",
+                "doctoryes",
+                "estute",
+                "macdiesel",
+                "pwnage101"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-verified-tracks-jobs",
+            "members": [
+                "enavarro",
+                "jsongedx",
+                "sstack22"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-video-jobs",
+            "members": [
+                "irfanuddinahmad"
+            ]
+        },
+        {
+            "slug": "jenkins-tools-videos-jobs",
+            "members": [
+                "irfanuddinahmad"
+            ]
+        },
+        {
+            "slug": "latex2edx_xserver-push",
+            "members": []
+        },
+        {
+            "slug": "learner",
+            "members": [
+                "MatthewPiatetsky",
+                "dianakhuang",
+                "jasperho",
+                "jmyatt",
+                "mikix",
+                "robrap",
+                "schenedx",
+                "uzairr"
+            ]
+        },
+        {
+            "slug": "learner-admins",
+            "members": [
+                "jmyatt"
+            ]
+        },
+        {
+            "slug": "learner-growth",
+            "members": [
+                "dianakhuang"
+            ]
+        },
+        {
+            "slug": "learner-helio",
+            "members": []
+        },
+        {
+            "slug": "learner-performance",
+            "members": [
+                "robrap"
+            ]
+        },
+        {
+            "slug": "learner-product",
+            "members": [
+                "jasperho"
+            ]
+        },
+        {
+            "slug": "load-tests-push",
+            "members": []
+        },
+        {
+            "slug": "marketing-analytics",
+            "members": []
+        },
+        {
+            "slug": "masters-admins",
+            "members": [
+                "mattcarter",
+                "schenedx"
+            ]
+        },
+        {
+            "slug": "masters-all",
+            "members": [
+                "MichaelRoytman",
+                "Zacharis278",
+                "alangsto",
+                "ashultz0",
+                "bseverino",
+                "iloveagent57",
+                "jansenk",
+                "katymyw",
+                "mattcarter",
+                "matthugs",
+                "nsprenkle",
+                "schenedx"
+            ]
+        },
+        {
+            "slug": "masters-dahlia",
+            "members": [
+                "MichaelRoytman",
+                "iloveagent57",
+                "jansenk",
+                "matthugs",
+                "nsprenkle"
+            ]
+        },
+        {
+            "slug": "masters-devs",
+            "members": [
+                "MichaelRoytman",
+                "Zacharis278",
+                "alangsto",
+                "ashultz0",
+                "bseverino",
+                "jansenk",
+                "jnlapierre",
+                "leangseu-edx",
+                "mattcarter",
+                "matthugs",
+                "muselesscreator",
+                "nsprenkle",
+                "schenedx"
+            ]
+        },
+        {
+            "slug": "masters-devs-cosmonauts",
+            "members": [
+                "MichaelRoytman",
+                "Zacharis278",
+                "alangsto",
+                "ashultz0",
+                "bseverino",
+                "matthugs",
+                "schenedx"
+            ]
+        },
+        {
+            "slug": "masters-devs-gta",
+            "members": [
+                "jansenk",
+                "jnlapierre",
+                "leangseu-edx",
+                "mattcarter",
+                "matthugs",
+                "muselesscreator",
+                "nsprenkle"
+            ]
+        },
+        {
+            "slug": "masters-mallow",
+            "members": [
+                "muhammad-ammar"
+            ]
+        },
+        {
+            "slug": "masters-mm-dev",
+            "members": [
+                "MichaelRoytman",
+                "Zacharis278",
+                "alangsto",
+                "ashultz0",
+                "iloveagent57",
+                "jansenk",
+                "mattcarter",
+                "matthugs",
+                "nsprenkle",
+                "schenedx"
+            ]
+        },
+        {
+            "slug": "masters-product",
+            "members": [
+                "katymyw",
+                "sstack22"
+            ]
+        },
+        {
+            "slug": "mobile-product",
+            "members": []
+        },
+        {
+            "slug": "mooc-org-users",
+            "members": []
+        },
+        {
+            "slug": "no-repos",
+            "members": [
+                "caesar2164",
+                "edx-webhook",
+                "kluo"
+            ]
+        },
+        {
+            "slug": "open-edx-data",
+            "members": [
+                "edx-webhook",
+                "nedbat"
+            ]
+        },
+        {
+            "slug": "open-release-maintainers",
+            "members": [
+                "BbrSofiane",
+                "arbrandes",
+                "cmltaWt0",
+                "regisb"
+            ]
+        },
+        {
+            "slug": "open-source-team",
+            "members": [
+                "nedbat"
+            ]
+        },
+        {
+            "slug": "openbadging-push",
+            "members": [
+                "dianakhuang"
+            ]
+        },
+        {
+            "slug": "openedx-ceng-test",
+            "members": []
+        },
+        {
+            "slug": "openedx-support-team",
+            "members": [
+                "natabene"
+            ]
+        },
+        {
+            "slug": "openedx-tooling",
+            "members": [
+                "nedbat"
+            ]
+        },
+        {
+            "slug": "ospr",
+            "members": [
+                "nedbat"
+            ]
+        },
+        {
+            "slug": "paragon-working-group",
+            "members": [
+                "adamstankiewicz",
+                "ciduarte",
+                "davidjoy",
+                "edx-netlify",
+                "georgebabey",
+                "long74100",
+                "manny-m",
+                "marcotuts",
+                "muselesscreator",
+                "wittjeff"
+            ]
+        },
+        {
+            "slug": "perf-interest",
+            "members": [
+                "DawoudSheraz",
+                "MichaelRoytman",
+                "bmedx",
+                "jansenk",
+                "jmbowman",
+                "kdmccormick",
+                "ormsbee"
+            ]
+        },
+        {
+            "slug": "personal",
+            "members": []
+        },
+        {
+            "slug": "pipeline-bot",
+            "members": [
+                "edx-pipeline-bot",
+                "edx-secure"
+            ]
+        },
+        {
+            "slug": "pipeline-team",
+            "members": [
+                "MatthewPiatetsky",
+                "doctoryes",
+                "e0d",
+                "estute",
+                "feanil",
+                "jdmulloy",
+                "macdiesel",
+                "matthugs",
+                "nadeemshahzad",
+                "srwang",
+                "tuchfarber"
+            ]
+        },
+        {
+            "slug": "platform",
+            "members": [
+                "feanil",
+                "iloveagent57",
+                "jmbowman",
+                "matthugs",
+                "nedbat"
+            ]
+        },
+        {
+            "slug": "platform-authn",
+            "members": []
+        },
+        {
+            "slug": "platform-core-extensions",
+            "members": [
+                "feanil",
+                "nedbat"
+            ]
+        },
+        {
+            "slug": "platform-courseware",
+            "members": []
+        },
+        {
+            "slug": "platform-credentials",
+            "members": []
+        },
+        {
+            "slug": "platform-discovery",
+            "members": []
+        },
+        {
+            "slug": "platform-grades",
+            "members": [
+                "iloveagent57",
+                "matthugs"
+            ]
+        },
+        {
+            "slug": "platform-mobile",
+            "members": []
+        },
+        {
+            "slug": "platform-owners",
+            "members": [
+                "feanil",
+                "jmbowman"
+            ]
+        },
+        {
+            "slug": "platform-python3-reviewers",
+            "members": [
+                "feanil",
+                "jmbowman",
+                "nedbat"
+            ]
+        },
+        {
+            "slug": "pre-onboarding",
+            "members": []
+        },
+        {
+            "slug": "pull-all",
+            "members": [
+                "JAAkana",
+                "ProductRyan",
+                "akummins",
+                "alexander-ye",
+                "alfredoguillem",
+                "boulevardofdef",
+                "edx-deployment",
+                "edx-jira",
+                "edx-readonly",
+                "edx-status-bot",
+                "enavarro",
+                "jsongedx",
+                "llewenstein",
+                "michellephilbrick",
+                "mondiaz",
+                "spencertiberi",
+                "wblarsen"
+            ]
+        },
+        {
+            "slug": "pull-private-all",
+            "members": [
+                "edx-status-bot"
+            ]
+        },
+        {
+            "slug": "push-pull-all",
+            "members": [
+                "Ahernkb",
+                "AhtishamShahid",
+                "Ali-D-Akbar",
+                "Carlos-Muniz",
+                "DawoudSheraz",
+                "Dillon-Dumesnil",
+                "HammadAhmadWaqas",
+                "HamzaIsrar-arbisoft",
+                "HassanJaveed84",
+                "Jawayria",
+                "KAfable",
+                "MatthewPiatetsky",
+                "MichaelRoytman",
+                "NIXKnight",
+                "Nickett3",
+                "Tj-Tracy",
+                "UsamaSadiq",
+                "Zacharis278",
+                "adamstankiewicz",
+                "adeelehsan",
+                "aghaawais01",
+                "ahsanshafiq742",
+                "aht007",
+                "akummins",
+                "alangsto",
+                "albemarle",
+                "alex-sheehan-edx",
+                "alfredoguillem",
+                "anhhhh",
+                "ansabgillani",
+                "antoviaque",
+                "arbabkhalil",
+                "arch-bom-gocd-alerts",
+                "ark-edly",
+                "asadazam93",
+                "ashultz0",
+                "attiyaIshaque",
+                "awais-ansari",
+                "awais786",
+                "awaisdar001",
+                "azanbinzahid",
+                "bilalawan321",
+                "binodpant",
+                "bmedx",
+                "brianhw",
+                "bseverino",
+                "caplan188",
+                "ccarbs",
+                "ccmelo",
+                "cdeery",
+                "christopappas",
+                "ciduarte",
+                "colinbrash",
+                "connorhaugh",
+                "davidjoy",
+                "debbiejacob",
+                "dianakhuang",
+                "dianekaplan",
+                "doctoryes",
+                "e0d",
+                "edx-build-docs-bot",
+                "edx-clamps",
+                "edx-codecov-bot",
+                "edx-requirements-bot",
+                "edx-semantic-release",
+                "edx-status-bot",
+                "ekangedx",
+                "enavarro",
+                "estute",
+                "farhan-arshad-dev",
+                "georgebabey",
+                "hbwhbw",
+                "hilaryg123",
+                "iamsobanjaved",
+                "iloveagent57",
+                "inventhouse",
+                "irfanuddinahmad",
+                "jansenk",
+                "jawad-khan",
+                "jazibhumayun",
+                "jdmulloy",
+                "jinder1s",
+                "jjodonohue",
+                "jmbowman",
+                "jmyatt",
+                "jnlapierre",
+                "johnnagro",
+                "jpbeaudry",
+                "jristau1984",
+                "jsongedx",
+                "julianajlk",
+                "julieliberty",
+                "justinhynes",
+                "kashifch",
+                "kdmccormick",
+                "kenclary",
+                "kevincanavan",
+                "kiram15",
+                "leangseu-edx",
+                "llewenstein",
+                "long74100",
+                "loucicchese",
+                "macdiesel",
+                "manny-m",
+                "marcotuts",
+                "marekwrobel",
+                "mattcarter",
+                "mattdrayer",
+                "matthugs",
+                "mehaknasir",
+                "miankhalid",
+                "mikix",
+                "moconnell1453",
+                "mondiaz",
+                "mraarif",
+                "mubbsharanwar",
+                "muhammad-ammar",
+                "mulby",
+                "mumer92",
+                "muneebGH",
+                "muselesscreator",
+                "nadeemshahzad",
+                "natabene",
+                "nedbat",
+                "nickpizzo",
+                "nrobertson1992",
+                "nsprenkle",
+                "oel8man",
+                "oliviaruizknott",
+                "omerhabib26",
+                "openedx-release-bot",
+                "ormsbee",
+                "pshiu",
+                "pwnage101",
+                "rgraber",
+                "robrap",
+                "saadyousafarbi",
+                "saeedbashir",
+                "saleem-latif",
+                "sameenfatima78",
+                "sapanathomas523",
+                "sarina",
+                "sbishop0905",
+                "schenedx",
+                "sethmccann",
+                "shafqatfarhan",
+                "spencertiberi",
+                "srwang",
+                "sstack22",
+                "syed-awais-ali",
+                "syedimranhassan",
+                "timmc-edx",
+                "tuchfarber",
+                "usama101",
+                "usmanmurad",
+                "uzairr",
+                "waheedahmed",
+                "wajeeha-khalid",
+                "wblarsen",
+                "wesmason",
+                "wittjeff",
+                "zainab-amir",
+                "zamanafzal"
+            ]
+        },
+        {
+            "slug": "rapid-experiments-team",
+            "members": [
+                "mulby"
+            ]
+        },
+        {
+            "slug": "requires-io",
+            "members": [
+                "edx-requires-io-bot"
+            ]
+        },
+        {
+            "slug": "ret",
+            "members": [
+                "mulby"
+            ]
+        },
+        {
+            "slug": "revenue-squad",
+            "members": [
+                "bmedx",
+                "colinbrash",
+                "dianekaplan",
+                "inventhouse",
+                "julianajlk",
+                "pshiu"
+            ]
+        },
+        {
+            "slug": "sandbox-hammer-admin",
+            "members": [
+                "NIXKnight",
+                "adzuci",
+                "arbabkhalil",
+                "christopappas",
+                "colinbrash",
+                "doctoryes",
+                "e0d",
+                "feanil",
+                "jdmulloy",
+                "loucicchese",
+                "macdiesel",
+                "matthugs",
+                "oel8man",
+                "syedimranhassan",
+                "tuchfarber"
+            ]
+        },
+        {
+            "slug": "scratchmm",
+            "members": [
+                "e0d"
+            ]
+        },
+        {
+            "slug": "services",
+            "members": [
+                "edx-status-bot",
+                "kashifch",
+                "mattdrayer"
+            ]
+        },
+        {
+            "slug": "site-reliability-engineering",
+            "members": [
+                "NIXKnight",
+                "adzuci",
+                "arbabkhalil",
+                "christopappas",
+                "jdmulloy",
+                "loucicchese",
+                "nadeemshahzad",
+                "oel8man",
+                "syed-awais-ali",
+                "syedimranhassan"
+            ]
+        },
+        {
+            "slug": "skel-team",
+            "members": []
+        },
+        {
+            "slug": "solutions-team",
+            "members": [
+                "mattdrayer"
+            ]
+        },
+        {
+            "slug": "status-edx-org-admin",
+            "members": []
+        },
+        {
+            "slug": "status-edx-org-push",
+            "members": []
+        },
+        {
+            "slug": "sustaining-team",
+            "members": [
+                "kashifch"
+            ]
+        },
+        {
+            "slug": "sustaining-vulcans",
+            "members": []
+        },
+        {
+            "slug": "teaching-and-learning",
+            "members": [
+                "connorhaugh",
+                "doctoryes",
+                "kdmccormick",
+                "kenclary",
+                "marcotuts",
+                "ormsbee"
+            ]
+        },
+        {
+            "slug": "terraform-prospectus",
+            "members": [
+                "dianakhuang",
+                "inventhouse",
+                "jdmulloy",
+                "rgraber"
+            ]
+        },
+        {
+            "slug": "terraform-push-pull",
+            "members": [
+                "dianakhuang",
+                "doctoryes",
+                "edx-atlantis",
+                "edx-secure",
+                "estute",
+                "jmbowman",
+                "macdiesel",
+                "muhammad-ammar",
+                "mulby",
+                "pwnage101",
+                "robrap",
+                "schenedx",
+                "wesmason"
+            ]
+        },
+        {
+            "slug": "terraform-veda",
+            "members": [
+                "jdmulloy",
+                "muhammad-ammar",
+                "schenedx"
+            ]
+        },
+        {
+            "slug": "testeng",
+            "members": [
+                "bilalawan321",
+                "estute",
+                "jmbowman"
+            ]
+        },
+        {
+            "slug": "tools-core",
+            "members": [
+                "estute",
+                "jmbowman"
+            ]
+        },
+        {
+            "slug": "tools-edx-jenkins-pull-request-builder",
+            "members": [
+                "tools-edx-jenkins-pull-request-builder"
+            ]
+        },
+        {
+            "slug": "tools-performance",
+            "members": [
+                "ormsbee",
+                "pwnage101"
+            ]
+        },
+        {
+            "slug": "vanguards",
+            "members": [
+                "adeelehsan",
+                "attiyaIshaque",
+                "mubbsharanwar",
+                "shafqatfarhan",
+                "uzairr",
+                "waheedahmed",
+                "zainab-amir"
+            ]
+        },
+        {
+            "slug": "vem-devel",
+            "members": [
+                "DawoudSheraz",
+                "zainab-amir"
+            ]
+        },
+        {
+            "slug": "website",
+            "members": [
+                "KAfable",
+                "albemarle",
+                "marekwrobel",
+                "mulby",
+                "srwang"
+            ]
+        },
+        {
+            "slug": "xqueue-new-push",
+            "members": []
+        },
+        {
+            "slug": "xqueue-watcher-push",
+            "members": []
+        }
+    ]
+}
