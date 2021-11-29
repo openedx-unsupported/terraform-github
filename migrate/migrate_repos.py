@@ -1,4 +1,5 @@
 import itertools
+import os
 import sys
 import time
 
@@ -21,12 +22,16 @@ def migrate(preview, src_org, dest_org, repo_list_file):
     if src_org == dest_org:
         sys.exit("Fatal Error: Source and destination orgs must be different.")
 
+    github_token = os.environ.get('GITHUB_TOKEN')
+    if not github_token:
+        sys.exit("Fatal Error: Please set a GITHUB_TOKEN environment variable.")
+
     # Get the list of repos from our text file.
     repos_to_transfer = [
         repo_name.strip() for repo_name in repo_list_file if repo_name.strip()
     ]
 
-    api = GhApi()
+    api = GhApi(token=github_token)
     # Basic sanity check to make sure the repos we're transferring all actually exist.
     src_org_repos = {
         repo['name']
@@ -45,7 +50,6 @@ def migrate(preview, src_org, dest_org, repo_list_file):
         for repo in bar:
             click.echo(f" {repo}")
             if not preview:
-                1/0  # Yes, I'm paranoid.
                 api.repos.transfer(src_org, repo, dest_org)
 
 if __name__ == '__main__':
