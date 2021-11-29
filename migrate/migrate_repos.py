@@ -7,15 +7,20 @@ import click
 from ghapi.all import GhApi, paged
 
 @click.command()
+@click.argument('src_org')
+@click.argument('dest_org')
+@click.argument('repo_list_file', type=click.File('r'))
 @click.option(
     '--preview',
     is_flag=True,
     help="Preview what will happen but don't execute."
 )
-@click.argument('src_org')
-@click.argument('dest_org')
-@click.argument('repo_list_file', type=click.File('r'))
-def migrate(preview, src_org, dest_org, repo_list_file):
+@click.option(
+    '--skip-missing',
+    is_flag=True,
+    help="Skip repos that are not found in the source org, instead of failing. Useful after an error."
+)
+def migrate(src_org, dest_org, repo_list_file, preview, skip_missing):
     if preview:
         click.echo("In Preview Mode: No changes will be made!")
 
@@ -30,9 +35,11 @@ def migrate(preview, src_org, dest_org, repo_list_file):
     repos_to_transfer = [
         repo_name.strip() for repo_name in repo_list_file if repo_name.strip()
     ]
+    click.echo(f"Read {len(repos_to_transfer)} repos from {repo_list_file.name}")
 
     api = GhApi(token=github_token)
     # Basic sanity check to make sure the repos we're transferring all actually exist.
+    click.echo(f"Fetching the list of repos in source org {src_org}...")
     src_org_repos = {
         repo['name']
         for repo
@@ -40,10 +47,21 @@ def migrate(preview, src_org, dest_org, repo_list_file):
     }
     missing_repos = [repo for repo in repos_to_transfer if repo not in src_org_repos]
     if missing_repos:
-        sys.exit(
-            "Fatal Error: The following repos marked for transfer are not in "
-            f"org {src_org}: {', '.join(missing_repos)}"
-        )
+        if skip_missing:
+            click.echo(f"The following repositories are missing from {src_org} and will be skipped:")
+            for missing_repo in missing_repos:
+                click.echo(f"- {missing_repo}")
+
+            # Filter out the repos that we've asked to transfer but aren't present in the
+            # org that we're transferring them from.
+            repos_to_transfer = [repo for repo in repos_to_transfer if repo in src_org_repos]
+        else:
+            # If skip_missing isn't specified, treat missing repos as an error.
+            # (Maybe they're trying to move things from the wrong org.)
+            sys.exit(
+                "Fatal Error: The following repos marked for transfer are not in "
+                f"org {src_org}: {', '.join(missing_repos)}"
+            )
 
     with click.progressbar(repos_to_transfer,
                            label=f"Transferring repositories from {src_org} to {dest_org}") as bar:
