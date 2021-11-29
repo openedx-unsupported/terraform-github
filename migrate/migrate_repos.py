@@ -32,9 +32,7 @@ def migrate(src_org, dest_org, repo_list_file, preview, skip_missing):
         sys.exit("Fatal Error: Please set a GITHUB_TOKEN environment variable.")
 
     # Get the list of repos from our text file.
-    repos_to_transfer = [
-        repo_name.strip() for repo_name in repo_list_file if repo_name.strip()
-    ]
+    repos_to_transfer = extract_repo_names(repo_list_file)
     click.echo(f"Read {len(repos_to_transfer)} repos from {repo_list_file.name}")
 
     api = GhApi(token=github_token)
@@ -63,12 +61,21 @@ def migrate(src_org, dest_org, repo_list_file, preview, skip_missing):
                 f"org {src_org}: {', '.join(missing_repos)}"
             )
 
+    if not repos_to_transfer:
+        sys.exit("No repos to transfer. Quitting.")
+
     with click.progressbar(repos_to_transfer,
                            label=f"Transferring repositories from {src_org} to {dest_org}") as bar:
         for repo in bar:
             click.echo(f" {repo}")
             if not preview:
                 api.repos.transfer(src_org, repo, dest_org)
+
+def extract_repo_names(repo_list_file):
+    comments_removed = [line.partition('#')[0] for line in repo_list_file]
+    stripped = [line.strip() for line in comments_removed]
+    empty_lines_removed = [line for line in stripped if line]
+    return empty_lines_removed
 
 if __name__ == '__main__':
     migrate()
