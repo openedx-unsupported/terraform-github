@@ -2,7 +2,7 @@
 // repository permissions to one or more Open edX organization users.
 
 // This file was automatically generated based on the contents of
-// the 'edx' GitHub organization as of 2021-11-17T18:14:39.000000.
+// the 'edx' GitHub organization as of 2021-11-30T17:10:15.544743.
 // It is likely to be reorganized, refactored, split, or combined with
 // other Terraform files in the near future.
 
@@ -112,7 +112,6 @@ module "role_edx_admin" {
     module.repo_enmerkar_underscore,
     module.repo_enterprise_catalog,
     module.repo_eslint_config,
-    module.repo_eslint_config_edx,
     module.repo_event_routing_backends,
     module.repo_event_tracking,
     module.repo_frontend_app_account,
@@ -142,7 +141,6 @@ module "role_edx_admin" {
     module.repo_frontend_platform,
     module.repo_frontend_template_application,
     module.repo_help_tokens,
-    module.repo_html_webpack_new_relic_plugin,
     module.repo_i18n_tools,
     module.repo_license_manager,
     module.repo_mdrst,
@@ -217,6 +215,7 @@ module "role_edx_admin" {
     module.user_nedbat,
     module.user_nixknight,
     module.user_ormsbee,
+    module.user_pshiu,
     module.user_robrap,
     module.user_saleem_latif,
     module.user_sarina,
@@ -263,7 +262,6 @@ module "role_edx_analytics_push" {
   ]
   users = [
     module.user_ahsanshafiq742,
-    module.user_bmedx,
     module.user_brianhw,
     module.user_debbiejacob,
     module.user_doctoryes,
@@ -371,7 +369,6 @@ module "role_edx_arch_bom" {
     module.repo_event_routing_backends,
     module.repo_frontend_platform,
     module.repo_help_tokens,
-    module.repo_html_webpack_new_relic_plugin,
     module.repo_open_edx_proposals,
     module.repo_openedx_calc,
     module.repo_pytest_repo_health,
@@ -563,6 +560,19 @@ module "role_edx_ccp_committer_jfavellar90" {
   ]
 }
 
+module "role_edx_ccp_committer_mtyaka" {
+  source = "./modules/role"
+  push_repos = [
+    module.repo_configuration,
+    module.repo_cs_comments_service,
+    module.repo_edx_platform,
+  ]
+  users = [
+    module.user_mtyaka,
+    module.user_sarina,
+  ]
+}
+
 module "role_edx_ccp_committer_omarithawi" {
   source = "./modules/role"
   maintain_repos = [
@@ -695,14 +705,12 @@ module "role_edx_community_engineering" {
     module.repo_edx_sphinx_theme,
     module.repo_edx_ui_toolkit,
     module.repo_eslint_config,
-    module.repo_eslint_config_edx,
     module.repo_frontend_app_account,
     module.repo_frontend_app_profile,
     module.repo_frontend_component_footer,
     module.repo_frontend_component_header,
     module.repo_frontend_platform,
     module.repo_frontend_template_application,
-    module.repo_html_webpack_new_relic_plugin,
     module.repo_mdrst,
     module.repo_openedx_census,
     module.repo_openedx_conference_pages,
@@ -795,6 +803,7 @@ module "role_edx_core_contributor_program_committers" {
     module.user_giovannicimolin,
     module.user_idegtiarov,
     module.user_jfavellar90,
+    module.user_mtyaka,
     module.user_omarithawi,
     module.user_pdpinch,
     module.user_pomegranited,
@@ -985,7 +994,6 @@ module "role_edx_fedx_admin" {
     module.repo_edx_bootstrap,
     module.repo_edx_ui_toolkit,
     module.repo_eslint_config,
-    module.repo_eslint_config_edx,
     module.repo_frontend_app_enterprise_public_catalog,
     module.repo_frontend_app_learner_portal_enterprise,
     module.repo_frontend_build,
@@ -1249,7 +1257,6 @@ module "role_edx_milestones" {
     module.user_mattdrayer,
     module.user_muhammad_ammar,
     module.user_mulby,
-    module.user_ormsbee,
   ]
 }
 
@@ -1510,7 +1517,6 @@ module "role_edx_push_pull_all" {
     module.repo_frontend_platform,
     module.repo_frontend_template_application,
     module.repo_help_tokens,
-    module.repo_html_webpack_new_relic_plugin,
     module.repo_i18n_tools,
     module.repo_license_manager,
     module.repo_mdrst,
@@ -1583,10 +1589,10 @@ module "role_edx_push_pull_all" {
     module.user_awais_ansari,
     module.user_awais786,
     module.user_awaisdar001,
+    module.user_ayub02,
     module.user_azanbinzahid,
     module.user_bilalawan321,
     module.user_binodpant,
-    module.user_bmedx,
     module.user_brianhw,
     module.user_bseverino,
     module.user_caplan188,
@@ -1643,7 +1649,6 @@ module "role_edx_push_pull_all" {
     module.user_julianajlk,
     module.user_julieliberty,
     module.user_justinhynes,
-    module.user_kafable,
     module.user_kashifch,
     module.user_kdmccormick,
     module.user_kenclary,
@@ -1695,7 +1700,6 @@ module "role_edx_push_pull_all" {
     module.user_saeedbashir,
     module.user_saleem_latif,
     module.user_sameenfatima78,
-    module.user_sapanathomas523,
     module.user_sarina,
     module.user_sbishop0905,
     module.user_schenedx,
@@ -1734,7 +1738,6 @@ module "role_edx_revenue_squad" {
     module.repo_frontend_app_payment,
   ]
   users = [
-    module.user_bmedx,
     module.user_colinbrash,
     module.user_dianekaplan,
     module.user_inventhouse,
@@ -1818,7 +1821,6 @@ module "role_edx_teaching_and_learning" {
     module.user_kdmccormick,
     module.user_kenclary,
     module.user_marcotuts,
-    module.user_ormsbee,
   ]
 }
 
@@ -2199,6 +2201,16 @@ module "role_edx_user_mslotkeedx" {
   ]
 }
 
+module "role_edx_user_pactflow_github" {
+  source = "./modules/role"
+  push_repos = [
+    module.repo_edx_val,
+  ]
+  users = [
+    module.user_pactflow_github,
+  ]
+}
+
 module "role_edx_user_precisionwordcraft" {
   source = "./modules/role"
   push_repos = [
@@ -2232,6 +2244,16 @@ module "role_edx_user_schenedx" {
   ]
 }
 
+module "role_edx_user_waheedahmed" {
+  source = "./modules/role"
+  admin_repos = [
+    module.repo_frontend_app_authn,
+  ]
+  users = [
+    module.user_waheedahmed,
+  ]
+}
+
 module "role_edx_user_zacharis278" {
   source = "./modules/role"
   admin_repos = [
@@ -2254,7 +2276,7 @@ module "role_edx_ux_team" {
 
 module "role_edx_vanguards" {
   source = "./modules/role"
-  admin_repos = [
+  push_repos = [
     module.repo_frontend_app_authn,
   ]
   users = [
@@ -2335,7 +2357,6 @@ module "role_edx_website" {
   ]
   users = [
     module.user_albemarle,
-    module.user_kafable,
     module.user_marekwrobel,
     module.user_mulby,
     module.user_srwang,

@@ -1,7 +1,7 @@
 // Users who are members or outside collaborators of Open edX organization.
 
 // This file was automatically generated based on the contents of
-// the 'edx' GitHub organization as of 2021-11-17T18:14:39.000000.
+// the 'edx' GitHub organization as of 2021-11-30T17:10:15.544743.
 // It is likely to be reorganized, refactored, split, or combined with
 // other Terraform files in the near future.
 
@@ -115,6 +115,11 @@ module "user_awais_ansari" {
   username = "awais-ansari"
 }
 
+module "user_ayub02" {
+  source   = "./modules/user"
+  username = "ayub02"
+}
+
 module "user_azanbinzahid" {
   source   = "./modules/user"
   username = "azanbinzahid"
@@ -123,11 +128,6 @@ module "user_azanbinzahid" {
 module "user_bilalawan321" {
   source   = "./modules/user"
   username = "bilalawan321"
-}
-
-module "user_bmedx" {
-  source   = "./modules/user"
-  username = "bmedx"
 }
 
 module "user_bradenmacdonald" {
@@ -475,11 +475,6 @@ module "user_justinhynes" {
   username = "justinhynes"
 }
 
-module "user_kafable" {
-  source   = "./modules/user"
-  username = "KAfable"
-}
-
 module "user_kashifch" {
   source   = "./modules/user"
   username = "kashifch"
@@ -595,6 +590,11 @@ module "user_mslotkeedx" {
   username = "mslotkeEDX"
 }
 
+module "user_mtyaka" {
+  source   = "./modules/user"
+  username = "mtyaka"
+}
+
 module "user_mubbsharanwar" {
   source   = "./modules/user"
   username = "mubbsharanwar"
@@ -665,6 +665,11 @@ module "user_openedx_release_bot" {
   username = "openedx-release-bot"
 }
 
+module "user_pactflow_github" {
+  source   = "./modules/user"
+  username = "pactflow-github"
+}
+
 module "user_pomegranited" {
   source   = "./modules/user"
   username = "pomegranited"
@@ -708,11 +713,6 @@ module "user_saleem_latif" {
 module "user_sameenfatima78" {
   source   = "./modules/user"
   username = "sameenfatima78"
-}
-
-module "user_sapanathomas523" {
-  source   = "./modules/user"
-  username = "sapanathomas523"
 }
 
 module "user_sbishop0905" {

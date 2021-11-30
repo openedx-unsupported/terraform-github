@@ -1,7 +1,7 @@
 // Repositories within the Open edX organization.
 
 // This file was automatically generated based on the contents of
-// the 'openedx' GitHub organization as of 2021-11-29T15:38:50.631605.
+// the 'openedx' GitHub organization as of 2021-11-30T17:10:49.133472.
 // It is likely to be reorganized, refactored, split, or combined with
 // other Terraform files in the near future.
 

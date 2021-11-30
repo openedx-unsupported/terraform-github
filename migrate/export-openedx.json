@@ -1,5 +1,5 @@
 {
-    "export_date_utc": "2021-11-29T15:38:50.631605",
+    "export_date_utc": "2021-11-30T17:10:49.133472",
     "repos": [
         {
             "name": "build-test-release-wg",
@@ -135,7 +135,10 @@
         },
         {
             "name": "platform-roadmap",
-            "user_access": {},
+            "user_access": {
+                "jmakowski1123": 2,
+                "regisb": 2
+            },
             "team_access": {
                 "openedx-admin": 4
             }

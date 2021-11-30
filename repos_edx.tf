@@ -1,7 +1,7 @@
 // Repositories within the Open edX organization.
 
 // This file was automatically generated based on the contents of
-// the 'edx' GitHub organization as of 2021-11-17T18:14:39.000000.
+// the 'edx' GitHub organization as of 2021-11-30T17:10:15.544743.
 // It is likely to be reorganized, refactored, split, or combined with
 // other Terraform files in the near future.
 
@@ -539,12 +539,6 @@ module "repo_eslint_config" {
   phony  = true
 }
 
-module "repo_eslint_config_edx" {
-  source = "./modules/repo"
-  name   = "eslint-config-edx"
-  phony  = true
-}
-
 module "repo_event_routing_backends" {
   source = "./modules/repo"
   name   = "event-routing-backends"
@@ -716,12 +710,6 @@ module "repo_frontend_template_application" {
 module "repo_help_tokens" {
   source = "./modules/repo"
   name   = "help-tokens"
-  phony  = true
-}
-
-module "repo_html_webpack_new_relic_plugin" {
-  source = "./modules/repo"
-  name   = "html-webpack-new-relic-plugin"
   phony  = true
 }
 

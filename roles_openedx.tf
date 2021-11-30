@@ -2,7 +2,7 @@
 // repository permissions to one or more Open edX organization users.
 
 // This file was automatically generated based on the contents of
-// the 'openedx' GitHub organization as of 2021-11-29T15:38:50.631605.
+// the 'openedx' GitHub organization as of 2021-11-30T17:10:49.133472.
 // It is likely to be reorganized, refactored, split, or combined with
 // other Terraform files in the near future.
 
@@ -227,6 +227,16 @@ module "role_openedx_user_jazibhumayun" {
   ]
 }
 
+module "role_openedx_user_jmakowski1123" {
+  source = "./modules/role"
+  push_repos = [
+    module.repo_platform_roadmap,
+  ]
+  users = [
+    module.user_jmakowski1123,
+  ]
+}
+
 module "role_openedx_user_mdbc_tech" {
   source = "./modules/role"
   maintain_repos = [
@@ -291,6 +301,9 @@ module "role_openedx_user_regisb" {
   source = "./modules/role"
   admin_repos = [
     module.repo_build_test_release_wg,
+  ]
+  push_repos = [
+    module.repo_platform_roadmap,
   ]
   users = [
     module.user_regisb,

@@ -1,5 +1,5 @@
 {
-    "export_date_utc": "2021-11-17T18:14:39.000000",
+    "export_date_utc": "2021-11-30T17:10:15.544743",
     "repos": [
         {
             "name": ".github",
@@ -273,6 +273,7 @@
             "team_access": {
                 "edx-admin": 4,
                 "ccp-committer-jfavellar90": 2,
+                "ccp-committer-mtyaka": 2,
                 "ccp-committer-pomegranited": 3,
                 "community-release-managers": 2,
                 "configuration-pull": 1,
@@ -358,6 +359,7 @@
             "user_access": {},
             "team_access": {
                 "edx-admin": 4,
+                "ccp-committer-mtyaka": 2,
                 "ccp-committer-xitij2000": 2,
                 "community-release-managers": 2,
                 "cs_comments_service-push": 2,
@@ -1018,6 +1020,7 @@
                 "ccp-committer-bradenmacdonald": 3,
                 "ccp-committer-felipemontoya": 3,
                 "ccp-committer-giovannicimolin": 2,
+                "ccp-committer-mtyaka": 2,
                 "ccp-committer-pdpinch": 3,
                 "ccp-committer-ziafazal": 3,
                 "community-engineering": 2,
@@ -1196,7 +1199,9 @@
         },
         {
             "name": "edx-val",
-            "user_access": {},
+            "user_access": {
+                "pactflow-github": 2
+            },
             "team_access": {
                 "edx-admin": 4,
                 "edx-testeng-robot-rw": 2,
@@ -1283,19 +1288,6 @@
             }
         },
         {
-            "name": "eslint-config-edx",
-            "user_access": {},
-            "team_access": {
-                "edx-admin": 4,
-                "community-engineering": 4,
-                "edx-semantic-release-bot": 1,
-                "fedx-admin": 4,
-                "fedx-team": 1,
-                "pull-all": 1,
-                "push-pull-all": 1
-            }
-        },
-        {
             "name": "event-routing-backends",
             "user_access": {},
             "team_access": {
@@ -1348,14 +1340,15 @@
             "name": "frontend-app-authn",
             "user_access": {
                 "edx-transifex-bot": 4,
-                "edx-travis": 4
+                "edx-travis": 4,
+                "waheedahmed": 4
             },
             "team_access": {
                 "edx-admin": 4,
                 "community-release-managers": 2,
                 "pull-all": 1,
                 "push-pull-all": 2,
-                "vanguards": 4
+                "vanguards": 2
             }
         },
         {
@@ -1679,17 +1672,6 @@
             "team_access": {
                 "edx-admin": 4,
                 "arch-bom": 4,
-                "pull-all": 1,
-                "push-pull-all": 2
-            }
-        },
-        {
-            "name": "html-webpack-new-relic-plugin",
-            "user_access": {},
-            "team_access": {
-                "edx-admin": 4,
-                "arch-bom": 4,
-                "community-engineering": 4,
                 "pull-all": 1,
                 "push-pull-all": 2
             }
@@ -2286,6 +2268,7 @@
                 "nadeemshahzad",
                 "nedbat",
                 "ormsbee",
+                "pshiu",
                 "robrap",
                 "saleem-latif",
                 "sarina",
@@ -2305,7 +2288,6 @@
         {
             "slug": "analytics",
             "members": [
-                "bmedx",
                 "brianhw",
                 "doctoryes",
                 "katymyw",
@@ -2322,9 +2304,7 @@
         },
         {
             "slug": "analytics-jenkins-access",
-            "members": [
-                "bmedx"
-            ]
+            "members": []
         },
         {
             "slug": "analytics-prefect",
@@ -2334,7 +2314,6 @@
                 "ahsanshafiq742",
                 "alangsto",
                 "ashultz0",
-                "bmedx",
                 "brianhw",
                 "bseverino",
                 "debbiejacob",
@@ -2361,7 +2340,6 @@
             "slug": "analytics-push",
             "members": [
                 "ahsanshafiq742",
-                "bmedx",
                 "brianhw",
                 "debbiejacob",
                 "doctoryes",
@@ -2561,6 +2539,13 @@
             ]
         },
         {
+            "slug": "ccp-committer-mtyaka",
+            "members": [
+                "mtyaka",
+                "sarina"
+            ]
+        },
+        {
             "slug": "ccp-committer-omarithawi",
             "members": [
                 "OmarIthawi"
@@ -2685,6 +2670,7 @@
                 "giovannicimolin",
                 "idegtiarov",
                 "jfavellar90",
+                "mtyaka",
                 "pdpinch",
                 "pomegranited",
                 "regisb",
@@ -3051,8 +3037,7 @@
                 "macdiesel",
                 "mattdrayer",
                 "muhammad-ammar",
-                "mulby",
-                "ormsbee"
+                "mulby"
             ]
         },
         {
@@ -3361,7 +3346,6 @@
         {
             "slug": "jenkins-build-user-management-jobs",
             "members": [
-                "bmedx",
                 "doctoryes",
                 "estute",
                 "feanil",
@@ -3426,7 +3410,7 @@
                 "jmyatt",
                 "matthugs",
                 "mikix",
-                "ormsbee",
+                "mubbsharanwar",
                 "rgraber",
                 "robrap",
                 "sameenfatima78",
@@ -3559,7 +3543,6 @@
         {
             "slug": "jenkins-tools-engagement-jobs",
             "members": [
-                "KAfable",
                 "MatthewPiatetsky",
                 "adzuci",
                 "albemarle",
@@ -3821,7 +3804,6 @@
             "members": [
                 "DawoudSheraz",
                 "Dillon-Dumesnil",
-                "KAfable",
                 "MatthewPiatetsky",
                 "MichaelRoytman",
                 "Zacharis278",
@@ -3858,7 +3840,6 @@
         {
             "slug": "jenkins-tools-user-retirement-jobs",
             "members": [
-                "bmedx",
                 "brianhw",
                 "doctoryes",
                 "estute",
@@ -4129,7 +4110,6 @@
             "members": [
                 "DawoudSheraz",
                 "MichaelRoytman",
-                "bmedx",
                 "jansenk",
                 "jmbowman",
                 "kdmccormick",
@@ -4267,7 +4247,6 @@
                 "HamzaIsrar-arbisoft",
                 "HassanJaveed84",
                 "Jawayria",
-                "KAfable",
                 "MatthewPiatetsky",
                 "MichaelRoytman",
                 "NIXKnight",
@@ -4297,10 +4276,10 @@
                 "awais-ansari",
                 "awais786",
                 "awaisdar001",
+                "ayub02",
                 "azanbinzahid",
                 "bilalawan321",
                 "binodpant",
-                "bmedx",
                 "brianhw",
                 "bseverino",
                 "caplan188",
@@ -4397,7 +4376,6 @@
                 "saeedbashir",
                 "saleem-latif",
                 "sameenfatima78",
-                "sapanathomas523",
                 "sarina",
                 "sbishop0905",
                 "schenedx",
@@ -4443,7 +4421,6 @@
         {
             "slug": "revenue-squad",
             "members": [
-                "bmedx",
                 "colinbrash",
                 "dianekaplan",
                 "inventhouse",
@@ -4535,8 +4512,7 @@
                 "doctoryes",
                 "kdmccormick",
                 "kenclary",
-                "marcotuts",
-                "ormsbee"
+                "marcotuts"
             ]
         },
         {
@@ -4598,7 +4574,6 @@
         {
             "slug": "tools-performance",
             "members": [
-                "ormsbee",
                 "pwnage101"
             ]
         },
@@ -4624,7 +4599,6 @@
         {
             "slug": "website",
             "members": [
-                "KAfable",
                 "albemarle",
                 "marekwrobel",
                 "mulby",
