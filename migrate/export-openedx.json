@@ -1,0 +1,255 @@
+{
+    "export_date_utc": "2021-11-30T17:10:49.133472",
+    "repos": [
+        {
+            "name": "build-test-release-wg",
+            "user_access": {
+                "BbrSofiane": 4,
+                "angonz": 1,
+                "arbrandes": 4,
+                "blarghmatey": 1,
+                "cmltaWt0": 3,
+                "ghassanmas": 1,
+                "jfavellar90": 1,
+                "jramnai": 1,
+                "mdbc-tech": 3,
+                "pdpinch": 1,
+                "regisb": 4,
+                "sambapete": 1
+            },
+            "team_access": {
+                "openedx-admin": 4,
+                "default-write-11-nov-2021": 2
+            }
+        },
+        {
+            "name": "community-wg",
+            "user_access": {
+                "angonz": 1,
+                "antoviaque": 3,
+                "arbrandes": 4,
+                "bradenmacdonald": 1,
+                "felipemontoya": 1,
+                "idegtiarov": 1,
+                "nizarmah": 3,
+                "pdpinch": 1,
+                "sambapete": 1
+            },
+            "team_access": {
+                "openedx-admin": 4,
+                "default-write-11-nov-2021": 2
+            }
+        },
+        {
+            "name": "data-wg",
+            "user_access": {
+                "schenedx": 2
+            },
+            "team_access": {
+                "openedx-admin": 4,
+                "default-write-11-nov-2021": 2
+            }
+        },
+        {
+            "name": "frontend-wg",
+            "user_access": {
+                "adamstankiewicz": 4,
+                "binodpant": 4,
+                "bseverino": 2,
+                "muselesscreator": 4
+            },
+            "team_access": {
+                "openedx-admin": 4,
+                "default-write-11-nov-2021": 2
+            }
+        },
+        {
+            "name": "metrics-dashboard",
+            "user_access": {
+                "jazibhumayun": 2
+            },
+            "team_access": {
+                "openedx-admin": 4,
+                "default-write-11-nov-2021": 2
+            }
+        },
+        {
+            "name": "olxcleaner",
+            "user_access": {
+                "AhtishamShahid": 2,
+                "asadazam93": 2,
+                "awaisdar001": 4,
+                "pdpinch": 4,
+                "saadyousafarbi": 2
+            },
+            "team_access": {
+                "openedx-admin": 4,
+                "default-write-11-nov-2021": 2
+            }
+        },
+        {
+            "name": "onboarding-course-introduction",
+            "user_access": {
+                "OmarIthawi": 4,
+                "intro-course-bot": 2
+            },
+            "team_access": {
+                "openedx-admin": 4,
+                "default-write-11-nov-2021": 2,
+                "intro-course": 2
+            }
+        },
+        {
+            "name": "openedx-conference-website",
+            "user_access": {
+                "natabene": 4
+            },
+            "team_access": {
+                "openedx-admin": 4,
+                "default-write-11-nov-2021": 2
+            }
+        },
+        {
+            "name": "openedx-i18n",
+            "user_access": {},
+            "team_access": {
+                "openedx-admin": 4,
+                "default-write-11-nov-2021": 2
+            }
+        },
+        {
+            "name": "openedx-slack-invite",
+            "user_access": {},
+            "team_access": {
+                "openedx-admin": 4,
+                "default-write-11-nov-2021": 2
+            }
+        },
+        {
+            "name": "openedx-tech-radar",
+            "user_access": {},
+            "team_access": {
+                "openedx-admin": 4,
+                "default-write-11-nov-2021": 2
+            }
+        },
+        {
+            "name": "platform-roadmap",
+            "user_access": {
+                "jmakowski1123": 2,
+                "regisb": 2
+            },
+            "team_access": {
+                "openedx-admin": 4
+            }
+        },
+        {
+            "name": "pr_watcher_notifier",
+            "user_access": {},
+            "team_access": {
+                "openedx-admin": 4,
+                "default-write-11-nov-2021": 2
+            }
+        },
+        {
+            "name": "public-engineering",
+            "user_access": {},
+            "team_access": {
+                "openedx-admin": 4
+            }
+        },
+        {
+            "name": "terraform-github",
+            "user_access": {},
+            "team_access": {
+                "openedx-admin": 4,
+                "tcril-engineering": 2
+            }
+        }
+    ],
+    "teams": [
+        {
+            "slug": "openedx-admin",
+            "members": [
+                "davidjoy",
+                "e0d",
+                "feanil",
+                "jmbowman",
+                "kdmccormick",
+                "nedbat",
+                "ormsbee",
+                "sarina"
+            ]
+        },
+        {
+            "slug": "decoupling",
+            "members": [
+                "Carlos-Muniz",
+                "e0d",
+                "feanil",
+                "jmakowski1123",
+                "jmbowman",
+                "jpbeaudry",
+                "julieliberty",
+                "kdmccormick",
+                "loucicchese",
+                "mulby",
+                "nedbat",
+                "ormsbee",
+                "sarina"
+            ]
+        },
+        {
+            "slug": "default-write-11-nov-2021",
+            "members": [
+                "BbrSofiane",
+                "Carlos-Muniz",
+                "OmarIthawi",
+                "alangsto",
+                "arbrandes",
+                "davidjoy",
+                "e0d",
+                "edx-community-bot",
+                "ehuthmacher",
+                "feanil",
+                "jmbowman",
+                "jpbeaudry",
+                "kdmccormick",
+                "loucicchese",
+                "marcotuts",
+                "michellephilbrick",
+                "mulby",
+                "nedbat",
+                "ormsbee",
+                "regisb",
+                "sarina",
+                "shadinaif"
+            ]
+        },
+        {
+            "slug": "edx-webhook-admin",
+            "members": [
+                "nedbat"
+            ]
+        },
+        {
+            "slug": "intro-course",
+            "members": [
+                "Carlos-Muniz",
+                "OmarIthawi",
+                "michellephilbrick",
+                "shadinaif"
+            ]
+        },
+        {
+            "slug": "tcril-engineering",
+            "members": [
+                "Carlos-Muniz",
+                "feanil",
+                "kdmccormick",
+                "ormsbee",
+                "sarina"
+            ]
+        }
+    ]
+}
