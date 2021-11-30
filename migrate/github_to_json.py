@@ -2,26 +2,26 @@
 """
 Load GH teams, specified repos, and user/team permissions on those repos.
 
-Dumps JSON to edx_import/export-$ORGANIZATION.json. Logs progess to stderr.
+Dumps JSON to migrate/export-$ORGANIZATION.json. Logs progess to stderr.
 
 Usage:
-    python -m edx_import.github_to_json.py ORGANIZATION
+    python -m migrate.github_to_json.py ORGANIZATION
 Or just:
-    make edx-import-github-to-json
+    make migrat-github-to-json
 
 Requirement installation:
-    make edx-import-requirements  # in a virtualenv, from repo root
+    make migrate-requirements  # in a virtualenv, from repo root
 
 Other requirements:
     * Python >=3.8
     * Expects a personal GH access token in the environment as GITHUB_TOKEN.
       (The token needs owner-level read access to ORGANIZATION.)
     * Expects list of repo names for transfer at
-      `edx_import/repos-ORGANIZATION.txt`.
+      `migrate/repos-ORGANIZATION.txt`.
 
 Linting:
-    make edx-import-requirements-dev  # in a virtualenv, from repo root
-    make edx-import-lint
+    make migrate-requirements-dev  # in a virtualenv, from repo root
+    make migrate-lint
 """
 
 # pylint: disable=unspecified-encoding
@@ -81,7 +81,7 @@ def main():
         "repos": [asdict(repo) for repo in repo_permissions],
         "teams": [asdict(team) for team in teams],
     }
-    with open(f"edx_import/export-{org_slug}.json", "w") as export_file:
+    with open(f"migrate/export-{org_slug}.json", "w") as export_file:
         print(json.dumps(results, indent=4), file=export_file)
 
 
@@ -356,7 +356,7 @@ def get_repo_names_to_move(org_slug: str) -> Set[RepoName]:
     """
     Load repo names from file.
     """
-    with open(f"edx_import/repos-{org_slug}.txt") as repos_file:
+    with open(f"migrate/repos-{org_slug}.txt") as repos_file:
         return set(RepoName(line.strip()) for line in repos_file.readlines())
 
 

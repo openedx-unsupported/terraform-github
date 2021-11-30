@@ -9,21 +9,21 @@ declared by any users_*.tf scripts within the root of this repo;
 otherwise, terraform would complain about duplicate users.
 
 Usage:
-    python -m edx_import.json_to_terraform ORGANIZATION [--phony]
+    python -m migrate.json_to_terraform ORGANIZATION [--phony]
 Or just:
-    make edx-import-json-to-terraform
+    make migrate-json-to-terraform
 
 Requirement installation:
-    make edx-import-requirements  # in a virtualenv, from repo root
+    make migrate-requirements  # in a virtualenv, from repo root
 
 Other requirements:
     * Python >=3.8
     * Expects teams and repositories to be dumped to
-     `edx_import/export-{ORGANIZATION].json`.
+     `migrate/export-{ORGANIZATION].json`.
 
 Linting:
-    make edx-import-requirements-dev  # in a virtualenv, from repo root
-    make edx-import-lint
+    make migrate-requirements-dev  # in a virtualenv, from repo root
+    make migrate-lint
 """
 
 
@@ -76,7 +76,7 @@ def main():
     assert 2 <= len(sys.argv) <= 3, "Expected 1-2 args: ORGANIZATION [--phony]"
 
     org_slug = sys.argv[1]
-    input_json_fpath = f"edx_import/export-{org_slug}.json"
+    input_json_fpath = f"migrate/export-{org_slug}.json"
     output_repos_fpath = f"repos_{org_slug}.tf"
     output_users_fpath = f"users_{org_slug}.tf"
     output_roles_fpath = f"roles_{org_slug}.tf"

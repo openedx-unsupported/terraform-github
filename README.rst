@@ -27,7 +27,7 @@ Repository structure
 +============================+================================================================================================================================+
 | ./modules/                 | Re-usable Terraform structures ('role', 'repo', etc.). See the `modules README <./modules>`_.                                  |
 +----------------------------+--------------------------------------------------------------------------------------------------------------------------------+
-| ./edx_import/              | Temporary scripts and data for bringing edx, edx-solutions, and openedx repos into Terraform management under the openedx org. |
+| ./migrate/                 | Temporary scripts and data for bringing edx, edx-solutions, and openedx repos into Terraform management under the openedx org. |
 +----------------------------+--------------------------------------------------------------------------------------------------------------------------------+
 | ./main.tf                  | Top-level Terraform configuration.                                                                                             |
 +----------------------------+--------------------------------------------------------------------------------------------------------------------------------+

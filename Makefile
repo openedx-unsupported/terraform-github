@@ -1,6 +1,6 @@
-.PHONY: check-github-ratelimit edx-import-github-to-json \
-        edx-import-json-to-terraform edx-import-lint edx-import-requirements \
-        edx-import-requirements-dev format
+.PHONY: check-github-ratelimit format migrate-github-to-json \
+        migrate-json-to-terraform migrate-lint migrate-requirements \
+        migrate-requirements-dev
 
 format:
 	terraform fmt
@@ -11,40 +11,33 @@ format:
 check-github-ratelimit:
 	curl --header "Authorization: token $${GITHUB_TOKEN}" "https://api.github.com/rate_limit"
 
-edx-import-github-to-json:
-	python -m edx_import.github_to_json edx
-	python -m edx_import.github_to_json edx-solutions
+migrate-github-to-json:
+	python -m migrate.github_to_json edx
+	python -m migrate.github_to_json edx-solutions
 	# Rename edx-solutions to edxsolutions because it makes the generated
 	# `edxsolutions_` Terraform blocks more distinct from the `edx_` blocks.
-	cd edx_import && mv export-edx-solutions.json export-edxsolutions.json
-	python -m edx_import.github_to_json openedx
+	cd migrate && mv export-edx-solutions.json export-edxsolutions.json
+	python -m migrate.github_to_json openedx
 
-edx-import-json-to-terraform:
+migrate-json-to-terraform:
 	# Delete existing users files, because json_to_terraform.py looks at
 	# them in order to avoid duplicating users between exports of different orgs.
 	rm users_openedx.tf users_edx.tf users_edxsolutions.tf -f
-	python -m edx_import.json_to_terraform openedx
+	python -m migrate.json_to_terraform openedx
 	# Do 'phony' exports for edx and edxsolutions, allowing us to generate and
 	# merge the Terraform for those repos without having any effect yet.
-	python -m edx_import.json_to_terraform edx --phony
-	python -m edx_import.json_to_terraform edxsolutions --phony
+	python -m migrate.json_to_terraform edx --phony
+	python -m migrate.json_to_terraform edxsolutions --phony
 	terraform fmt
 
-edx-import-lint:
-	black edx_import
-	isort edx_import
-	mypy edx_import
-	pylint edx_import
+migrate-lint:
+	black migrate
+	isort migrate
+	mypy migrate
+	pylint migrate
 
-edx-import-requirements:
-	pip install \
-		"pygithub>=1.55" \
-		"requests>=2.26"
+migrate-requirements:
+	pip install -r requirements.txt
 
-edx-import-requirements-dev: edx-import-requirements
-	pip install \
-	 	black \
-	 	isort \
-	 	mypy \
-	 	pylint \
-	 	types-requests
+migrate-requirements-dev: migrate-requirements
+	pip install -r dev-requirements.txt

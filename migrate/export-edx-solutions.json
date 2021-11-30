@@ -1,0 +1,235 @@
+{
+    "export_date_utc": "2021-11-30T02:11:41.685768",
+    "repos": [
+        {
+            "name": "xblock-adventure",
+            "user_access": {},
+            "team_access": {
+                "edx-solutions-admin": 4,
+                "contributors": 2,
+                "core": 4,
+                "pull-all": 1,
+                "viewers": 1
+            }
+        },
+        {
+            "name": "xblock-discussion",
+            "user_access": {},
+            "team_access": {
+                "edx-solutions-admin": 4,
+                "contributors": 2,
+                "core": 4,
+                "pull-all": 1,
+                "viewers": 1
+            }
+        },
+        {
+            "name": "xblock-drag-and-drop",
+            "user_access": {},
+            "team_access": {
+                "edx-solutions-admin": 4,
+                "contributors": 2,
+                "core": 4,
+                "pull-all": 1,
+                "viewers": 1
+            }
+        },
+        {
+            "name": "xblock-drag-and-drop-v2",
+            "user_access": {
+                "DawoudSheraz": 2
+            },
+            "team_access": {
+                "edx-solutions-admin": 4,
+                "contributors": 2,
+                "core": 4,
+                "edx-platform-py3": 2,
+                "pull-all": 1,
+                "travis-build-bot": 4,
+                "viewers": 1,
+                "webhook-admin": 4
+            }
+        },
+        {
+            "name": "xblock-google-drive",
+            "user_access": {},
+            "team_access": {
+                "edx-solutions-admin": 4,
+                "contributors": 2,
+                "core": 4,
+                "pull-all": 1,
+                "viewers": 1,
+                "webhook-admin": 4
+            }
+        },
+        {
+            "name": "xblock-group-project",
+            "user_access": {},
+            "team_access": {
+                "edx-solutions-admin": 4,
+                "contributors": 2,
+                "core": 4,
+                "pull-all": 1,
+                "viewers": 1
+            }
+        },
+        {
+            "name": "xblock-image-explorer",
+            "user_access": {},
+            "team_access": {
+                "edx-solutions-admin": 4,
+                "contributors": 2,
+                "core": 4,
+                "pull-all": 1,
+                "viewers": 1
+            }
+        },
+        {
+            "name": "xblock-mentoring",
+            "user_access": {},
+            "team_access": {
+                "edx-solutions-admin": 4,
+                "contributors": 2,
+                "core": 4,
+                "pull-all": 1,
+                "travis-build-bot": 4,
+                "viewers": 1
+            }
+        },
+        {
+            "name": "xblock-ooyala",
+            "user_access": {},
+            "team_access": {
+                "edx-solutions-admin": 4,
+                "contributors": 2,
+                "core": 4,
+                "ooyala-xblock-contributors": 2,
+                "pull-all": 1,
+                "viewers": 1
+            }
+        }
+    ],
+    "teams": [
+        {
+            "slug": "edx-solutions-admin",
+            "members": [
+                "adzuci",
+                "caplan188",
+                "e0d",
+                "edx-webhook",
+                "feanil",
+                "georgebabey",
+                "jdmulloy",
+                "kdmccormick",
+                "nadeemshahzad",
+                "natabene",
+                "nedbat",
+                "syedimranhassan",
+                "tnamgyal",
+                "wesmason"
+            ]
+        },
+        {
+            "slug": "contributors",
+            "members": [
+                "0x29a",
+                "Agrendalath",
+                "AhtishamShahid",
+                "NIXKnight",
+                "ahmed-zubair12",
+                "alex-sheehan-edx",
+                "antoviaque",
+                "attiyaIshaque",
+                "awaisdar001",
+                "bradenmacdonald",
+                "clemente",
+                "davidjoy",
+                "gabrieldamours",
+                "giovannicimolin",
+                "jmbowman",
+                "jristau1984",
+                "kaizoku",
+                "kdmccormick",
+                "lgp171188",
+                "m-ali-0001",
+                "mattdrayer",
+                "moeez96",
+                "msaqib52",
+                "mudassir-hafeez",
+                "musmanmalik",
+                "nadeemshahzad",
+                "naeem91",
+                "nasirhjafri",
+                "natabene",
+                "ormsbee",
+                "pomegranited",
+                "qasim-arbisoft",
+                "rgraber",
+                "shafqatfarhan",
+                "sohaibaslam",
+                "syed-awais-ali",
+                "syedimranhassan",
+                "viadanna",
+                "wasifarbisoft",
+                "xitij2000"
+            ]
+        },
+        {
+            "slug": "core",
+            "members": [
+                "e0d",
+                "feanil",
+                "georgebabey",
+                "mattdrayer",
+                "nadeemshahzad",
+                "syedimranhassan"
+            ]
+        },
+        {
+            "slug": "edx-platform-py3",
+            "members": [
+                "awais786",
+                "feanil"
+            ]
+        },
+        {
+            "slug": "ooyala-xblock-contributors",
+            "members": [
+                "naeem91"
+            ]
+        },
+        {
+            "slug": "pre-onboarding",
+            "members": []
+        },
+        {
+            "slug": "pull-all",
+            "members": [
+                "edx-readonly"
+            ]
+        },
+        {
+            "slug": "travis-build-bot",
+            "members": [
+                "edx-solutions-travis"
+            ]
+        },
+        {
+            "slug": "viewers",
+            "members": [
+                "alex-sheehan-edx",
+                "edx-mckinsey",
+                "edx-solutions-circleci",
+                "edx-solutions-travis",
+                "julieliberty",
+                "llewenstein"
+            ]
+        },
+        {
+            "slug": "webhook-admin",
+            "members": [
+                "edx-webhook"
+            ]
+        }
+    ]
+}
