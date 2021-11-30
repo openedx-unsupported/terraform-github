@@ -548,103 +548,86 @@ module "repo_event_tracking" {
 module "repo_frontend_app_account" {
   source = "./modules/repo"
   name   = "frontend-app-account"
-  phony  = true
 }
 
 module "repo_frontend_app_admin_portal" {
   source = "./modules/repo"
   name   = "frontend-app-admin-portal"
-  phony  = true
 }
 
 module "repo_frontend_app_authn" {
   source = "./modules/repo"
   name   = "frontend-app-authn"
-  phony  = true
 }
 
 module "repo_frontend_app_course_authoring" {
   source = "./modules/repo"
   name   = "frontend-app-course-authoring"
-  phony  = true
 }
 
 module "repo_frontend_app_discussions" {
   source = "./modules/repo"
   name   = "frontend-app-discussions"
-  phony  = true
 }
 
 module "repo_frontend_app_ecommerce" {
   source = "./modules/repo"
   name   = "frontend-app-ecommerce"
-  phony  = true
 }
 
 module "repo_frontend_app_enterprise_public_catalog" {
   source = "./modules/repo"
   name   = "frontend-app-enterprise-public-catalog"
-  phony  = true
 }
 
 module "repo_frontend_app_gradebook" {
   source = "./modules/repo"
   name   = "frontend-app-gradebook"
-  phony  = true
 }
 
 module "repo_frontend_app_learner_portal_enterprise" {
   source = "./modules/repo"
   name   = "frontend-app-learner-portal-enterprise"
-  phony  = true
 }
 
 module "repo_frontend_app_learner_portal_programs" {
   source = "./modules/repo"
   name   = "frontend-app-learner-portal-programs"
-  phony  = true
 }
 
 module "repo_frontend_app_learning" {
   source = "./modules/repo"
   name   = "frontend-app-learning"
-  phony  = true
 }
 
 module "repo_frontend_app_library_authoring" {
   source = "./modules/repo"
   name   = "frontend-app-library-authoring"
-  phony  = true
 }
 
 module "repo_frontend_app_payment" {
   source = "./modules/repo"
   name   = "frontend-app-payment"
-  phony  = true
 }
 
 module "repo_frontend_app_profile" {
   source = "./modules/repo"
   name   = "frontend-app-profile"
-  phony  = true
 }
 
 module "repo_frontend_app_program_console" {
   source = "./modules/repo"
   name   = "frontend-app-program-console"
-  phony  = true
 }
 
 module "repo_frontend_app_programs_dashboard" {
   source = "./modules/repo"
   name   = "frontend-app-programs-dashboard"
-  phony  = true
 }
 
 module "repo_frontend_app_publisher" {
   source = "./modules/repo"
   name   = "frontend-app-publisher"
-  phony  = true
 }
 
 module "repo_frontend_app_support_tools" {
@@ -660,7 +643,6 @@ module "repo_frontend_build" {
 module "repo_frontend_component_cookie_policy_banner" {
   source = "./modules/repo"
   name   = "frontend-component-cookie-policy-banner"
-  phony  = true
 }
 
 module "repo_frontend_component_footer" {
@@ -678,13 +660,11 @@ module "repo_frontend_component_header" {
 module "repo_frontend_enterprise" {
   source = "./modules/repo"
   name   = "frontend-enterprise"
-  phony  = true
 }
 
 module "repo_frontend_learner_portal_base" {
   source = "./modules/repo"
   name   = "frontend-learner-portal-base"
-  phony  = true
 }
 
 module "repo_frontend_platform" {
