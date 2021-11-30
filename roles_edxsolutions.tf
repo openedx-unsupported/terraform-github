@@ -169,3 +169,13 @@ module "role_edxsolutions_webhook_admin" {
     module.user_edx_webhook,
   ]
 }
+
+module "role_edxsolutions_user_inventhouse" {
+  source = "./modules/role"
+  push_repos = [
+    module.repo_xblock_adventure,
+  ]
+  users = [
+    module.user_inventhouse,
+  ]
+}
