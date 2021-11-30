@@ -8,7 +8,6 @@
 module "repo_xblock_adventure" {
   source = "./modules/repo"
   name   = "xblock-adventure"
-  phony  = true
 }
 
 module "repo_xblock_discussion" {
