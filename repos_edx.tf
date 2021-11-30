@@ -78,7 +78,6 @@ module "repo_code_annotations" {
 module "repo_codejail" {
   source = "./modules/repo"
   name   = "codejail"
-  phony  = true
 }
 
 module "repo_completion" {
@@ -204,13 +203,11 @@ module "repo_donexblock" {
 module "repo_dot_github" {
   source = "./modules/repo"
   name   = ".github"
-  phony  = true
 }
 
 module "repo_ease" {
   source = "./modules/repo"
   name   = "ease"
-  phony  = true
 }
 
 module "repo_ecommerce" {
@@ -415,7 +412,6 @@ module "repo_edx_organizations" {
 module "repo_edx_platform" {
   source = "./modules/repo"
   name   = "edx-platform"
-  phony  = true
 }
 
 module "repo_edx_proctoring" {
@@ -755,7 +751,6 @@ module "repo_openedxstats" {
 module "repo_paragon" {
   source = "./modules/repo"
   name   = "paragon"
-  phony  = true
 }
 
 module "repo_pr_watcher_configuration" {
