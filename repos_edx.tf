@@ -740,7 +740,6 @@ module "repo_license_manager" {
 module "repo_mdrst" {
   source = "./modules/repo"
   name   = "mdrst"
-  phony  = true
 }
 
 module "repo_mockprock" {
