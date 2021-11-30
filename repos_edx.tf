@@ -428,7 +428,6 @@ module "repo_edx_ora2" {
 module "repo_edx_organizations" {
   source = "./modules/repo"
   name   = "edx-organizations"
-  phony  = true
 }
 
 module "repo_edx_platform" {
@@ -662,7 +661,6 @@ module "repo_frontend_app_publisher" {
 module "repo_frontend_app_support_tools" {
   source = "./modules/repo"
   name   = "frontend-app-support-tools"
-  phony  = true
 }
 
 module "repo_frontend_build" {
@@ -769,7 +767,6 @@ module "repo_open_edx_proposals" {
 module "repo_openedx_calc" {
   source = "./modules/repo"
   name   = "openedx-calc"
-  phony  = true
 }
 
 module "repo_openedx_census" {
@@ -1003,7 +1000,6 @@ module "repo_xblock_utils" {
 module "repo_xqueue" {
   source = "./modules/repo"
   name   = "xqueue"
-  phony  = true
 }
 
 module "repo_xqueue_watcher" {
