@@ -2,4 +2,3 @@ click
 ghapi
 pygithub>=1.55
 requests>=2.26
-

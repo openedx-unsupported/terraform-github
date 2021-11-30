@@ -22,9 +22,14 @@ from ghapi.all import GhApi, paged  # type: ignore
         "Useful after an error."
     ),
 )
-def migrate(src_org, dest_org, repo_list_file, preview, skip_missing):
+@click.option(
+    '--no-prompt',
+    is_flag=True,
+    help="Don't ask for a confirmation before transferring the repos."
+)
+def migrate(src_org, dest_org, repo_list_file, preview, skip_missing, no_prompt):
     if preview:
-        click.echo("In Preview Mode: No changes will be made!")
+        click.secho("In Preview Mode: No changes will be made!", italic=True)
 
     if src_org == dest_org:
         sys.exit("Fatal Error: Source and destination orgs must be different.")
@@ -70,6 +75,17 @@ def migrate(src_org, dest_org, repo_list_file, preview, skip_missing):
 
     if not repos_to_transfer:
         sys.exit("No repos to transfer. Quitting.")
+
+    if not no_prompt:
+        click.echo()
+        click.secho(
+            f"The following {len(repos_to_transfer)} repositories will be moved from {src_org} to {dest_org}: ",
+            nl=False,
+            bold=True,
+        )
+        click.echo(", ".join(repos_to_transfer))
+        click.echo()
+        click.confirm('Proceed?', abort=True)
 
     with click.progressbar(
         repos_to_transfer,
