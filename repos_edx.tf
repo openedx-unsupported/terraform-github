@@ -26,7 +26,6 @@ module "repo_animationxblock" {
 module "repo_api_doc_tools" {
   source = "./modules/repo"
   name   = "api-doc-tools"
-  phony  = true
 }
 
 module "repo_audioxblock" {
@@ -170,7 +169,6 @@ module "repo_django_lang_pref_middleware" {
 module "repo_django_pyfs" {
   source = "./modules/repo"
   name   = "django-pyfs"
-  phony  = true
 }
 
 module "repo_django_ratelimit_backend" {
@@ -368,7 +366,6 @@ module "repo_edx_django_sites_extensions" {
 module "repo_edx_django_utils" {
   source = "./modules/repo"
   name   = "edx-django-utils"
-  phony  = true
 }
 
 module "repo_edx_documentation" {
@@ -386,7 +383,6 @@ module "repo_edx_drf_extensions" {
 module "repo_edx_enterprise" {
   source = "./modules/repo"
   name   = "edx-enterprise"
-  phony  = true
 }
 
 module "repo_edx_enterprise_data" {
@@ -398,7 +394,6 @@ module "repo_edx_enterprise_data" {
 module "repo_edx_lint" {
   source = "./modules/repo"
   name   = "edx-lint"
-  phony  = true
 }
 
 module "repo_edx_milestones" {
@@ -463,7 +458,6 @@ module "repo_edx_rest_api_client" {
 module "repo_edx_search" {
   source = "./modules/repo"
   name   = "edx-search"
-  phony  = true
 }
 
 module "repo_edx_sphinx_theme" {
@@ -660,7 +654,6 @@ module "repo_frontend_app_support_tools" {
 module "repo_frontend_build" {
   source = "./modules/repo"
   name   = "frontend-build"
-  phony  = true
 }
 
 module "repo_frontend_component_cookie_policy_banner" {
@@ -696,7 +689,6 @@ module "repo_frontend_learner_portal_base" {
 module "repo_frontend_platform" {
   source = "./modules/repo"
   name   = "frontend-platform"
-  phony  = true
 }
 
 module "repo_frontend_template_application" {
@@ -737,7 +729,6 @@ module "repo_mockprock" {
 module "repo_mongodbproxy" {
   source = "./modules/repo"
   name   = "MongoDBProxy"
-  phony  = true
 }
 
 module "repo_opaque_keys" {
@@ -766,7 +757,6 @@ module "repo_openedx_census" {
 module "repo_openedx_chem" {
   source = "./modules/repo"
   name   = "openedx-chem"
-  phony  = true
 }
 
 module "repo_openedx_conference_pages" {
