@@ -21,6 +21,20 @@ resource "github_repository" "this" {
 
   name       = var.name
   visibility = "public"
+
+  lifecycle {
+    ignore_changes = [
+      allow_rebase_merge,
+      allow_squash_merge,
+      delete_branch_on_merge,
+      description,
+      has_downloads,
+      has_issues,
+      has_projects,
+      has_wiki,
+      vulnerability_alerts,
+    ]
+  }
 }
 
 output "phony" {
