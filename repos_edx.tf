@@ -151,7 +151,6 @@ module "repo_demo_test_course" {
 module "repo_devstack" {
   source = "./modules/repo"
   name   = "devstack"
-  phony  = true
 }
 
 module "repo_django_config_models" {
@@ -198,7 +197,6 @@ module "repo_django_wiki" {
 module "repo_docs_dot_edx_dot_org" {
   source = "./modules/repo"
   name   = "docs.edx.org"
-  phony  = true
 }
 
 module "repo_donexblock" {
@@ -417,7 +415,6 @@ module "repo_edx_notifications" {
 module "repo_edx_ora2" {
   source = "./modules/repo"
   name   = "edx-ora2"
-  phony  = true
 }
 
 module "repo_edx_organizations" {
@@ -434,7 +431,6 @@ module "repo_edx_platform" {
 module "repo_edx_proctoring" {
   source = "./modules/repo"
   name   = "edx-proctoring"
-  phony  = true
 }
 
 module "repo_edx_rbac" {
@@ -469,7 +465,6 @@ module "repo_edx_sphinx_theme" {
 module "repo_edx_submissions" {
   source = "./modules/repo"
   name   = "edx-submissions"
-  phony  = true
 }
 
 module "repo_edx_toggles" {
