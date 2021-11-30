@@ -1,0 +1,6 @@
+# This is just for testing the move script.
+#
+# This comment is ignored.
+transfer_test_repo  # this comment is ignored as well
+
+transfer_test_repo_2
