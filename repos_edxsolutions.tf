@@ -25,7 +25,6 @@ module "repo_xblock_drag_and_drop" {
 module "repo_xblock_drag_and_drop_v2" {
   source = "./modules/repo"
   name   = "xblock-drag-and-drop-v2"
-  phony  = true
 }
 
 module "repo_xblock_google_drive" {
