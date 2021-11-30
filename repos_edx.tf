@@ -43,7 +43,6 @@ module "repo_auth_backends" {
 module "repo_blockstore" {
   source = "./modules/repo"
   name   = "blockstore"
-  phony  = true
 }
 
 module "repo_bok_choy" {
@@ -103,13 +102,11 @@ module "repo_configuration" {
 module "repo_course_discovery" {
   source = "./modules/repo"
   name   = "course-discovery"
-  phony  = true
 }
 
 module "repo_credentials" {
   source = "./modules/repo"
   name   = "credentials"
-  phony  = true
 }
 
 module "repo_credentials_themes" {
@@ -127,7 +124,6 @@ module "repo_crowdsourcehinter" {
 module "repo_cs_comments_service" {
   source = "./modules/repo"
   name   = "cs_comments_service"
-  phony  = true
 }
 
 module "repo_cypress_e2e_tests" {
@@ -220,7 +216,6 @@ module "repo_ease" {
 module "repo_ecommerce" {
   source = "./modules/repo"
   name   = "ecommerce"
-  phony  = true
 }
 
 module "repo_ecommerce_scripts" {
@@ -232,7 +227,6 @@ module "repo_ecommerce_scripts" {
 module "repo_ecommerce_worker" {
   source = "./modules/repo"
   name   = "ecommerce-worker"
-  phony  = true
 }
 
 module "repo_edx4edx_lite" {
@@ -250,19 +244,16 @@ module "repo_edx_ace" {
 module "repo_edx_analytics_configuration" {
   source = "./modules/repo"
   name   = "edx-analytics-configuration"
-  phony  = true
 }
 
 module "repo_edx_analytics_dashboard" {
   source = "./modules/repo"
   name   = "edx-analytics-dashboard"
-  phony  = true
 }
 
 module "repo_edx_analytics_data_api" {
   source = "./modules/repo"
   name   = "edx-analytics-data-api"
-  phony  = true
 }
 
 module "repo_edx_analytics_data_api_client" {
@@ -403,7 +394,6 @@ module "repo_edx_milestones" {
 module "repo_edx_notes_api" {
   source = "./modules/repo"
   name   = "edx-notes-api"
-  phony  = true
 }
 
 module "repo_edx_notifications" {
@@ -518,7 +508,6 @@ module "repo_enmerkar_underscore" {
 module "repo_enterprise_catalog" {
   source = "./modules/repo"
   name   = "enterprise-catalog"
-  phony  = true
 }
 
 module "repo_eslint_config" {
@@ -699,7 +688,6 @@ module "repo_i18n_tools" {
 module "repo_license_manager" {
   source = "./modules/repo"
   name   = "license-manager"
-  phony  = true
 }
 
 module "repo_mdrst" {
@@ -809,7 +797,6 @@ module "repo_recommenderxblock" {
 module "repo_registrar" {
   source = "./modules/repo"
   name   = "registrar"
-  phony  = true
 }
 
 module "repo_repo_tools" {
@@ -970,7 +957,6 @@ module "repo_xqueue" {
 module "repo_xqueue_watcher" {
   source = "./modules/repo"
   name   = "xqueue-watcher"
-  phony  = true
 }
 
 module "repo_xss_utils" {
