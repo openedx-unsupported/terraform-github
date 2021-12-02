@@ -111,7 +111,8 @@ def migrate(
             api_team_data = api.teams.get_by_name(src_org, team_slug)
             team_info["name"] = api_team_data["name"]
             prefix_string = description_prefix + " " if description_prefix else ""
-            team_info["description"] = prefix_string + api_team_data["description"]
+            original_description = api_team_data["description"] or ""
+            team_info["description"] = prefix_string + original_description
         except HTTP404NotFoundError:
             if team_slug == admin_team_slug:
                 team_info["name"] = team_slug
