@@ -91,7 +91,7 @@ def migrate(
         sys.exit("Fatal Error: Please set a GITHUB_TOKEN environment variable.")
 
     teams: List[dict] = json.load(export_json_file)["teams"]
-    team_slugs: List[str] = list(sorted(team["slug"] for team in teams))
+    team_slugs: List[str] = sorted(team["slug"] for team in teams)
     click.echo(f"Read {len(team_slugs)} teams from {export_json_file.name}")
     if not team_slugs:
         sys.exit("No teams to migrate. Quitting.")
