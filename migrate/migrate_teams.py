@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# pylint: disable=missing-module-docstring,missing-function-docstring
+# pylint: disable=missing-module-docstring
 # pylint: disable=too-many-arguments,too-many-locals,too-many-branches,too-many-statements
 
 # No mypy stubs for fastcore or ghapi; just turn off type-checking.
@@ -19,24 +19,69 @@ from ghapi.all import GhApi, paged
 @click.command()
 @click.argument("src_org")
 @click.argument("dest_org")
-@click.argument("your_username")
 @click.argument("export_json_file", type=click.File("r"))
 @click.option(
-    "--preview", is_flag=True, help="Preview what will happen but don't execute."
+    "--username",
+    help=(
+        "As the user making create requests, you are added to all teams automatically. "
+        "Provide your username to ensure that you are removed from those teams."
+    ),
+)
+@click.option(
+    "--preview",
+    is_flag=True,
+    help="Preview what will happen but don't execute.",
 )
 @click.option(
     "--no-prompt",
     is_flag=True,
     help="Don't ask for a confirmation before transferring the repos.",
 )
+@click.option(
+    "--description-prefix",
+    help="Optional prefix for migrated team descriptions.",
+    default="",
+)
 def migrate(
     src_org: str,
     dest_org: str,
-    your_username: str,
     export_json_file,
+    username: str,
     preview: bool,
     no_prompt: bool,
+    description_prefix: str,
 ):
+    """
+    Migrate GH team 'shells' (empty teams with names & descriptions, but no members).
+
+    Migrates the teams in {export_json_file} from from {src_org} to {dest_org}.
+    Fails early if any of the teams don't exist in {src_org}.
+    Teams are created or updated in {dest_org}. The operation should be idempotent.
+    Migrated data includes:
+    * name,
+    * slug (GH calculates this deterministically from the name), and
+    * description, prefixed with {description_prefix} if provided.
+
+    {export_json_file} is expected to have this format:
+        {
+            "teams": [
+                {
+                    "slug": "slug-of-team-to-migrate",
+                    ...other fields
+                },
+                {
+                    "slug": "slug-of-another-team-to-migrate",
+                    ...other fields
+                },
+                ...more teams
+            ]
+            ...other fields
+        }
+    """
+    # The set of source organization owners is grouped into a team.
+    # The team will later be granted admin rights on all migrated repos.
+    # This allows us to retain their repo permissions without needing to
+    # grant
     admin_team_slug = f"{src_org}-admin"
 
     if preview:
@@ -47,9 +92,7 @@ def migrate(
 
     teams: List[dict] = json.load(export_json_file)["teams"]
     team_slugs: List[str] = list(sorted(team["slug"] for team in teams))
-
     click.echo(f"Read {len(team_slugs)} teams from {export_json_file.name}")
-
     if not team_slugs:
         sys.exit("No teams to migrate. Quitting.")
 
@@ -67,7 +110,8 @@ def migrate(
         try:
             api_team_data = api.teams.get_by_name(src_org, team_slug)
             team_info["name"] = api_team_data["name"]
-            team_info["description"] = api_team_data["description"]
+            prefix_string = description_prefix + " " if description_prefix else ""
+            team_info["description"] = prefix_string + api_team_data["description"]
         except HTTP404NotFoundError:
             if team_slug == admin_team_slug:
                 team_info["name"] = team_slug
@@ -116,6 +160,7 @@ def migrate(
             # using the slug as an identifier. Changing the name will always
             # update the underlying slug, so
             # it is always the case that ``team.slug == slugify(team.name)``.
+
             if create_new:
                 api.teams.create(
                     org=dest_org,
@@ -126,7 +171,7 @@ def migrate(
                 # The API user is automatically added to the team, so we need to
                 # specifically remove them after the team is created.
                 api.teams.remove_membership_for_user_in_org(
-                    org=dest_org, team_slug=team_slug, username=your_username
+                    org=dest_org, team_slug=team_slug, username=username
                 )
             else:
                 api.teams.update_in_org(
