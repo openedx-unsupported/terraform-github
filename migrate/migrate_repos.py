@@ -1,4 +1,4 @@
-# pylint: disable=missing-module-docstring,missing-function-docstring
+# pylint: disable=missing-module-docstring,missing-function-docstring,too-many-arguments
 import itertools
 import os
 import sys
@@ -79,7 +79,8 @@ def migrate(src_org, dest_org, repo_list_file, preview, skip_missing, no_prompt)
     if not no_prompt:
         click.echo()
         click.secho(
-            f"The following {len(repos_to_transfer)} repositories will be moved from {src_org} to {dest_org}: ",
+            f"The following {len(repos_to_transfer)} "
+            f"repositories will be moved from {src_org} to {dest_org}: ",
             nl=False,
             bold=True,
         )
