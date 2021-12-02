@@ -6,6 +6,9 @@
 # type: ignore
 
 import json
+import sys
+from collections import defaultdict
+from typing import Dict, Set
 
 import click
 from fastcore.net import \
@@ -27,12 +30,18 @@ from ghapi.all import GhApi, paged
     is_flag=True,
     help="Don't ask for a confirmation before transferring the repos.",
 )
+@click.option(
+    "--github_token",
+    envvar="GITHUB_TOKEN",
+    required=True,
+)
 def migrate(
     dest_org: str,
     export_json_file,
     users_file,
     preview: bool,
     no_prompt: bool,
+    github_token: str,
 ):
     """
     Invite users in {users_file} to {dest_org} and apply team memberships from {export_json_file}.
@@ -63,9 +72,54 @@ def migrate(
             ]
         }
     """
+
+    if preview:
+        click.secho("In Preview Mode: No changes will be made!", italic=True)
+    api = GhApi(token=github_token)
+
+    export_data = json.load(export_json_file)
+
+    all_users = {user_line.trim() for user_line in users_file.readlines()}
+
+    # Load a mapping from team slugs to team ids.
+    # Includes teams we're not trying to migrate.
+    team_slugs_to_ids = {}
+    for page in paged(api.teams.list, org=dest_org, per_page=100):
+        for team in page:
+            team_slugs_to_ids[team["slug"]] = team["id"]
+
+    # Build a mapping from usernames to team slugs.
+    user_teams: Dict[str, Set[int]] = defaultdict(set)
+    for team in export_data["teams"]:
+        for username in team["members"]:
+            user_teams[username].add(team_slugs_to_ids[team["slug"]])
+
+    api.orgs.get_pending_invitations()
+
+    users_to_invite = ...
+
+    click.echo(f"Will invite {len(users_to_invite)} to org {dest_org}:")
+    click.echo(f"  " + "\n  ".join(users_to_invite))
+
+    if not no_prompt:
+        click.echo()
+        click.confirm("Proceed?", abort=True)
+
+    for index, username in enumerate(users_to_invite):
+
+        click.echo(f"({index}/{len(users_to_invite)})")
+
+        user_id: int = api.users.get_by_username(username)["id"]
+
+        if preview:
+            continue
+        api.orgs.create_invitation(
+            org=dest_org,
+            invitee_id=user_id,
+            team_ids=user_teams[username],
+        )
+
     _ = dest_org
-    _export_data = json.load(export_json_file)
-    _ = users_file
     _ = GhApi
     _ = paged
     try:
@@ -73,8 +127,6 @@ def migrate(
     except HTTP404NotFoundError:
         pass
     if preview:
-        pass
-    if not no_prompt:
         pass
 
 
