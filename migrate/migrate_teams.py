@@ -40,7 +40,7 @@ from ghapi.all import GhApi, paged
 @click.option(
     "--description-prefix",
     help="Optional prefix for migrated team descriptions.",
-    default="",
+    default="[Legacy - from edX org] ",
 )
 def migrate(
     src_org: str,
@@ -124,6 +124,8 @@ def migrate(
                     f"  Team {team_slug!r} does not exist in source org "
                     f"{src_org!r}. Quitting."
                 )
+        if len(team_info["description"]) > 1000:
+            sys.exit(f"  Description of {team_slug!r} is too long. Quitting.")
         team_info_by_slug[team_slug] = team_info
         action_verb = "update" if team_slug in team_slugs_in_dest_org else "create"
         click.echo(f"  must {action_verb} team {team_info['name']!r}")
