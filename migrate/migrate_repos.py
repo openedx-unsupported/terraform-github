@@ -1,4 +1,4 @@
-# pylint: disable=missing-module-docstring,missing-function-docstring
+# pylint: disable=missing-module-docstring,missing-function-docstring,too-many-arguments
 import itertools
 import os
 import sys
@@ -23,9 +23,9 @@ from ghapi.all import GhApi, paged  # type: ignore
     ),
 )
 @click.option(
-    '--no-prompt',
+    "--no-prompt",
     is_flag=True,
-    help="Don't ask for a confirmation before transferring the repos."
+    help="Don't ask for a confirmation before transferring the repos.",
 )
 def migrate(src_org, dest_org, repo_list_file, preview, skip_missing, no_prompt):
     if preview:
@@ -79,13 +79,14 @@ def migrate(src_org, dest_org, repo_list_file, preview, skip_missing, no_prompt)
     if not no_prompt:
         click.echo()
         click.secho(
-            f"The following {len(repos_to_transfer)} repositories will be moved from {src_org} to {dest_org}: ",
+            f"The following {len(repos_to_transfer)} "
+            f"repositories will be moved from {src_org} to {dest_org}: ",
             nl=False,
             bold=True,
         )
         click.echo(", ".join(repos_to_transfer))
         click.echo()
-        click.confirm('Proceed?', abort=True)
+        click.confirm("Proceed?", abort=True)
 
     with click.progressbar(
         repos_to_transfer,
