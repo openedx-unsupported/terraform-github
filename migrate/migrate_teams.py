@@ -8,6 +8,7 @@
 import json
 import os
 import sys
+import time
 from typing import Dict, List, Set
 
 import click
@@ -173,9 +174,24 @@ def migrate(
                 )
                 # The API user is automatically added to the team, so we need to
                 # specifically remove them after the team is created.
-                api.teams.remove_membership_for_user_in_org(
-                    org=dest_org, team_slug=team_slug, username=username
-                )
+                if username:
+                    # Try twice, because occasionally, a team won't have finished being
+                    # created on the GitHub side, and we'll get a 404 when trying to
+                    # remove the user as a member.
+                    num_attempts = 3
+                    for attempt_count in range(num_attempts):
+                        try:
+                            api.teams.remove_membership_for_user_in_org(
+                                org=dest_org, team_slug=team_slug, username=username
+                            )
+                        except HTTP404NotFoundError as not_found:
+                            if attempt_count == num_attempts - 1:
+                                raise Exception(
+                                    f"got 404 when trying to remove {username!r} from {team_slug!r}"
+                                ) from not_found
+                            time.sleep(1)
+                        else:
+                            break
             else:
                 api.teams.update_in_org(
                     org=dest_org,
