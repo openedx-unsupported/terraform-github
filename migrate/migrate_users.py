@@ -18,8 +18,8 @@ from ghapi.all import GhApi, paged
 
 @click.command()
 @click.argument("dest_org")
-@click.argument("export_json_file", type=click.File("r"))
 @click.argument("users_file", type=click.File("r"))
+@click.argument("org_export_files", nargs=-1, type=click.File("r"))
 @click.option(
     "--preview",
     is_flag=True,
@@ -37,16 +37,16 @@ from ghapi.all import GhApi, paged
 )
 def migrate(
     dest_org: str,
-    export_json_file,
+    org_export_files,
     users_file,
     preview: bool,
     no_prompt: bool,
     github_token: str,
 ):
     """
-    Invite users in {users_file} to {dest_org} and apply team memberships from {export_json_file}.
+    Invite users in {users_file} to {dest_org} and apply team memberships from {org_export_files}.
 
-    {export_json_file} is expected to have this format:
+    {org_export_files} are expected to have this format:
         {
             "repos": [
                 {
@@ -78,7 +78,7 @@ def migrate(
     api = GhApi(token=github_token)
 
     # Load team memberships and list of usernames to migrate.
-    team_users: Dict[str, List[str]] = json.load(export_json_file)["teams"]
+    team_users: Dict[str, List[str]] = extract_merged_team_memberships(org_export_files)
     requested_users = set(extract_user_names(users_file))
 
     # Load a mapping from team slugs to team ids.
@@ -133,10 +133,12 @@ def migrate(
         click.echo()
 
     for index, username in enumerate(users_to_invite):
+        team_ids = user_teams[username]
 
         user_id: int = api.users.get_by_username(username)["id"]
         click.echo(
-            f"({index:03d}/{len(users_to_invite)}) inviting user {username}; {user_id=}."
+            f"({index:03d}/{len(users_to_invite)}) inviting user {username}; {user_id=}, "
+            f"{len(team_ids)=}."
         )
 
         if preview:
@@ -148,7 +150,7 @@ def migrate(
                 api.orgs.create_invitation(
                     org=dest_org,
                     invitee_id=user_id,
-                    team_ids=user_teams[username],
+                    team_ids=team_ids,
                 )
             # Might have hit a secondary rate limit
             # https://docs.github.com/en/rest/overview/resources-in-the-rest-api#secondary-rate-limits
@@ -179,6 +181,21 @@ def extract_user_names(user_list_file) -> List[str]:
     stripped = [line.strip() for line in comments_removed]
     empty_lines_removed = [line for line in stripped if line]
     return empty_lines_removed
+
+
+def extract_merged_team_memberships(org_export_files: list) -> Dict[str, Set[str]]:
+    """
+    Given a list of handles to org export files, return a merged mapping of
+    team slugs to sets of usernames.
+    """
+    team_users = {}
+    for json_file in org_export_files:
+        org_export_data = json.load(json_file)
+        assert not (
+            set(org_export_data["teams"].keys()) & set(team_users)
+        ), "broken assumption: export files have teams conflicting slugs"
+        team_users = {**team_users, **org_export_data["teams"]}
+    return team_users
 
 
 if __name__ == "__main__":
