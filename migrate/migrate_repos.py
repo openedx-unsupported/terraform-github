@@ -1,4 +1,12 @@
 # pylint: disable=missing-module-docstring,missing-function-docstring,too-many-arguments
+"""
+Script for migrating repositories across GitHub organizations.
+"""
+# pylint: disable=missing-function-docstring
+from collections import defaultdict
+from dataclasses import dataclass
+from typing import Dict, List
+import json
 import itertools
 import os
 import sys
@@ -27,22 +35,49 @@ from ghapi.all import GhApi, paged  # type: ignore
     is_flag=True,
     help="Don't ask for a confirmation before transferring the repos.",
 )
-def migrate(src_org, dest_org, repo_list_file, preview, skip_missing, no_prompt):
+@click.option(
+    '--permissions-file',
+    type=click.File(),
+    help="JSON file with repos to teams/user permissions mappings.",
+)
+@click.option(
+    '--github-token',
+    envvar='GITHUB_TOKEN',
+    show_default="$GITHUB_TOKEN environment variable.",
+)
+def migrate(src_org, dest_org, repo_list_file, preview, skip_missing, no_prompt, permissions_file, github_token):
+    """
+    Migrate
+    """
+    show_prompts = not no_prompt  # It just makes it clearer in later code.
     if preview:
         click.secho("In Preview Mode: No changes will be made!", italic=True)
 
+    # Basic validation: We need a GITHUB_TOKEN for the API
+    if not github_token:
+        sys.exit("Fatal Error: Set your $GITHUB_TOKEN environment variable or specify it using --github-token")
+
+    # Basic validation: Doesn't make sense to transfer within the same org.
     if src_org == dest_org:
         sys.exit("Fatal Error: Source and destination orgs must be different.")
 
-    github_token = os.environ.get("GITHUB_TOKEN")
-    if not github_token:
-        sys.exit("Fatal Error: Please set a GITHUB_TOKEN environment variable.")
+    # Optional validation: You don't absolutely need teams specified to move a
+    # set of repos (maybe there's just one and the team assigned to it doesn't
+    # matter, e.g. edx-solutions repos that we're not importing team data from).
+    # But it's probably a good idea to double check.
+    if show_prompts and not permissions_file:
+        click.echo("You haven't specified a team/user to repos permissions file (--permissions-file).")
+        click.secho("WARNING: Repos will be copied over with NO team/user permissions set!", bold=True)
+        click.confirm("Proceed anyway?", abort=True)
 
+    # We passed the most basic input validations.
     # Get the list of repos from our text file.
     repos_to_transfer = extract_repo_names(repo_list_file)
     click.echo(f"Read {len(repos_to_transfer)} repos from {repo_list_file.name}")
 
+    # Initialize the GitHub API client
     api = GhApi(token=github_token)
+
     # Basic sanity check to make sure the repos we're transferring all actually exist.
     click.echo(f"Fetching the list of repos in source org {src_org}...")
     src_org_repos = {
@@ -76,7 +111,25 @@ def migrate(src_org, dest_org, repo_list_file, preview, skip_missing, no_prompt)
     if not repos_to_transfer:
         sys.exit("No repos to transfer. Quitting.")
 
-    if not no_prompt:
+    # Check permissions file
+    if permissions_file:
+        repos_to_permissions = load_permissions(permissions_file, api, dest_org)
+
+        # Validation: Make sure we have permissions entries for all the repos
+        # that we're transferring over.
+        repos_with_no_permissions = [
+            repo for repo in repos_to_transfer if repo not in repos_to_permissions
+        ]
+        if repos_with_no_permissions:
+            sys.exit(
+                "Fatal Error: --permissions-file was specified, but the " +
+                "following repos have no permissions entries: " +
+                ", ".join(repos_with_no_permissions)
+            )
+    else:
+        repos_to_permissions = {}
+
+    if show_prompts:
         click.echo()
         click.secho(
             f"The following {len(repos_to_transfer)} "
@@ -88,21 +141,170 @@ def migrate(src_org, dest_org, repo_list_file, preview, skip_missing, no_prompt)
         click.echo()
         click.confirm("Proceed?", abort=True)
 
-    with click.progressbar(
-        repos_to_transfer,
-        label=f"Transferring repositories from {src_org} to {dest_org}",
-    ) as progress_bar:
-        for repo in progress_bar:
-            click.echo(f" {repo}")
-            if not preview:
-                api.repos.transfer(src_org, repo, dest_org)
+    # Do the actual transfer
+    click.echo()
+    click.echo(f"Transferring {len(repos_to_transfer)} repositories from {src_org} to {dest_org}...")
 
+    for (i, repo) in enumerate(repos_to_transfer, start=1):
+        click.echo(f"{i:>3}: {repo}")
+        if not preview:
+            # Transfer and add teams that have default push/pull permissions
+            # (other permissions require a separate call).
+            api.repos.transfer(src_org, repo, dest_org)
+
+        # None of this will work until we implement them in the class
+        if repos_to_permissions:
+            permissions = repos_to_permissions[repo]
+            teams_with_push_access = [
+                team for team, access in permissions.teams.items() if access == "push"
+            ]
+            other_teams = {
+                team: access for team, access in permissions.teams.items() if access != "push"
+            }
+            users_with_push_access = [
+                username for username, access in permissions.users.items() if access == "push"
+            ]
+            other_users = {
+                username: access for username, access in permissions.users.items() if access != "push"
+            }
+
+            # Bulk add teams and users with push/pull permissions.
+            if teams_with_push_access:
+                click.echo(f"  > assigning push/pull permissions to teams: {', '.join(sorted(teams_with_push_access))}")
+                if not preview:
+                    pass
+            if users_with_push_access:
+                click.echo(f"  > assigning push/pull permissions to users: {', '.join(sorted(users_with_push_access))}")
+                if not preview:
+                    pass
+
+            # Individually assign teams and users that have special permissions to this repo.
+            for team, access in sorted(other_teams.items()):
+                click.echo(f"  >> assigning {access} permission for team {team}")
+                if not preview:
+                    pass
+            for username, access in sorted(other_users.items()):
+                click.echo(f"  >> assigning {access} permission for user {username}")
+                if not preview:
+                    pass
 
 def extract_repo_names(repo_list_file):
     comments_removed = [line.partition("#")[0] for line in repo_list_file]
     stripped = [line.strip() for line in comments_removed]
     empty_lines_removed = [line for line in stripped if line]
     return empty_lines_removed
+
+
+@dataclass
+class RepoPermissions:
+    """
+    Permissions for a particular repository.
+    """
+    slug: str
+    teams: Dict[str, str]  # Mapping of team slug to permission slug
+    users: Dict[str, str]  # Mapping of username to permission slug
+
+    @classmethod
+    def parse_from_file_entry(cls, repo_data):
+        access_level_mapping = {
+            1: "pull",
+            2: "push",
+            3: "maintain",
+            4: "admin",
+        }
+        return cls(
+            slug=repo_data['name'],
+            teams={
+                team_slug: access_level_mapping[access_level]
+                for team_slug, access_level in repo_data['team_access'].items()
+            },
+            users={
+                username: access_level_mapping[access_level]
+                for username, access_level in repo_data['user_access'].items()
+            },
+        )
+
+
+def load_permissions(teams_file, api, dest_org):
+    """
+    Return a dict mapping of team_slug to RepoPermissions.
+
+    The GitHub API has two options for permissions:
+
+    Bulk permissions for multiple users/teams at a time, but no control over the
+    type of permission (just the common case: push):
+        https://docs.github.com/en/rest/reference/repos#set-team-access-restrictions
+        https://docs.github.com/en/rest/reference/repos#set-user-access-restrictions
+
+    More fine grained access that sets permissions for a single team/user + repo
+    at a time:
+        https://docs.github.com/en/rest/reference/teams#add-or-update-team-repository-permissions
+        https://docs.github.com/en/rest/reference/teams#add-or-update-user-repository-permissions
+
+    So the strategy is going to be:
+
+    1. Move repo
+    2. Set bulk permissions for teams and users that are "push"
+    3. Set individual permission for teams/users that have other levels of permissions.
+    """
+    click.echo(f"Reading desired team and user permissions from {teams_file.name}...")
+    repos_to_permissions = {
+        repo_data['name']: RepoPermissions.parse_from_file_entry(repo_data)
+        for repo_data in json.load(teams_file)["repos"]
+    }
+
+    click.echo(f"Fetching known teams from {dest_org}...")
+    known_team_slugs = {
+        team['slug']
+        for team in itertools.chain.from_iterable(
+            paged(api.teams.list, dest_org, per_page=100)
+        )
+    }
+    click.echo(f"-> Found {len(known_team_slugs)} teams.")
+
+    click.echo(f"Fetching known users from {dest_org}...")
+    known_usernames = {
+        user['login']
+        for user in itertools.chain.from_iterable(
+            paged(api.users.list, dest_org, per_page=100)
+        )
+    }
+    click.echo(f"-> Found {len(known_usernames)} usernames.")
+
+    # Do we have any teams that are missing from the destination org?
+    missing_teams_to_repos = defaultdict(list)
+    missing_usernames_to_repos = defaultdict(list)
+
+    for permissions in repos_to_permissions.values():
+        repo = permissions.slug
+        for team in permissions.teams:
+            if team not in known_team_slugs:
+                missing_teams_to_repos[team].append(repo)
+        for username in permissions.users:
+            if username not in known_usernames:
+                missing_usernames_to_repos.append(repo)
+
+    if missing_teams_to_repos or missing_usernames_to_repos:
+        click.echo(
+            f"Fatal Error: There are references to teams in {teams_file.name}" +
+            f" that do not exist in destination org {dest_org}: "
+        )
+
+        click.echo("Missing Teams:")
+        for team in sorted(missing_teams_to_repos):
+            repos_team_is_used_in = sorted(missing_teams_to_repos[team])
+            click.secho(f"  {team}", bold=True, nl=False)
+            click.echo(f" used in {', '.join(repos_team_is_used_in)}")
+
+        click.echo("Missing Users:")
+        for username in sorted(missing_usernames_to_repos):
+            repos_user_is_used_in = sorted(missing_usernames_to_repos[username])
+            click.secho(f"  {username}", bold=True, nl=False)
+            click.echo(f" used in {', '.join(repos_user_is_used_in)}")
+
+        sys.exit(1)
+
+    return repos_to_permissions
 
 
 if __name__ == "__main__":
