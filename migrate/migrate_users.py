@@ -6,14 +6,13 @@
 # type: ignore
 
 import json
-import sys
 import time
 from collections import defaultdict
-from typing import Dict, Set
+from typing import Dict, List, Set
 
 import click
 from fastcore.net import \
-    HTTP404NotFoundError  # pylint: disable=no-name-in-module
+    HTTP403ForbiddenError  # pylint: disable=no-name-in-module
 from ghapi.all import GhApi, paged
 
 
@@ -78,9 +77,9 @@ def migrate(
         click.secho("In Preview Mode: No changes will be made!", italic=True)
     api = GhApi(token=github_token)
 
-    export_data = json.load(export_json_file)
-
-    all_users = {user_line.trim() for user_line in users_file.readlines()}
+    # Load team memberships and list of usernames to migrate.
+    team_users: Dict[str, List[str]] = json.load(export_json_file)["teams"]
+    requested_users = set(extract_user_names(users_file))
 
     # Load a mapping from team slugs to team ids.
     # Includes teams we're not trying to migrate.
@@ -91,63 +90,94 @@ def migrate(
 
     # Build a mapping from usernames to team slugs.
     user_teams: Dict[str, Set[int]] = defaultdict(set)
-    for team in export_data["teams"]:
+    for team in team_users:
         for username in team["members"]:
             user_teams[username].add(team_slugs_to_ids[team["slug"]])
 
-    users_with_pending_invitations: Set[str] = set()
+    # Of the requested users, figure out which ones we shouldn't invite
+    # (because they're Set members or have a pending invite).
+    users_pending_invitation: [str] = set()
     for page in paged(api.orgs.list_pending_invitations, org=dest_org, per_page=100):
         for user in page:
-            users_with_pending_invitations.add(user["login"])
-
-    users_already_in_org: Set[str] = set()
+            users_pending_invitation.add(user["login"])
+    users_in_org: Set[str] = set()
     for page in paged(api.orgs.list_members, org=dest_org, per_page=100):
         for user in page:
-            users_already_in_org.add(user["login"])
+            users_in_org.add(user["login"])
+    requested_users_already_in_org = requested_users & users_in_org
+    requested_users_pending_invitation = requested_users & users_pending_invitation
+    requested_users_not_to_invite = (
+        requested_users_already_in_org | requested_users_pending_invitation
+    )
+    users_to_invite = requested_users - requested_users_not_to_invite
 
-    users_to_not_invite = users_already_in_org | users_with_pending_invitations
+    # TODO: list out members & pending invitees here instead of just displaying count;
+    # I think it'll be helpful information when we go to run this for real.
+    click.echo(
+        f"{len(requested_users_already_in_org)} users from list are already "
+        f"{dest_org} org members."
+    )
+    click.echo(
+        f"{len(requested_users_with_pending_invitations)} users from list have pending "
+        f"{dest_org} org invitations."
+    )
+    click.echo()
 
-    users_to_invite = all_users - users_to_not_invite
-
-    click.echo(f"Will invite {len(users_to_invite)} to org {dest_org}:")
-    click.echo(f"  " + "\n  ".join(users_to_invite))
+    click.secho(f"Will invite {len(users_to_invite)} to org {dest_org}:", bold=True)
+    click.echo("  " + "\n  ".join(users_to_invite))
 
     if not no_prompt:
         click.echo()
         click.confirm("Proceed?", abort=True)
+        click.echo()
 
     for index, username in enumerate(users_to_invite):
 
-        click.echo(f"({index}/{len(users_to_invite)})")
-
         user_id: int = api.users.get_by_username(username)["id"]
+        click.echo(
+            f"({index:03d}/{len(users_to_invite)}) inviting user {username}; {user_id=}."
+        )
 
         if preview:
             continue
 
-        # TODO: Wrapp this in a loop for retry purposes.
-        try:
-            api.orgs.create_invitation(
-                org=dest_org,
-                invitee_id=user_id,
-                team_ids=user_teams[username],
-            )
-        # Might have hit a secondary rate limit
-        # https://docs.github.com/en/rest/overview/resources-in-the-rest-api#secondary-rate-limits
-        except HTTP403ForbiddenError as e:
-            # Handle the error and retry based on retry header.
-            retry_after = e.headers["Retry-After"]
-            time.sleep(retry_after + 1)
+        num_attempts = 3
+        for attempt_count in range(num_attempts):
+            try:
+                api.orgs.create_invitation(
+                    org=dest_org,
+                    invitee_id=user_id,
+                    team_ids=user_teams[username],
+                )
+            # Might have hit a secondary rate limit
+            # https://docs.github.com/en/rest/overview/resources-in-the-rest-api#secondary-rate-limits
+            except HTTP403ForbiddenError as http403:
+                if attempt_count == attempt_count - 1:
+                    click.echo("  got a 403. Max attempts reached; will raise.")
+                    raise
+                if "Retry-After" in http403.headers:
+                    wait_seconds = http403.headers["Retry-After"] + 1
+                    click.echo(
+                        "  got a 403. Based on Retry-After header, will retry in "
+                        f"{wait_seconds}s."
+                    )
+                else:
+                    wait_seconds = 3
+                    click.echo(
+                        "  got a 403. No Retry-After header; will retry in "
+                        f"{wait_seconds}s."
+                    )
+                time.sleep(wait_seconds)
 
-    _ = dest_org
-    _ = GhApi
-    _ = paged
-    try:
-        pass
-    except HTTP404NotFoundError:
-        pass
-    if preview:
-        pass
+
+def extract_user_names(user_list_file) -> List[str]:
+    """
+    Load list of usernames, with comments (#-prefixed) stripped out.
+    """
+    comments_removed = [line.partition("#")[0] for line in user_list_file]
+    stripped = [line.strip() for line in comments_removed]
+    empty_lines_removed = [line for line in stripped if line]
+    return empty_lines_removed
 
 
 if __name__ == "__main__":
