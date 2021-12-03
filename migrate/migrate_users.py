@@ -118,10 +118,10 @@ def migrate(
     click.echo("  " + "\n  ".join(requested_users_already_in_org))
 
     click.echo(
-        f"{len(requested_users_with_pending_invitations)} users from list have pending "
+        f"{len(requested_users_pending_invitation)} users from list have pending "
         f"{dest_org} org invitations."
     )
-    click.echo("  " + "\n  ".join(requested_users_with_pending_invitations))
+    click.echo("  " + "\n  ".join(requested_users_pending_invitation))
     click.echo()
 
     click.secho(f"Will invite {len(users_to_invite)} to org {dest_org}:", bold=True)
