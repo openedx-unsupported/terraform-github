@@ -90,12 +90,12 @@ def migrate(
 
     # Build a mapping from usernames to team slugs.
     user_teams: Dict[str, Set[int]] = defaultdict(set)
-    for team in team_users:
-        for username in team["members"]:
-            user_teams[username].add(team_slugs_to_ids[team["slug"]])
+    for team_slug, members in team_users.items():
+        for username in members:
+            user_teams[username].add(team_slugs_to_ids[team_slug])
 
     # Of the requested users, figure out which ones we shouldn't invite
-    # (because they're Set members or have a pending invite).
+    # (because they're members or have a pending invite).
     users_pending_invitation: Set[str] = set()
     for page in paged(api.orgs.list_pending_invitations, org=dest_org, per_page=100):
         for user in page:
@@ -127,7 +127,12 @@ def migrate(
     click.secho(f"Will invite {len(users_to_invite)} to org {dest_org}:", bold=True)
     click.echo("  " + "\n  ".join(users_to_invite))
 
-    if not no_prompt:
+    show_prompt = True
+    if preview:
+        show_prompt = False
+    if no_prompt:
+        show_prompt = False
+    if show_prompt:
         click.echo()
         click.confirm("Proceed?", abort=True)
         click.echo()
@@ -150,7 +155,7 @@ def migrate(
                 api.orgs.create_invitation(
                     org=dest_org,
                     invitee_id=user_id,
-                    team_ids=team_ids,
+                    team_ids=list(team_ids),
                 )
             # Might have hit a secondary rate limit
             # https://docs.github.com/en/rest/overview/resources-in-the-rest-api#secondary-rate-limits
@@ -188,15 +193,14 @@ def extract_merged_team_memberships(org_export_files: list) -> Dict[str, Set[str
     Given a list of handles to org export files, return a merged mapping of
     team slugs to sets of usernames.
     """
-    team_users: Dict[str, Set[str]] = {}
+
+    team_users: Dict[str, Set[str]] = defaultdict(set)
     for json_file in org_export_files:
         org_export_data = json.load(json_file)
         for team in org_export_data["teams"]:
-            if team["slug"] in team_users:
-                # Team already exists, merge memberships.
-                team_users[team["slug"]].add(team["members"])
-            else:
-                team_users[team["slug"]] = set(team["members"])
+            # If the team is in multiple export files, we combine
+            # them into one team for the destination org.
+            team_users[team["slug"]].update(team["members"])
     return team_users
 
 
