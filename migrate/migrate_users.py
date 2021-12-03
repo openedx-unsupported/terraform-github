@@ -78,7 +78,7 @@ def migrate(
     api = GhApi(token=github_token)
 
     # Load team memberships and list of usernames to migrate.
-    team_users: Dict[str, List[str]] = extract_merged_team_memberships(org_export_files)
+    team_users: Dict[str, Set[str]] = extract_merged_team_memberships(org_export_files)
     requested_users = set(extract_user_names(users_file))
 
     # Load a mapping from team slugs to team ids.
@@ -96,7 +96,7 @@ def migrate(
 
     # Of the requested users, figure out which ones we shouldn't invite
     # (because they're Set members or have a pending invite).
-    users_pending_invitation: [str] = set()
+    users_pending_invitation: Set[str] = set()
     for page in paged(api.orgs.list_pending_invitations, org=dest_org, per_page=100):
         for user in page:
             users_pending_invitation.add(user["login"])
@@ -188,13 +188,15 @@ def extract_merged_team_memberships(org_export_files: list) -> Dict[str, Set[str
     Given a list of handles to org export files, return a merged mapping of
     team slugs to sets of usernames.
     """
-    team_users = {}
+    team_users: Dict[str, Set[str]] = {}
     for json_file in org_export_files:
         org_export_data = json.load(json_file)
-        assert not (
-            set(org_export_data["teams"].keys()) & set(team_users)
-        ), "broken assumption: export files have teams conflicting slugs"
-        team_users = {**team_users, **org_export_data["teams"]}
+        for team in org_export_data["teams"]:
+            if team["slug"] in team_users:
+                # Team already exists, merge memberships.
+                team_users[team["slug"]].add(team["members"])
+            else:
+                team_users[team["slug"]] = set(team["members"])
     return team_users
 
 
