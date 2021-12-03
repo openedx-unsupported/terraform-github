@@ -68,10 +68,12 @@ def migrate(
             "teams": [
                 {
                     "slug": "slug-of-team-to-migrate",
+                    "parent": "slug-of-parent-team",
                     ...other fields
                 },
                 {
                     "slug": "slug-of-another-team-to-migrate",
+                    "parent": "slug-of-parent-team",
                     ...other fields
                 },
                 ...more teams

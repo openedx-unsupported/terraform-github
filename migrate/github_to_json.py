@@ -32,7 +32,7 @@ import sys
 from collections import defaultdict
 from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import Dict, List, Set
+from typing import Dict, List, Optional, Set
 
 import github as gh_api
 import requests
@@ -108,6 +108,7 @@ class Team:
 
     slug: TeamSlug
     members: List[Username]
+    parent: Optional[TeamSlug]
 
 
 def fetch_repo_permissions(
@@ -312,6 +313,7 @@ def fetch_teams(gh_headers: dict, org: ApiOrganization) -> List[Team]:
     assert isinstance(admin_user_response.json(), list)
     admin_team = Team(
         slug=get_admin_team_slug(org.login),
+        parent=None,
         members=list(
             sorted(
                 Username(admin_user_data["login"])
@@ -335,6 +337,7 @@ def fetch_teams(gh_headers: dict, org: ApiOrganization) -> List[Team]:
         LOG.info("  Fetching members for team %s.", team_slug)
         team = Team(
             slug=team_slug,
+            parent=TeamSlug(api_team.parent.slug),  # type: ignore
             members=list(
                 sorted((Username(user.login) for user in api_team.get_members()))
             ),
