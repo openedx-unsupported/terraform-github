@@ -111,16 +111,17 @@ def migrate(
     )
     users_to_invite = requested_users - requested_users_not_to_invite
 
-    # TODO: list out members & pending invitees here instead of just displaying count;
-    # I think it'll be helpful information when we go to run this for real.
     click.echo(
         f"{len(requested_users_already_in_org)} users from list are already "
         f"{dest_org} org members."
     )
+    click.echo("  " + "\n  ".join(requested_users_already_in_org))
+
     click.echo(
         f"{len(requested_users_with_pending_invitations)} users from list have pending "
         f"{dest_org} org invitations."
     )
+    click.echo("  " + "\n  ".join(requested_users_with_pending_invitations))
     click.echo()
 
     click.secho(f"Will invite {len(users_to_invite)} to org {dest_org}:", bold=True)
