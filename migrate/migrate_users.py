@@ -7,6 +7,7 @@
 
 import json
 import sys
+import time
 from collections import defaultdict
 from typing import Dict, Set
 
@@ -94,9 +95,19 @@ def migrate(
         for username in team["members"]:
             user_teams[username].add(team_slugs_to_ids[team["slug"]])
 
-    api.orgs.get_pending_invitations()
+    users_with_pending_invitations: Set[str] = set()
+    for page in paged(api.orgs.list_pending_invitations, org=dest_org, per_page=100):
+        for user in page:
+            users_with_pending_invitations.add(user["login"])
 
-    users_to_invite = ...
+    users_already_in_org: Set[str] = set()
+    for page in paged(api.orgs.list_members, org=dest_org, per_page=100):
+        for user in page:
+            users_already_in_org.add(user["login"])
+
+    users_to_not_invite = users_already_in_org | users_with_pending_invitations
+
+    users_to_invite = all_users - users_to_not_invite
 
     click.echo(f"Will invite {len(users_to_invite)} to org {dest_org}:")
     click.echo(f"  " + "\n  ".join(users_to_invite))
@@ -113,11 +124,20 @@ def migrate(
 
         if preview:
             continue
-        api.orgs.create_invitation(
-            org=dest_org,
-            invitee_id=user_id,
-            team_ids=user_teams[username],
-        )
+
+        # TODO: Wrapp this in a loop for retry purposes.
+        try:
+            api.orgs.create_invitation(
+                org=dest_org,
+                invitee_id=user_id,
+                team_ids=user_teams[username],
+            )
+        # Might have hit a secondary rate limit
+        # https://docs.github.com/en/rest/overview/resources-in-the-rest-api#secondary-rate-limits
+        except HTTP403ForbiddenError as e:
+            # Handle the error and retry based on retry header.
+            retry_after = e.headers["Retry-After"]
+            time.sleep(retry_after + 1)
 
     _ = dest_org
     _ = GhApi
