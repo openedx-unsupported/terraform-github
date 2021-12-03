@@ -266,7 +266,7 @@ def load_permissions(teams_file, api, dest_org):
     known_usernames = {
         user['login']
         for user in itertools.chain.from_iterable(
-            paged(api.users.list, dest_org, per_page=100)
+            paged(api.orgs.list_members, dest_org, per_page=100)
         )
     }
     click.echo(f"-> Found {len(known_usernames)} usernames.")
