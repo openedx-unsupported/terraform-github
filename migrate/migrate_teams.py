@@ -6,7 +6,6 @@
 # type: ignore
 
 import json
-import os
 import sys
 import time
 from typing import Dict, List, Set
@@ -43,6 +42,11 @@ from ghapi.all import GhApi, paged
     help="Optional prefix for migrated team descriptions.",
     default="[Legacy - from edX org] ",
 )
+@click.option(
+    "--github-token",
+    envvar="GITHUB_TOKEN",
+    help="Github token with 'admin:org, repo, user' scopes.",
+)
 def migrate(
     src_org: str,
     dest_org: str,
@@ -51,6 +55,7 @@ def migrate(
     preview: bool,
     no_prompt: bool,
     description_prefix: str,
+    github_token: str,
 ):
     """
     Migrate GH team 'shells' (empty teams with names & descriptions, but no members).
@@ -87,9 +92,6 @@ def migrate(
 
     if preview:
         click.secho("In Preview Mode: No changes will be made!", italic=True)
-    github_token = os.environ.get("GITHUB_TOKEN")
-    if not github_token:
-        sys.exit("Fatal Error: Please set a GITHUB_TOKEN environment variable.")
 
     teams: List[dict] = json.load(export_json_file)["teams"]
     team_slugs: List[str] = sorted(team["slug"] for team in teams)
@@ -106,6 +108,8 @@ def migrate(
         for team in page
     )
     team_info_by_slug: Dict[str, Dict] = {}
+    teams_to_create: List[str] = []
+    teams_to_update: List[str] = []
     for team_slug in team_slugs:
         team_info: Dict = {}
         try:
@@ -114,6 +118,9 @@ def migrate(
             prefix_string = description_prefix + " " if description_prefix else ""
             original_description = api_team_data["description"] or ""
             team_info["description"] = prefix_string + original_description
+            team_info["parent"] = (
+                api_team_data["parent"]["slug"] if api_team_data["parent"] else None
+            )
         except HTTP404NotFoundError:
             if team_slug == admin_team_slug:
                 team_info["name"] = team_slug
@@ -121,6 +128,7 @@ def migrate(
                     f"Users who were owners of the {src_org} GitHub organization "
                     f"at the time of migration to the {dest_org} GitHub organization."
                 )
+                team_info["parent"] = None
             else:
                 sys.exit(
                     f"  Team {team_slug!r} does not exist in source org "
@@ -129,77 +137,105 @@ def migrate(
         if len(team_info["description"]) > 1000:
             sys.exit(f"  Description of {team_slug!r} is too long. Quitting.")
         team_info_by_slug[team_slug] = team_info
-        action_verb = "update" if team_slug in team_slugs_in_dest_org else "create"
-        click.echo(f"  must {action_verb} team {team_info['name']!r}")
+        if team_slug in team_slugs_in_dest_org:
+            teams_to_update.append(team_slug)
+        else:
+            teams_to_create.append(team_slug)
+
+    click.echo("Teams to create and update:")
+    click.echo("  " + "\n  ".join(teams_to_create))
+
+    click.echo("Teams to only update:")
+    click.echo("  " + "\n  ".join(teams_to_update))
 
     num_to_create = len(set(team_slugs) - team_slugs_in_dest_org)
-    num_to_update = len(team_slugs) - num_to_create
     click.echo()
     click.secho(
-        f"Will create {num_to_create} teams and update {num_to_update} teams "
+        f"Will create {num_to_create} teams and update all teams "
         f"from {src_org!r} into {dest_org!r}.",
         bold=True,
     )
 
-    if not no_prompt:
+    show_prompt = True
+    if no_prompt:
+        show_prompt = False
+    if preview:
+        show_prompt = False
+
+    if show_prompt:
         click.echo()
         click.confirm("Proceed?", abort=True)
 
-    with click.progressbar(
-        team_info_by_slug.items(),
-        label=f"Mirroring teams from org {src_org!r} into org {dest_org!r}",
-    ) as progress_bar:
+    # Create any teams that needto be created, we'll update them if they need
+    # updates later in a seperate loop.
+    for team_slug, team_info in team_info_by_slug.items():
 
-        for team_slug, team_info in progress_bar:
+        create_new = team_slug not in team_slugs_in_dest_org
 
-            create_new = team_slug not in team_slugs_in_dest_org
-            click.echo(f" {'create' if create_new else 'update'}: {team_slug}")
+        # Note: the Teams API is a little ambiguous w.r.t. 'name' versus
+        # 'slug'. A 'slug' is a url-safe, lowercase string calculated from
+        # the team name, whereas the team name can contain spaces, symbols, etc.
+        # That is why we *create* a team using the name, but *update*
+        # using the slug as an identifier. Changing the name will always
+        # update the underlying slug, so
+        # it is always the case that ``team.slug == slugify(team.name)``.
+
+        if create_new:
+            click.echo(f"create: {team_slug}")
             if preview:
                 continue
 
-            # Note: the Teams API is a little ambiguous w.r.t. 'name' versus
-            # 'slug'. A 'slug' is a url-safe, lowercase string calculated from
-            # the team name, whereas the team name can contain spaces, symbols, etc.
-            # That is why we *create* a team using the name, but *update*
-            # using the slug as an identifier. Changing the name will always
-            # update the underlying slug, so
-            # it is always the case that ``team.slug == slugify(team.name)``.
+            api.teams.create(
+                org=dest_org,
+                name=team_info["name"],  # team_slug will be inferred from name.
+                description=team_info["description"],
+                privacy="closed",
+            )
+            # The API user is automatically added to the team, so we need to
+            # specifically remove them after the team is created.
+            if username:
+                # Try twice, because occasionally, a team won't have finished being
+                # created on the GitHub side, and we'll get a 404 when trying to
+                # remove the user as a member.
+                num_attempts = 3
+                for attempt_count in range(num_attempts):
+                    try:
+                        api.teams.remove_membership_for_user_in_org(
+                            org=dest_org, team_slug=team_slug, username=username
+                        )
+                    except HTTP404NotFoundError as not_found:
+                        if attempt_count == num_attempts - 1:
+                            raise Exception(
+                                f"got 404 when trying to remove {username!r} from {team_slug!r}"
+                            ) from not_found
+                        time.sleep(1)
+                    else:
+                        break
 
-            if create_new:
-                api.teams.create(
-                    org=dest_org,
-                    name=team_info["name"],  # team_slug will be inferred from name.
-                    description=team_info["description"],
-                    privacy="closed",
-                )
-                # The API user is automatically added to the team, so we need to
-                # specifically remove them after the team is created.
-                if username:
-                    # Try twice, because occasionally, a team won't have finished being
-                    # created on the GitHub side, and we'll get a 404 when trying to
-                    # remove the user as a member.
-                    num_attempts = 3
-                    for attempt_count in range(num_attempts):
-                        try:
-                            api.teams.remove_membership_for_user_in_org(
-                                org=dest_org, team_slug=team_slug, username=username
-                            )
-                        except HTTP404NotFoundError as not_found:
-                            if attempt_count == num_attempts - 1:
-                                raise Exception(
-                                    f"got 404 when trying to remove {username!r} from {team_slug!r}"
-                                ) from not_found
-                            time.sleep(1)
-                        else:
-                            break
+    # Update all the teams in a second loop so we don't have to worry about whether the parent
+    # team exists yet when we try to create the parent/child link.
+    for team_slug, team_info in team_info_by_slug.items():
+        click.echo(f"update: {team_slug}")
+        if not preview:
+            if team_info["parent"]:
+                # All parent teams should exist because our source is all teams in the source org
+                # The loop above should create all those teams in the destination org making this
+                # call safe.
+                parent_team_id = api.teams.get_by_name(
+                    org=dest_org, team_slug=team_info["parent"]
+                )["id"]
             else:
-                api.teams.update_in_org(
-                    org=dest_org,
-                    team_slug=team_slug,
-                    name=team_info["name"],
-                    description=team_info["description"],
-                    privacy="closed",
-                )
+                parent_team_id = None
+
+            api.teams.update_in_org(
+                org=dest_org,
+                team_slug=team_slug,
+                name=team_info["name"],
+                description=team_info["description"],
+                privacy="closed",
+                # Can pass null to this api endpoint so no need for a conditional like above.
+                parent_team_id=parent_team_id,
+            )
 
 
 if __name__ == "__main__":

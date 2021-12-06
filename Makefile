@@ -2,16 +2,20 @@
         migrate-json-to-terraform migrate-lint migrate-requirements \
         migrate-requirements-dev
 
-format:
+help: ## display this help message
+	@echo "Please use \`make <target>' where <target> is one of"
+	@grep '^[a-zA-Z]' $(MAKEFILE_LIST) | sort | awk -F ':.*?## ' 'NF==2 {printf "\033[36m  %-25s\033[0m %s\n", $$1, $$2}'
+
+format:  ## Format all the terraform files
 	terraform fmt
 	terraform fmt modules/repo
 	terraform fmt modules/user
 	terraform fmt modules/role
 
-check-github-ratelimit:
+check-github-ratelimit: ## Check your github rate limits
 	curl --header "Authorization: token $${GITHUB_TOKEN}" "https://api.github.com/rate_limit"
 
-migrate-github-to-json:
+migrate-github-to-json: ## export edx and edx-solutions github org data to JSON
 	python -m migrate.github_to_json edx
 	python -m migrate.github_to_json edx-solutions
 	# Rename edx-solutions to edxsolutions because it makes the generated
@@ -30,14 +34,14 @@ migrate-json-to-terraform:
 	python -m migrate.json_to_terraform edxsolutions --phony
 	terraform fmt
 
-migrate-lint:
+migrate-lint: ## Lint and format migration related python scripts.
 	black migrate
 	isort migrate
 	mypy migrate
 	pylint migrate
 
-migrate-requirements:
+migrate-requirements: ## Install requirements needed to run migration scripts.
 	pip install -r requirements.txt
 
-migrate-requirements-dev: migrate-requirements
+migrate-requirements-dev: migrate-requirements ## Install dev requirements for migration scripts.
 	pip install -r dev-requirements.txt
