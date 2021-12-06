@@ -106,6 +106,8 @@ def migrate(
         for team in page
     )
     team_info_by_slug: Dict[str, Dict] = {}
+    teams_to_create: List[str] = []
+    teams_to_update: List[str] = []
     for team_slug in team_slugs:
         team_info: Dict = {}
         try:
@@ -114,6 +116,8 @@ def migrate(
             prefix_string = description_prefix + " " if description_prefix else ""
             original_description = api_team_data["description"] or ""
             team_info["description"] = prefix_string + original_description
+            team_info["id"] = api_team_data["id"]
+            team_info["parent"] = api_team_data["parent"]
         except HTTP404NotFoundError:
             if team_slug == admin_team_slug:
                 team_info["name"] = team_slug
@@ -129,8 +133,16 @@ def migrate(
         if len(team_info["description"]) > 1000:
             sys.exit(f"  Description of {team_slug!r} is too long. Quitting.")
         team_info_by_slug[team_slug] = team_info
-        action_verb = "update" if team_slug in team_slugs_in_dest_org else "create"
-        click.echo(f"  must {action_verb} team {team_info['name']!r}")
+        if team_slug in team_slugs_in_dest_org:
+            teams_to_update.append(team_slug)
+        else:
+            teams_to_create.append(teams_slug)
+
+    click.echo(f"Teams to create:")
+    click.echo("  " + "\n  ".join(teams_to_create))
+
+    click.echo(f"Teams to update:")
+    click.echo("  " + "\n  ".join(teams_to_update))
 
     num_to_create = len(set(team_slugs) - team_slugs_in_dest_org)
     num_to_update = len(team_slugs) - num_to_create
@@ -166,12 +178,22 @@ def migrate(
             # it is always the case that ``team.slug == slugify(team.name)``.
 
             if create_new:
-                api.teams.create(
-                    org=dest_org,
-                    name=team_info["name"],  # team_slug will be inferred from name.
-                    description=team_info["description"],
-                    privacy="closed",
-                )
+                if team_info["parent"]:
+                    api.teams.create(
+                        org=dest_org,
+                        name=team_info["name"],  # team_slug will be inferred from name.
+                        description=team_info["description"],
+                        privacy="closed",
+                        parent=team_info["parent"],
+                    )
+                else:  # Can't pass in a parent if it is null to this endpoint.
+                    api.teams.create(
+                        org=dest_org,
+                        name=team_info["name"],  # team_slug will be inferred from name.
+                        description=team_info["description"],
+                        privacy="closed",
+                    )
+
                 # The API user is automatically added to the team, so we need to
                 # specifically remove them after the team is created.
                 if username:
@@ -199,6 +221,8 @@ def migrate(
                     name=team_info["name"],
                     description=team_info["description"],
                     privacy="closed",
+                    # Can pass null to this api endpoint so no need for a conditional like above.
+                    parent=team_info["parent"],
                 )
 
 
