@@ -8,6 +8,7 @@
 import json
 import time
 from collections import defaultdict
+from dataclasses import dataclass
 from typing import Dict, List, Set
 
 import click
@@ -77,10 +78,6 @@ def migrate(
         click.secho("In Preview Mode: No changes will be made!", italic=True)
     api = GhApi(token=github_token)
 
-    # Load team memberships and list of usernames to migrate.
-    team_users: Dict[str, Set[str]] = extract_merged_team_memberships(org_export_files)
-    requested_users = set(extract_user_names(users_file))
-
     # Load a mapping from team slugs to team ids.
     # Includes teams we're not trying to migrate.
     team_slugs_to_ids = {}
@@ -88,16 +85,13 @@ def migrate(
         for team in page:
             team_slugs_to_ids[team["slug"]] = team["id"]
 
-    # Build a mapping from usernames to team slugs.
-    # Needed by the invitation endpoint
-    user_teams: Dict[str, Set[int]] = defaultdict(set)
-    # Needed for the update user membership endpoint
-    user_team_slugs: Dict[str, Set[str]] = defaultdict(set)
-    for team_slug, members in team_users.items():
-        for username in members:
-            user_teams[username].add(team_slugs_to_ids[team_slug])
-            user_team_slugs[username].add(team_slug)
+    # Load team memberships and list of usernames to migrate.
+    user_to_teams: Dict[str, Set[Team]] = extract_merged_team_memberships(
+        org_export_files,
+        team_slugs_to_ids,
+    )
 
+    requested_users = set(extract_user_names(users_file))
     # Of the requested users, figure out which ones we shouldn't invite
     # (because they're members or have a pending invite).
     users_pending_invitation: Set[str] = set()
@@ -151,7 +145,7 @@ def migrate(
         click.echo()
 
     for index, username in enumerate(users_to_invite):
-        team_ids = user_teams[username]
+        team_ids = [team.team_id for team in user_to_teams[username]]
 
         user_id: int = api.users.get_by_username(username)["id"]
         click.echo(
@@ -191,17 +185,21 @@ def migrate(
                 time.sleep(wait_seconds)
 
     for index, username in enumerate(requested_users_already_in_org):
-        team_slugs = user_team_slugs[username]
+        teams_for_user = user_to_teams[username]
         click.echo(
             f"({index:03d}/{len(requested_users_already_in_org)}) updating teams for "
-            f"user {username}; {len(team_slugs)=}."
+            f"user {username}; {len(teams_for_user)=}."
         )
-        for team_slug in team_slugs:
+
+        if preview:
+            continue
+
+        for team in teams_for_user:
             api.teams.add_or_update_membership_for_user_in_org(
                 org=dest_org,
-                team_slug=team_slug,
+                team_slug=team.slug,
                 username=username,
-                role="member",
+                role=team.role,
             )
 
 
@@ -215,20 +213,62 @@ def extract_user_names(user_list_file) -> List[str]:
     return empty_lines_removed
 
 
-def extract_merged_team_memberships(org_export_files: list) -> Dict[str, Set[str]]:
+@dataclass(frozen=True)
+class Team:
     """
-    Given a list of handles to org export files, return a merged mapping of
-    team slugs to sets of usernames.
+    A class to represent the info weneed to know about each
+    github team to be able to add a user to the team.
     """
 
-    team_users: Dict[str, Set[str]] = defaultdict(set)
+    team_id: int
+    slug: str
+    role: str
+
+
+def extract_merged_team_memberships(
+    org_export_files: list,
+    team_slugs_to_ids: Dict[str, int],
+) -> Dict[str, Set[Team]]:
+    """
+    Given a list of handles to org export files, return a merged mapping of
+    usernames to all teams they are members of.
+    """
+    # Build a mapping from usernames to team slugs.
+    users_to_teams: Dict[str, Set[Team]] = defaultdict(set)
+
     for json_file in org_export_files:
         org_export_data = json.load(json_file)
         for team in org_export_data["teams"]:
+            team_slug = team["slug"]
+
+            member_team = Team(
+                team_id=team_slugs_to_ids[team_slug],
+                slug=team_slug,
+                role="member",
+            )
+            maintainer_team = Team(
+                team_id=team_slugs_to_ids[team_slug],
+                slug=team_slug,
+                role="maintainer",
+            )
+
             # If the team is in multiple export files, we combine
             # them into one team for the destination org.
-            team_users[team["slug"]].update(team["members"])
-    return team_users
+            for member in team["members"]:
+                if maintainer_team in users_to_teams[member]:
+                    continue
+                    # because the user is already on the team with maintainer level access
+                    # via another org.
+                users_to_teams[member].add(member_team)
+
+            for maintainer in team.get("maintainers", []):
+                if member_team in users_to_teams[maintainer]:
+                    users_to_teams[maintainer].remove(member_team)
+                    # because we're gonna elevate this user's access
+
+                users_to_teams[maintainer].add(maintainer_team)
+
+    return users_to_teams
 
 
 if __name__ == "__main__":
