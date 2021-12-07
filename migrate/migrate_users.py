@@ -96,7 +96,7 @@ def migrate(
     for team_slug, members in team_users.items():
         for username in members:
             user_teams[username].add(team_slugs_to_ids[team_slug])
-            user_teams[username].add(team_slug)
+            user_team_slugs[username].add(team_slug)
 
     # Of the requested users, figure out which ones we shouldn't invite
     # (because they're members or have a pending invite).
@@ -134,7 +134,8 @@ def migrate(
     click.echo("  " + "\n  ".join(users_to_invite))
 
     click.secho(
-        f"Will update {len(requested_users_already_in_org)} user(s) that are already in org {dest_org}:",
+        f"Will update {len(requested_users_already_in_org)} user(s) "
+        f"that are already in org {dest_org}:",
         bold=True,
     )
     click.echo("  " + "\n  ".join(requested_users_already_in_org))
@@ -189,11 +190,11 @@ def migrate(
                     )
                 time.sleep(wait_seconds)
 
-    for index, username in enumerate(requested_users_in_org):
+    for index, username in enumerate(requested_users_already_in_org):
         team_slugs = user_team_slugs[username]
         click.echo(
-            f"({index:03d}/{len(requested_users_in_org)}) updating teams for user {username}; "
-            f"{len(team_slugs)=}."
+            f"({index:03d}/{len(requested_users_already_in_org)}) updating teams for "
+            f"user {username}; {len(team_slugs)=}."
         )
         for team_slug in team_slugs:
             api.teams.add_or_update_membership_for_user_in_org(
