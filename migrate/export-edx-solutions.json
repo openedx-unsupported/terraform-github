@@ -1,5 +1,5 @@
 {
-    "export_date_utc": "2021-11-30T17:10:34.094831",
+    "export_date_utc": "2021-12-07T14:40:28.092204",
     "repos": [
         {
             "name": "xblock-adventure",
@@ -125,6 +125,7 @@
                 "natabene",
                 "nedbat",
                 "syedimranhassan",
+                "thomty",
                 "tnamgyal",
                 "wesmason"
             ]

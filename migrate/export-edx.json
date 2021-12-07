@@ -1,5 +1,5 @@
 {
-    "export_date_utc": "2021-11-30T17:10:15.544743",
+    "export_date_utc": "2021-12-07T14:40:15.034368",
     "repos": [
         {
             "name": ".github",
@@ -2274,6 +2274,7 @@
                 "sarina",
                 "syed-awais-ali",
                 "syedimranhassan",
+                "thomty",
                 "tnamgyal",
                 "tuchfarber",
                 "wesmason"
@@ -2469,7 +2470,6 @@
             "members": [
                 "Nickett3",
                 "alangsto",
-                "ccarbs",
                 "ccmelo",
                 "debbiejacob",
                 "hbwhbw",
@@ -2709,7 +2709,8 @@
                 "nadeemshahzad",
                 "oel8man",
                 "syed-awais-ali",
-                "syedimranhassan"
+                "syedimranhassan",
+                "thomty"
             ]
         },
         {
@@ -2770,7 +2771,6 @@
             "members": [
                 "Nickett3",
                 "ahsanshafiq742",
-                "ccarbs",
                 "ccmelo",
                 "debbiejacob",
                 "doctoryes",
@@ -2782,7 +2782,6 @@
         {
             "slug": "dsa-financial",
             "members": [
-                "ccarbs",
                 "debbiejacob",
                 "hbwhbw"
             ]
@@ -2829,6 +2828,7 @@
                 "oel8man",
                 "syed-awais-ali",
                 "syedimranhassan",
+                "thomty",
                 "tuchfarber"
             ]
         },
@@ -2992,6 +2992,7 @@
                 "oel8man",
                 "syed-awais-ali",
                 "syedimranhassan",
+                "thomty",
                 "tuchfarber"
             ]
         },
@@ -3541,6 +3542,18 @@
             ]
         },
         {
+            "slug": "jenkins-tools-edx-platform-jobs",
+            "members": [
+                "Dillon-Dumesnil",
+                "MatthewPiatetsky",
+                "adzuci",
+                "cdeery",
+                "ciduarte",
+                "jmyatt",
+                "mikix"
+            ]
+        },
+        {
             "slug": "jenkins-tools-engagement-jobs",
             "members": [
                 "MatthewPiatetsky",
@@ -3579,6 +3592,7 @@
                 "irfanuddinahmad",
                 "johnnagro",
                 "kashifch",
+                "kiram15",
                 "mattdrayer",
                 "muhammad-ammar",
                 "natabene",
@@ -3822,6 +3836,7 @@
                 "justinhynes",
                 "kdmccormick",
                 "leangseu-edx",
+                "marekwrobel",
                 "matthugs",
                 "mikix",
                 "natabene",
@@ -4283,7 +4298,6 @@
                 "brianhw",
                 "bseverino",
                 "caplan188",
-                "ccarbs",
                 "ccmelo",
                 "cdeery",
                 "christopappas",
@@ -4445,6 +4459,7 @@
                 "matthugs",
                 "oel8man",
                 "syedimranhassan",
+                "thomty",
                 "tuchfarber"
             ]
         },
@@ -4510,7 +4525,7 @@
             "members": [
                 "connorhaugh",
                 "doctoryes",
-                "kdmccormick",
+                "jristau1984",
                 "kenclary",
                 "marcotuts"
             ]
@@ -4575,6 +4590,13 @@
             "slug": "tools-performance",
             "members": [
                 "pwnage101"
+            ]
+        },
+        {
+            "slug": "transfer_test_team",
+            "members": [
+                "kdmccormick",
+                "ormsbee"
             ]
         },
         {
