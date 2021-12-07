@@ -1,6 +1,5 @@
-.PHONY: check-github-ratelimit format migrate-github-to-json \
-        migrate-json-to-terraform migrate-lint migrate-requirements \
-        migrate-requirements-dev
+.PHONY: check-github-ratelimit format help migrate-github-to-json migrate-lint \
+        migrate-requirements migrate-requirements-dev
 
 help: ## display this help message
 	@echo "Please use \`make <target>' where <target> is one of"
@@ -18,21 +17,6 @@ check-github-ratelimit: ## Check your github rate limits
 migrate-github-to-json: ## export edx and edx-solutions github org data to JSON
 	python -m migrate.github_to_json edx
 	python -m migrate.github_to_json edx-solutions
-	# Rename edx-solutions to edxsolutions because it makes the generated
-	# `edxsolutions_` Terraform blocks more distinct from the `edx_` blocks.
-	cd migrate && mv export-edx-solutions.json export-edxsolutions.json
-	python -m migrate.github_to_json openedx
-
-migrate-json-to-terraform:
-	# Delete existing users files, because json_to_terraform.py looks at
-	# them in order to avoid duplicating users between exports of different orgs.
-	rm users_openedx.tf users_edx.tf users_edxsolutions.tf -f
-	python -m migrate.json_to_terraform openedx
-	# Do 'phony' exports for edx and edxsolutions, allowing us to generate and
-	# merge the Terraform for those repos without having any effect yet.
-	python -m migrate.json_to_terraform edx --phony
-	python -m migrate.json_to_terraform edxsolutions --phony
-	terraform fmt
 
 migrate-lint: ## Lint and format migration related python scripts.
 	black migrate
