@@ -15,6 +15,9 @@ import click
 from ghapi.all import GhApi, paged  # type: ignore
 
 
+MAX_PAGE_SIZE = 100  # This is GitHub's page size limit
+
+
 @click.command()
 @click.argument("src_org")
 @click.argument("dest_org")
@@ -83,7 +86,7 @@ def migrate(src_org, dest_org, repo_list_file, preview, skip_missing, no_prompt,
     src_org_repos = {
         repo["name"]
         for repo in itertools.chain.from_iterable(
-            paged(api.repos.list_for_org, src_org, per_page=100)
+            paged(api.repos.list_for_org, src_org, per_page=MAX_PAGE_SIZE)
         )
     }
     missing_repos = [repo for repo in repos_to_transfer if repo not in src_org_repos]
@@ -146,47 +149,15 @@ def migrate(src_org, dest_org, repo_list_file, preview, skip_missing, no_prompt,
     click.echo(f"Transferring {len(repos_to_transfer)} repositories from {src_org} to {dest_org}...")
 
     for (i, repo) in enumerate(repos_to_transfer, start=1):
-        click.echo(f"{i:>3}: {repo}")
+        click.secho(f"{i:>3}: {repo}", bold=True)
         if not preview:
             # Transfer and add teams that have default push/pull permissions
             # (other permissions require a separate call).
             api.repos.transfer(src_org, repo, dest_org)
 
-        # None of this will work until we implement them in the class
         if repos_to_permissions:
             permissions = repos_to_permissions[repo]
-            teams_with_push_access = [
-                team for team, access in permissions.teams.items() if access == "push"
-            ]
-            other_teams = {
-                team: access for team, access in permissions.teams.items() if access != "push"
-            }
-            users_with_push_access = [
-                username for username, access in permissions.users.items() if access == "push"
-            ]
-            other_users = {
-                username: access for username, access in permissions.users.items() if access != "push"
-            }
-
-            # Bulk add teams and users with push/pull permissions.
-            if teams_with_push_access:
-                click.echo(f"  > assigning push/pull permissions to teams: {', '.join(sorted(teams_with_push_access))}")
-                if not preview:
-                    pass
-            if users_with_push_access:
-                click.echo(f"  > assigning push/pull permissions to users: {', '.join(sorted(users_with_push_access))}")
-                if not preview:
-                    pass
-
-            # Individually assign teams and users that have special permissions to this repo.
-            for team, access in sorted(other_teams.items()):
-                click.echo(f"  >> assigning {access} permission for team {team}")
-                if not preview:
-                    pass
-            for username, access in sorted(other_users.items()):
-                click.echo(f"  >> assigning {access} permission for user {username}")
-                if not preview:
-                    pass
+            set_repo_permissions(permissions, api, dest_org, preview)
 
 def extract_repo_names(repo_list_file):
     comments_removed = [line.partition("#")[0] for line in repo_list_file]
@@ -247,29 +218,29 @@ def load_permissions(teams_file, api, dest_org):
     2. Set bulk permissions for teams and users that are "push"
     3. Set individual permission for teams/users that have other levels of permissions.
     """
-    click.echo(f"Reading desired team and user permissions from {teams_file.name}...")
-    repos_to_permissions = {
-        repo_data['name']: RepoPermissions.parse_from_file_entry(repo_data)
-        for repo_data in json.load(teams_file)["repos"]
-    }
-
     click.echo(f"Fetching known teams from {dest_org}...")
     known_team_slugs = {
-        team['slug']
+        team['slug']: team['id']
         for team in itertools.chain.from_iterable(
-            paged(api.teams.list, dest_org, per_page=100)
+            paged(api.teams.list, dest_org, per_page=MAX_PAGE_SIZE)
         )
     }
     click.echo(f"-> Found {len(known_team_slugs)} teams.")
 
     click.echo(f"Fetching known users from {dest_org}...")
     known_usernames = {
-        user['login']
+        user['login']: user['id']
         for user in itertools.chain.from_iterable(
-            paged(api.orgs.list_members, dest_org, per_page=100)
+            paged(api.orgs.list_members, dest_org, per_page=MAX_PAGE_SIZE)
         )
     }
     click.echo(f"-> Found {len(known_usernames)} usernames.")
+
+    click.echo(f"Reading desired team and user permissions from {teams_file.name}...")
+    repos_to_permissions = {
+        repo_data['name']: RepoPermissions.parse_from_file_entry(repo_data)
+        for repo_data in json.load(teams_file)["repos"]
+    }
 
     # Do we have any teams that are missing from the destination org?
     missing_teams_to_repos = defaultdict(list)
@@ -282,29 +253,82 @@ def load_permissions(teams_file, api, dest_org):
                 missing_teams_to_repos[team].append(repo)
         for username in permissions.users:
             if username not in known_usernames:
-                missing_usernames_to_repos.append(repo)
+                missing_usernames_to_repos[username].append(repo)
+
+    # For now, circumvent user/team data check.
+    return repos_to_permissions
 
     if missing_teams_to_repos or missing_usernames_to_repos:
         click.echo(
-            f"Fatal Error: There are references to teams in {teams_file.name}" +
-            f" that do not exist in destination org {dest_org}: "
+            "Fatal Error: There are references to teams or users in " +
+            f"{teams_file.name} that do not exist in destination org {dest_org}: "
         )
 
-        click.echo("Missing Teams:")
-        for team in sorted(missing_teams_to_repos):
-            repos_team_is_used_in = sorted(missing_teams_to_repos[team])
-            click.secho(f"  {team}", bold=True, nl=False)
-            click.echo(f" used in {', '.join(repos_team_is_used_in)}")
+        if missing_teams_to_repos:
+            click.echo("Missing Teams:")
+            for team in sorted(missing_teams_to_repos):
+                repos_team_is_used_in = sorted(missing_teams_to_repos[team])
+                click.secho(f"  {team}", bold=True, nl=False)
+                click.echo(f" used in {', '.join(repos_team_is_used_in)}")
 
-        click.echo("Missing Users:")
-        for username in sorted(missing_usernames_to_repos):
-            repos_user_is_used_in = sorted(missing_usernames_to_repos[username])
-            click.secho(f"  {username}", bold=True, nl=False)
-            click.echo(f" used in {', '.join(repos_user_is_used_in)}")
+        if missing_usernames_to_repos:
+            click.echo("Missing Users:")
+            for username in sorted(missing_usernames_to_repos):
+                repos_user_is_used_in = sorted(missing_usernames_to_repos[username])
+                click.secho(f"  {username}", bold=True, nl=False)
+                click.echo(f" used in {', '.join(repos_user_is_used_in)}")
 
         sys.exit(1)
 
     return repos_to_permissions
+
+def set_repo_permissions(permissions, api, dest_org, preview):
+    """
+    Set permissions for one repo.
+
+    Don't actually execute anything if preview is True.
+
+    The permissions param is a dict of repo slugs to RepoPermissions objects.
+
+    Return the number of GitHub requests setting these permissions took. This is
+    mostly useful for preview planning, so that we can tell whether rate
+    limiting might be an issue.
+    """
+    # teams_by_role is a mapping of access role (e.g. "admin") to a list of
+    # team slugs.
+    teams_by_role = defaultdict(list)
+    for team_slug, access in sorted(permissions.teams.items()):
+        teams_by_role[access].append(team_slug)
+
+    # users_by_role is a mapping of access role (e.g. "admin") to a list of
+    # usernames.
+    users_by_role = defaultdict(list)
+    for username, access in sorted(permissions.users.items()):
+        users_by_role[access].append(username)
+
+    # The permissions update call request that the owner be specified, but the
+    # owner for a repo in an org is just the user that has the login of the org
+    # name (verified by looking through the results of getting repo listings
+    # from this API).
+    owner = dest_org
+
+    for access, teams in sorted(teams_by_role.items()):
+        click.secho(f"     assigning {access} teams:", italic=True)
+        click.echo("      ", nl=False)
+        for team_slug in teams:
+            click.echo(f" {team_slug}", nl=False)
+            if not preview:
+                api.teams.add_or_update_repo_permissions_in_org(
+                    dest_org, team_slug, owner, permissions.slug
+                )
+        click.echo()
+
+    for access, users in sorted(users_by_role.items()):
+        click.secho(f"     assigning {access} users:", italic=True)
+        click.echo("      ", nl=False)
+        for user in users:
+           click.echo(f" {user}", nl=False)
+        click.echo()
 
 
 if __name__ == "__main__":

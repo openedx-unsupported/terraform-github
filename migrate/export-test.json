@@ -1,0 +1,21 @@
+{
+    "export_date_utc": "2021-11-30T17:10:15.544743",
+    "repos": [
+        {
+            "name": "transfer_test_repo",
+            "user_access": {},
+            "team_access": {
+                "edx-admin": 4,
+                "community-engineering": 4,
+                "push-pull-all": 2
+            }
+        },
+        {
+            "name": "transfer_test_repo_2",
+            "user_access": {},
+            "team_access": {
+                "community-engineering": 4
+            }
+        }
+    ]
+}
