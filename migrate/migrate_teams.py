@@ -231,7 +231,6 @@ def migrate(
                 org=dest_org,
                 team_slug=team_slug,
                 name=team_info["name"],
-                description=team_info["description"],
                 privacy="closed",
                 # Can pass null to this api endpoint so no need for a conditional like above.
                 parent_team_id=parent_team_id,
