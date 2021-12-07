@@ -89,10 +89,14 @@ def migrate(
             team_slugs_to_ids[team["slug"]] = team["id"]
 
     # Build a mapping from usernames to team slugs.
+    # Needed by the invitation endpoint
     user_teams: Dict[str, Set[int]] = defaultdict(set)
+    # Needed for the update user membership endpoint
+    user_team_slugs: Dict[str, Set[str]] = defaultdict(set)
     for team_slug, members in team_users.items():
         for username in members:
             user_teams[username].add(team_slugs_to_ids[team_slug])
+            user_teams[username].add(team_slug)
 
     # Of the requested users, figure out which ones we shouldn't invite
     # (because they're members or have a pending invite).
@@ -124,8 +128,16 @@ def migrate(
     click.echo("  " + "\n  ".join(requested_users_pending_invitation))
     click.echo()
 
-    click.secho(f"Will invite {len(users_to_invite)} to org {dest_org}:", bold=True)
+    click.secho(
+        f"Will invite {len(users_to_invite)} user(s) to org {dest_org}:", bold=True
+    )
     click.echo("  " + "\n  ".join(users_to_invite))
+
+    click.secho(
+        f"Will update {len(requested_users_already_in_org)} user(s) that are already in org {dest_org}:",
+        bold=True,
+    )
+    click.echo("  " + "\n  ".join(requested_users_already_in_org))
 
     show_prompt = True
     if preview:
@@ -176,6 +188,20 @@ def migrate(
                         f"{wait_seconds}s."
                     )
                 time.sleep(wait_seconds)
+
+    for index, username in enumerate(requested_users_in_org):
+        team_slugs = user_team_slugs[username]
+        click.echo(
+            f"({index:03d}/{len(requested_users_in_org)}) updating teams for user {username}; "
+            f"{len(team_slugs)=}."
+        )
+        for team_slug in team_slugs:
+            api.teams.add_or_update_membership_for_user_in_org(
+                org=dest_org,
+                team_slug=team_slug,
+                username=username,
+                role="member",
+            )
 
 
 def extract_user_names(user_list_file) -> List[str]:
