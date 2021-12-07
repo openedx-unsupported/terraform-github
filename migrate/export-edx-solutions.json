@@ -1,5 +1,5 @@
 {
-    "export_date_utc": "2021-12-07T14:40:28.092204",
+    "export_date_utc": "2021-12-07T22:16:09.981839",
     "repos": [
         {
             "name": "xblock-adventure",
@@ -112,6 +112,7 @@
     "teams": [
         {
             "slug": "edx-solutions-admin",
+            "maintainers": [],
             "members": [
                 "adzuci",
                 "caplan188",
@@ -132,6 +133,12 @@
         },
         {
             "slug": "contributors",
+            "maintainers": [
+                "kdmccormick",
+                "nadeemshahzad",
+                "natabene",
+                "syedimranhassan"
+            ],
             "members": [
                 "0x29a",
                 "Agrendalath",
@@ -150,7 +157,6 @@
                 "jmbowman",
                 "jristau1984",
                 "kaizoku",
-                "kdmccormick",
                 "lgp171188",
                 "m-ali-0001",
                 "mattdrayer",
@@ -158,10 +164,8 @@
                 "msaqib52",
                 "mudassir-hafeez",
                 "musmanmalik",
-                "nadeemshahzad",
                 "naeem91",
                 "nasirhjafri",
-                "natabene",
                 "ormsbee",
                 "pomegranited",
                 "qasim-arbisoft",
@@ -169,7 +173,6 @@
                 "shafqatfarhan",
                 "sohaibaslam",
                 "syed-awais-ali",
-                "syedimranhassan",
                 "viadanna",
                 "wasifarbisoft",
                 "xitij2000"
@@ -177,46 +180,55 @@
         },
         {
             "slug": "core",
-            "members": [
+            "maintainers": [
                 "e0d",
                 "feanil",
                 "georgebabey",
-                "mattdrayer",
                 "nadeemshahzad",
                 "syedimranhassan"
+            ],
+            "members": [
+                "mattdrayer"
             ]
         },
         {
             "slug": "edx-platform-py3",
-            "members": [
-                "awais786",
+            "maintainers": [
                 "feanil"
+            ],
+            "members": [
+                "awais786"
             ]
         },
         {
             "slug": "ooyala-xblock-contributors",
+            "maintainers": [],
             "members": [
                 "naeem91"
             ]
         },
         {
             "slug": "pre-onboarding",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "pull-all",
+            "maintainers": [],
             "members": [
                 "edx-readonly"
             ]
         },
         {
             "slug": "travis-build-bot",
+            "maintainers": [],
             "members": [
                 "edx-solutions-travis"
             ]
         },
         {
             "slug": "viewers",
+            "maintainers": [],
             "members": [
                 "alex-sheehan-edx",
                 "edx-mckinsey",
@@ -228,9 +240,10 @@
         },
         {
             "slug": "webhook-admin",
-            "members": [
+            "maintainers": [
                 "edx-webhook"
-            ]
+            ],
+            "members": []
         }
     ]
 }

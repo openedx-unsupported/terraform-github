@@ -1,5 +1,5 @@
 {
-    "export_date_utc": "2021-12-07T14:40:15.034368",
+    "export_date_utc": "2021-12-07T22:15:52.569301",
     "repos": [
         {
             "name": ".github",
@@ -2244,6 +2244,7 @@
     "teams": [
         {
             "slug": "edx-admin",
+            "maintainers": [],
             "members": [
                 "NIXKnight",
                 "adzuci",
@@ -2282,33 +2283,44 @@
         },
         {
             "slug": "account-edx-deployment-push",
+            "maintainers": [],
             "members": [
                 "edx-deployment"
             ]
         },
         {
             "slug": "analytics",
+            "maintainers": [
+                "mulby"
+            ],
             "members": [
                 "brianhw",
                 "doctoryes",
                 "katymyw",
                 "macdiesel",
-                "mulby",
                 "pwnage101"
             ]
         },
         {
             "slug": "analytics-admin",
-            "members": [
+            "maintainers": [
                 "macdiesel"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "analytics-jenkins-access",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "analytics-prefect",
+            "maintainers": [
+                "e0d",
+                "estute",
+                "jazibhumayun",
+                "mulby"
+            ],
             "members": [
                 "MichaelRoytman",
                 "Zacharis278",
@@ -2319,12 +2331,8 @@
                 "bseverino",
                 "debbiejacob",
                 "doctoryes",
-                "e0d",
                 "edx-analytics-automation",
-                "estute",
-                "jazibhumayun",
                 "macdiesel",
-                "mulby",
                 "openedx-release-bot",
                 "pwnage101",
                 "schenedx",
@@ -2333,22 +2341,25 @@
         },
         {
             "slug": "analytics-pull",
+            "maintainers": [],
             "members": [
                 "edx-secure"
             ]
         },
         {
             "slug": "analytics-push",
+            "maintainers": [
+                "e0d",
+                "estute",
+                "macdiesel",
+                "mulby"
+            ],
             "members": [
                 "ahsanshafiq742",
                 "brianhw",
                 "debbiejacob",
                 "doctoryes",
-                "e0d",
                 "edx-analytics-automation",
-                "estute",
-                "macdiesel",
-                "mulby",
                 "openedx-release-bot",
                 "pwnage101",
                 "usama101"
@@ -2356,16 +2367,18 @@
         },
         {
             "slug": "android-devs",
+            "maintainers": [
+                "miankhalid"
+            ],
             "members": [
                 "HamzaIsrar-arbisoft",
                 "farhan-arshad-dev",
-                "miankhalid",
                 "omerhabib26"
             ]
         },
         {
             "slug": "app-permission-managers",
-            "members": [
+            "maintainers": [
                 "feanil",
                 "georgebabey",
                 "jdmulloy",
@@ -2376,33 +2389,39 @@
                 "schenedx",
                 "syed-awais-ali",
                 "wesmason"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "arbi-bom",
+            "maintainers": [
+                "jmbowman"
+            ],
             "members": [
                 "UsamaSadiq",
                 "awais786",
                 "iamsobanjaved",
-                "jmbowman",
                 "mraarif"
             ]
         },
         {
             "slug": "arch-bom",
-            "members": [
+            "maintainers": [
                 "davidjoy",
                 "dianakhuang",
-                "jinder1s",
                 "jmbowman",
                 "nedbat",
+                "robrap"
+            ],
+            "members": [
+                "jinder1s",
                 "rgraber",
-                "robrap",
                 "timmc-edx"
             ]
         },
         {
             "slug": "aws-users",
+            "maintainers": [],
             "members": [
                 "enavarro",
                 "natabene"
@@ -2410,26 +2429,32 @@
         },
         {
             "slug": "bok-choy-push",
+            "maintainers": [],
             "members": [
                 "muhammad-ammar"
             ]
         },
         {
             "slug": "build-testeng-admins",
-            "members": [
+            "maintainers": [
                 "estute",
                 "feanil",
                 "jmbowman"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "business",
+            "maintainers": [
+                "christopappas",
+                "mattdrayer",
+                "tuchfarber"
+            ],
             "members": [
                 "adamstankiewicz",
                 "alex-sheehan-edx",
                 "binodpant",
                 "carolguest",
-                "christopappas",
                 "georgebabey",
                 "iloveagent57",
                 "irfanuddinahmad",
@@ -2438,20 +2463,21 @@
                 "long74100",
                 "macdiesel",
                 "manny-m",
-                "mattdrayer",
                 "moconnell1453",
                 "muhammad-ammar",
-                "tuchfarber",
                 "zamanafzal"
             ]
         },
         {
             "slug": "business-enterprise-team",
+            "maintainers": [
+                "christopappas",
+                "georgebabey"
+            ],
             "members": [
                 "adamstankiewicz",
                 "alex-sheehan-edx",
                 "binodpant",
-                "christopappas",
                 "georgebabey",
                 "iloveagent57",
                 "irfanuddinahmad",
@@ -2467,152 +2493,180 @@
         },
         {
             "slug": "business-intelligence",
+            "maintainers": [
+                "mulby"
+            ],
             "members": [
                 "Nickett3",
                 "alangsto",
                 "ccmelo",
                 "debbiejacob",
                 "hbwhbw",
-                "mulby",
                 "sbishop0905"
             ]
         },
         {
             "slug": "business-product",
+            "maintainers": [],
             "members": [
                 "carolguest"
             ]
         },
         {
             "slug": "ccp-committer-agrendalath",
+            "maintainers": [],
             "members": [
                 "Agrendalath"
             ]
         },
         {
             "slug": "ccp-committer-arbrandes",
+            "maintainers": [],
             "members": [
                 "arbrandes"
             ]
         },
         {
             "slug": "ccp-committer-bbrsofiane",
+            "maintainers": [],
             "members": [
                 "BbrSofiane"
             ]
         },
         {
             "slug": "ccp-committer-bradenmacdonald",
+            "maintainers": [],
             "members": [
                 "bradenmacdonald"
             ]
         },
         {
             "slug": "ccp-committer-cmltawt0",
+            "maintainers": [],
             "members": [
                 "cmltaWt0"
             ]
         },
         {
             "slug": "ccp-committer-felipemontoya",
+            "maintainers": [],
             "members": [
                 "felipemontoya"
             ]
         },
         {
             "slug": "ccp-committer-giovannicimolin",
+            "maintainers": [],
             "members": [
                 "giovannicimolin"
             ]
         },
         {
             "slug": "ccp-committer-idegtiarov",
+            "maintainers": [],
             "members": [
                 "idegtiarov"
             ]
         },
         {
             "slug": "ccp-committer-jfavellar90",
-            "members": [
-                "jfavellar90",
+            "maintainers": [
                 "sarina"
+            ],
+            "members": [
+                "jfavellar90"
             ]
         },
         {
             "slug": "ccp-committer-mtyaka",
-            "members": [
-                "mtyaka",
+            "maintainers": [
                 "sarina"
+            ],
+            "members": [
+                "mtyaka"
             ]
         },
         {
             "slug": "ccp-committer-omarithawi",
+            "maintainers": [],
             "members": [
                 "OmarIthawi"
             ]
         },
         {
             "slug": "ccp-committer-pdpinch",
+            "maintainers": [],
             "members": [
                 "pdpinch"
             ]
         },
         {
             "slug": "ccp-committer-pomegranited",
+            "maintainers": [],
             "members": [
                 "pomegranited"
             ]
         },
         {
             "slug": "ccp-committer-regisb",
+            "maintainers": [],
             "members": [
                 "regisb"
             ]
         },
         {
             "slug": "ccp-committer-symbolist",
+            "maintainers": [],
             "members": [
                 "symbolist"
             ]
         },
         {
             "slug": "ccp-committer-xitij2000",
+            "maintainers": [],
             "members": [
                 "xitij2000"
             ]
         },
         {
             "slug": "ccp-committer-ziafazal",
+            "maintainers": [],
             "members": [
                 "ziafazal"
             ]
         },
         {
             "slug": "certificates-push-pull",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "community-engineering",
-            "members": [
+            "maintainers": [
                 "davidjoy",
                 "nedbat"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "community-release-managers",
-            "members": [
+            "maintainers": [
                 "nedbat"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "conference-website",
-            "members": [
-                "joedolson",
+            "maintainers": [
                 "nedbat"
+            ],
+            "members": [
+                "joedolson"
             ]
         },
         {
             "slug": "configuration-pull",
+            "maintainers": [],
             "members": [
                 "edx-mckinsey",
                 "edx-sandbox",
@@ -2621,43 +2675,52 @@
         },
         {
             "slug": "configuration-push",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "configuration-secure-pull",
+            "maintainers": [],
             "members": [
                 "edx-secure"
             ]
         },
         {
             "slug": "content-aurora",
+            "maintainers": [
+                "wesmason"
+            ],
             "members": [
                 "jansenk",
                 "jnlapierre",
                 "leangseu-edx",
                 "mattcarter",
                 "muselesscreator",
-                "nsprenkle",
-                "wesmason"
+                "nsprenkle"
             ]
         },
         {
             "slug": "core-committer-champions",
-            "members": [
-                "asadazam93",
-                "awaisdar001",
+            "maintainers": [
                 "davidjoy",
                 "feanil",
                 "jmbowman",
                 "kdmccormick",
                 "nedbat",
                 "ormsbee",
-                "sarina",
+                "sarina"
+            ],
+            "members": [
+                "asadazam93",
+                "awaisdar001",
                 "schenedx"
             ]
         },
         {
             "slug": "core-contributor-program-committers",
+            "maintainers": [
+                "sarina"
+            ],
             "members": [
                 "Agrendalath",
                 "BbrSofiane",
@@ -2674,7 +2737,6 @@
                 "pdpinch",
                 "pomegranited",
                 "regisb",
-                "sarina",
                 "symbolist",
                 "xitij2000",
                 "ziafazal"
@@ -2682,24 +2744,27 @@
         },
         {
             "slug": "course-discovery-admins",
+            "maintainers": [
+                "albemarle",
+                "waheedahmed"
+            ],
             "members": [
                 "adeelehsan",
-                "albemarle",
                 "attiyaIshaque",
                 "mubbsharanwar",
                 "shafqatfarhan",
                 "uzairr",
-                "waheedahmed",
                 "zainab-amir"
             ]
         },
         {
             "slug": "cs_comments_service-push",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "devops",
-            "members": [
+            "maintainers": [
                 "NIXKnight",
                 "adzuci",
                 "arbabkhalil",
@@ -2707,80 +2772,96 @@
                 "jdmulloy",
                 "loucicchese",
                 "nadeemshahzad",
-                "oel8man",
                 "syed-awais-ali",
                 "syedimranhassan",
                 "thomty"
+            ],
+            "members": [
+                "oel8man"
             ]
         },
         {
             "slug": "devops-alumni",
-            "members": [
+            "maintainers": [
                 "feanil"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "devops-review-pull",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "discovery-all",
-            "members": [
+            "maintainers": [
                 "dianakhuang"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "django-team",
+            "maintainers": [
+                "nedbat"
+            ],
             "members": [
                 "doctoryes",
-                "macdiesel",
-                "nedbat"
+                "macdiesel"
             ]
         },
         {
             "slug": "doc",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "doc-a-thon-reviewers",
+            "maintainers": [
+                "natabene"
+            ],
             "members": [
                 "BbrSofiane",
                 "eLRuLL",
                 "felipemontoya",
-                "natabene",
                 "pdpinch"
             ]
         },
         {
             "slug": "docker-builder-bot",
-            "members": [
-                "edx-docker-builder",
+            "maintainers": [
                 "feanil"
+            ],
+            "members": [
+                "edx-docker-builder"
             ]
         },
         {
             "slug": "docker-devstack-working-group",
-            "members": [
+            "maintainers": [
                 "jmbowman",
                 "mulby",
                 "robrap"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "dsa-all",
+            "maintainers": [
+                "doctoryes",
+                "sbishop0905"
+            ],
             "members": [
                 "Nickett3",
                 "ahsanshafiq742",
                 "ccmelo",
                 "debbiejacob",
-                "doctoryes",
                 "hbwhbw",
-                "sbishop0905",
                 "wblarsen"
             ]
         },
         {
             "slug": "dsa-financial",
+            "maintainers": [],
             "members": [
                 "debbiejacob",
                 "hbwhbw"
@@ -2788,14 +2869,21 @@
         },
         {
             "slug": "dummy-webapp-pushers",
+            "maintainers": [
+                "doctoryes"
+            ],
             "members": [
-                "doctoryes",
                 "edx-pipeline-bot",
                 "edx-secure"
             ]
         },
         {
             "slug": "ecommerce",
+            "maintainers": [
+                "mulby",
+                "pshiu",
+                "robrap"
+            ],
             "members": [
                 "MatthewPiatetsky",
                 "dianekaplan",
@@ -2803,110 +2891,123 @@
                 "inventhouse",
                 "jmyatt",
                 "julianajlk",
-                "mulby",
-                "pshiu",
-                "robrap",
                 "waheedahmed"
             ]
         },
         {
             "slug": "edge-hammer-admin",
-            "members": [
+            "maintainers": [
                 "NIXKnight",
                 "adzuci",
                 "arbabkhalil",
                 "christopappas",
-                "colinbrash",
                 "doctoryes",
                 "e0d",
                 "feanil",
                 "jdmulloy",
                 "loucicchese",
-                "macdiesel",
                 "matthugs",
                 "nadeemshahzad",
-                "oel8man",
                 "syed-awais-ali",
                 "syedimranhassan",
                 "thomty",
                 "tuchfarber"
+            ],
+            "members": [
+                "colinbrash",
+                "macdiesel",
+                "oel8man"
             ]
         },
         {
             "slug": "edly-wordpress",
-            "members": [
+            "maintainers": [
                 "e0d"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "edx-accessibility",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "edx-alumni",
-            "members": [
+            "maintainers": [
                 "wesmason"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "edx-analytics-arbisoft-push",
+            "maintainers": [],
             "members": [
                 "HassanJaveed84"
             ]
         },
         {
             "slug": "edx-aperture",
+            "maintainers": [
+                "tuchfarber"
+            ],
             "members": [
                 "Tj-Tracy",
                 "georgebabey",
                 "justinhynes",
-                "oliviaruizknott",
-                "tuchfarber"
+                "oliviaruizknott"
             ]
         },
         {
             "slug": "edx-app-permission-bot",
-            "members": [
-                "edx-build-bot",
-                "edx-pipeline-bot",
-                "edx-status-bot",
+            "maintainers": [
                 "nadeemshahzad",
                 "syed-awais-ali",
                 "syedimranhassan"
+            ],
+            "members": [
+                "edx-build-bot",
+                "edx-pipeline-bot",
+                "edx-status-bot"
             ]
         },
         {
             "slug": "edx-blog-accessibility-fix",
-            "members": [
+            "maintainers": [
                 "wittjeff"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "edx-cache-uploader-bot",
+            "maintainers": [],
             "members": [
                 "edx-cache-uploader-bot"
             ]
         },
         {
             "slug": "edx-codecov-bot",
+            "maintainers": [],
             "members": [
                 "edx-codecov-bot"
             ]
         },
         {
             "slug": "edx-community-bot",
+            "maintainers": [],
             "members": [
                 "edx-community-bot"
             ]
         },
         {
             "slug": "edx-contractors-opencraft",
+            "maintainers": [],
             "members": [
                 "antoviaque"
             ]
         },
         {
             "slug": "edx-data-czar-keys-automations",
+            "maintainers": [],
             "members": [
                 "edx-analytics-automation",
                 "edx-secure"
@@ -2914,6 +3015,7 @@
         },
         {
             "slug": "edx-data-czar-support",
+            "maintainers": [],
             "members": [
                 "JAAkana",
                 "alfredoguillem",
@@ -2925,151 +3027,181 @@
         },
         {
             "slug": "edx-data-engineering",
+            "maintainers": [
+                "estute",
+                "jazibhumayun",
+                "macdiesel"
+            ],
             "members": [
                 "HassanJaveed84",
                 "ark-edly",
                 "brianhw",
-                "estute",
-                "jazibhumayun",
                 "macdiesel",
                 "pwnage101"
             ]
         },
         {
             "slug": "edx-data-engineering-admin",
+            "maintainers": [
+                "estute"
+            ],
             "members": [
-                "estute",
                 "macdiesel",
                 "pwnage101"
             ]
         },
         {
             "slug": "edx-devops-interns",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "edx-diff-cover-community-managers",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "edx-django-profiler",
+            "maintainers": [
+                "nedbat"
+            ],
             "members": [
                 "doctoryes",
-                "mattdrayer",
-                "nedbat"
+                "mattdrayer"
             ]
         },
         {
             "slug": "edx-documentation-admin",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "edx-e2e-tests-push",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "edx-github-io-push",
-            "members": [
+            "maintainers": [
                 "nedbat"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "edx-hammer-admin",
-            "members": [
+            "maintainers": [
                 "NIXKnight",
                 "adzuci",
                 "arbabkhalil",
                 "christopappas",
-                "colinbrash",
-                "doctoryes",
                 "e0d",
                 "feanil",
                 "jdmulloy",
                 "loucicchese",
-                "macdiesel",
                 "matthugs",
                 "nadeemshahzad",
-                "oel8man",
                 "syed-awais-ali",
                 "syedimranhassan",
                 "thomty",
                 "tuchfarber"
+            ],
+            "members": [
+                "colinbrash",
+                "doctoryes",
+                "macdiesel",
+                "oel8man"
             ]
         },
         {
             "slug": "edx-hubot-push",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "edx-infinity",
+            "maintainers": [
+                "asadazam93",
+                "awaisdar001"
+            ],
             "members": [
                 "AhtishamShahid",
-                "asadazam93",
                 "awais-ansari",
-                "awaisdar001",
                 "mehaknasir",
                 "saadyousafarbi"
             ]
         },
         {
             "slug": "edx-it-operations-team",
-            "members": [
+            "maintainers": [
                 "caplan188"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "edx-labs-ocw-push",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "edx-learner-operations",
+            "maintainers": [],
             "members": [
                 "nrobertson1992"
             ]
         },
         {
             "slug": "edx-media-push",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "edx-milestones",
+            "maintainers": [
+                "mulby"
+            ],
             "members": [
                 "antoviaque",
                 "macdiesel",
                 "mattdrayer",
-                "muhammad-ammar",
-                "mulby"
+                "muhammad-ammar"
             ]
         },
         {
             "slug": "edx-mktg-admin",
+            "maintainers": [],
             "members": [
                 "iloveagent57"
             ]
         },
         {
             "slug": "edx-mktg-owner",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "edx-mktg-pull",
+            "maintainers": [],
             "members": [
                 "jasperho"
             ]
         },
         {
             "slug": "edx-mktg-push",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "edx-mobile-admin",
-            "members": [
-                "colinbrash",
+            "maintainers": [
                 "mulby"
+            ],
+            "members": [
+                "colinbrash"
             ]
         },
         {
             "slug": "edx-mobile-pull",
+            "maintainers": [],
             "members": [
                 "edx-status-bot",
                 "tools-edx-jenkins-mobile"
@@ -3077,6 +3209,9 @@
         },
         {
             "slug": "edx-mobile-push",
+            "maintainers": [
+                "mulby"
+            ],
             "members": [
                 "HamzaIsrar-arbisoft",
                 "bilalawan321",
@@ -3085,7 +3220,6 @@
                 "farhan-arshad-dev",
                 "jawad-khan",
                 "miankhalid",
-                "mulby",
                 "mumer92",
                 "omerhabib26",
                 "saeedbashir"
@@ -3093,54 +3227,65 @@
         },
         {
             "slug": "edx-ora-push",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "edx-ora2-push",
-            "members": [
-                "JAAkana",
+            "maintainers": [
                 "dianakhuang"
+            ],
+            "members": [
+                "JAAkana"
             ]
         },
         {
             "slug": "edx-programs-admin",
+            "maintainers": [],
             "members": [
                 "schenedx"
             ]
         },
         {
             "slug": "edx-read-only-bots",
+            "maintainers": [],
             "members": [
                 "edx-readonly"
             ]
         },
         {
             "slug": "edx-recruiting-team",
+            "maintainers": [],
             "members": [
                 "Stevefavazza"
             ]
         },
         {
             "slug": "edx-sandbox-pull",
+            "maintainers": [],
             "members": [
                 "edx-sandbox"
             ]
         },
         {
             "slug": "edx-semantic-release-bot",
+            "maintainers": [],
             "members": [
                 "edx-semantic-release"
             ]
         },
         {
             "slug": "edx-serverapi-push",
-            "members": [
-                "mattdrayer",
+            "maintainers": [
                 "ormsbee"
+            ],
+            "members": [
+                "mattdrayer"
             ]
         },
         {
             "slug": "edx-testeng-robot-rw",
+            "maintainers": [],
             "members": [
                 "edx-requirements-bot",
                 "edx-status-bot"
@@ -3148,76 +3293,92 @@
         },
         {
             "slug": "edx-tools-push",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "edx-transifex-translations",
+            "maintainers": [],
             "members": [
                 "edx-transifex-bot"
             ]
         },
         {
             "slug": "edx-travis-admin",
-            "members": [
+            "maintainers": [
                 "adzuci",
+                "feanil"
+            ],
+            "members": [
                 "edx-travis-rw",
-                "feanil",
                 "timmc-edx"
             ]
         },
         {
             "slug": "edx-ux-team",
-            "members": [
+            "maintainers": [
                 "ekangedx"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "edx-webhook-admin",
-            "members": [
+            "maintainers": [
                 "edx-webhook"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "edx-www-push",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "edxanalytics-push",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "embedded-sres",
-            "members": [
-                "colinbrash",
+            "maintainers": [
                 "jazibhumayun",
                 "matthugs",
                 "saleem-latif",
                 "tuchfarber"
+            ],
+            "members": [
+                "colinbrash"
             ]
         },
         {
             "slug": "engage-squad",
+            "maintainers": [
+                "jmyatt"
+            ],
             "members": [
                 "Dillon-Dumesnil",
                 "MatthewPiatetsky",
                 "cdeery",
                 "ciduarte",
-                "jmyatt",
                 "mikix"
             ]
         },
         {
             "slug": "enterprise-catalog-admins",
+            "maintainers": [
+                "georgebabey"
+            ],
             "members": [
                 "adamstankiewicz",
-                "georgebabey",
                 "iloveagent57"
             ]
         },
         {
             "slug": "enterprise-data",
+            "maintainers": [
+                "ccmelo"
+            ],
             "members": [
-                "ccmelo",
                 "georgebabey",
                 "mattdrayer",
                 "moconnell1453"
@@ -3225,32 +3386,38 @@
         },
         {
             "slug": "enterprise-markhors",
+            "maintainers": [
+                "moconnell1453",
+                "saleem-latif"
+            ],
             "members": [
                 "HammadAhmadWaqas",
                 "irfanuddinahmad",
-                "moconnell1453",
                 "muhammad-ammar",
-                "saleem-latif",
                 "sameenfatima78",
                 "zamanafzal"
             ]
         },
         {
             "slug": "enterprise-online-campus",
+            "maintainers": [
+                "georgebabey"
+            ],
             "members": [
                 "alex-sheehan-edx",
                 "binodpant",
-                "georgebabey",
                 "johnnagro",
                 "kiram15"
             ]
         },
         {
             "slug": "enterprise-titans",
-            "members": [
+            "maintainers": [
                 "adamstankiewicz",
+                "christopappas"
+            ],
+            "members": [
                 "binodpant",
-                "christopappas",
                 "iloveagent57",
                 "long74100",
                 "macdiesel",
@@ -3259,22 +3426,26 @@
         },
         {
             "slug": "fedx-admin",
-            "members": [
-                "adamstankiewicz",
+            "maintainers": [
                 "davidjoy"
+            ],
+            "members": [
+                "adamstankiewicz"
             ]
         },
         {
             "slug": "fedx-team",
+            "maintainers": [
+                "davidjoy",
+                "matthugs"
+            ],
             "members": [
                 "MichaelRoytman",
                 "Tj-Tracy",
                 "adamstankiewicz",
-                "davidjoy",
                 "georgebabey",
                 "julianajlk",
                 "justinhynes",
-                "matthugs",
                 "mikix",
                 "muselesscreator",
                 "wittjeff"
@@ -3282,94 +3453,112 @@
         },
         {
             "slug": "forumacademy-theme-pull",
+            "maintainers": [],
             "members": [
                 "edx-wef"
             ]
         },
         {
             "slug": "fresh-tilled-soil",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "github-pages-only",
-            "members": [
+            "maintainers": [
                 "nedbat"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "helio",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "hiring-coding",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "incident-management",
+            "maintainers": [
+                "DawoudSheraz",
+                "kashifch"
+            ],
             "members": [
                 "Ali-D-Akbar",
-                "DawoudSheraz",
                 "ansabgillani",
-                "azanbinzahid",
-                "kashifch"
+                "azanbinzahid"
             ]
         },
         {
             "slug": "incr-reviewers",
+            "maintainers": [
+                "estute",
+                "jmbowman"
+            ],
             "members": [
                 "awais786",
-                "estute",
-                "jmbowman",
                 "mraarif"
             ]
         },
         {
             "slug": "insights-push",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "internal-pull",
+            "maintainers": [],
             "members": [
                 "edx-readonly"
             ]
         },
         {
             "slug": "interviewers",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "ios-devs",
-            "members": [
-                "mumer92",
+            "maintainers": [
                 "saeedbashir"
+            ],
+            "members": [
+                "mumer92"
             ]
         },
         {
             "slug": "jenkins-build-user-management-jobs",
-            "members": [
+            "maintainers": [
                 "doctoryes",
                 "estute",
                 "feanil",
                 "macdiesel",
                 "pwnage101"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "jenkins-clamps",
-            "members": [
+            "maintainers": [
                 "adzuci"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "jenkins-tools-analytics-toolkit",
-            "members": [
-                "brianhw",
+            "maintainers": [
                 "mulby"
+            ],
+            "members": [
+                "brianhw"
             ]
         },
         {
             "slug": "jenkins-tools-app-permissions",
-            "members": [
+            "maintainers": [
                 "NIXKnight",
                 "caplan188",
                 "feanil",
@@ -3381,43 +3570,47 @@
                 "nadeemshahzad",
                 "syed-awais-ali",
                 "wesmason"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "jenkins-tools-blockstore-jobs",
-            "members": [
+            "maintainers": [
                 "feanil",
                 "ormsbee"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "jenkins-tools-catalog-jobs",
+            "maintainers": [
+                "albemarle",
+                "dianakhuang",
+                "jmyatt",
+                "matthugs",
+                "robrap",
+                "schenedx",
+                "tuchfarber"
+            ],
             "members": [
                 "Dillon-Dumesnil",
                 "MatthewPiatetsky",
                 "MichaelRoytman",
                 "adamstankiewicz",
-                "albemarle",
                 "attiyaIshaque",
                 "awais786",
                 "brianhw",
                 "bseverino",
                 "ciduarte",
-                "dianakhuang",
                 "georgebabey",
                 "iloveagent57",
                 "inventhouse",
                 "irfanuddinahmad",
-                "jmyatt",
-                "matthugs",
                 "mikix",
                 "mubbsharanwar",
                 "rgraber",
-                "robrap",
                 "sameenfatima78",
-                "schenedx",
                 "srwang",
-                "tuchfarber",
                 "uzairr",
                 "waheedahmed",
                 "zainab-amir"
@@ -3425,24 +3618,28 @@
         },
         {
             "slug": "jenkins-tools-coaching-jobs",
-            "members": [
+            "maintainers": [
                 "adzuci",
                 "justinhynes"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "jenkins-tools-course-goals-jobs",
-            "members": [
-                "Dillon-Dumesnil",
+            "maintainers": [
                 "MatthewPiatetsky",
                 "adzuci",
+                "jmyatt"
+            ],
+            "members": [
+                "Dillon-Dumesnil",
                 "ciduarte",
-                "jmyatt",
                 "mikix"
             ]
         },
         {
             "slug": "jenkins-tools-course_runs-jobs",
+            "maintainers": [],
             "members": [
                 "adeelehsan",
                 "awaisdar001",
@@ -3451,35 +3648,38 @@
         },
         {
             "slug": "jenkins-tools-coursegraph-jobs",
-            "members": [
+            "maintainers": [
                 "kdmccormick",
                 "kenclary"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "jenkins-tools-credentials-jobs",
+            "maintainers": [
+                "UsamaSadiq",
+                "dianakhuang",
+                "kdmccormick",
+                "matthugs",
+                "mikix",
+                "tuchfarber"
+            ],
             "members": [
                 "Dillon-Dumesnil",
                 "MichaelRoytman",
                 "Tj-Tracy",
-                "UsamaSadiq",
                 "Zacharis278",
                 "adeelehsan",
                 "awaisdar001",
-                "dianakhuang",
                 "doctoryes",
                 "iloveagent57",
                 "jansenk",
                 "jmyatt",
                 "justinhynes",
-                "kdmccormick",
-                "matthugs",
-                "mikix",
                 "nsprenkle",
                 "oliviaruizknott",
                 "pwnage101",
                 "schenedx",
-                "tuchfarber",
                 "uzairr",
                 "waheedahmed",
                 "zainab-amir"
@@ -3487,7 +3687,7 @@
         },
         {
             "slug": "jenkins-tools-docker-ci",
-            "members": [
+            "maintainers": [
                 "brianhw",
                 "doctoryes",
                 "estute",
@@ -3495,55 +3695,60 @@
                 "macdiesel",
                 "pwnage101",
                 "schenedx"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "jenkins-tools-e2e-learner",
+            "maintainers": [
+                "christopappas",
+                "dianakhuang",
+                "jmbowman",
+                "robrap",
+                "schenedx",
+                "tuchfarber"
+            ],
             "members": [
                 "Dillon-Dumesnil",
                 "MatthewPiatetsky",
                 "Tj-Tracy",
                 "awais786",
-                "christopappas",
-                "dianakhuang",
                 "dianekaplan",
                 "doctoryes",
                 "edx-pipeline-bot",
                 "georgebabey",
-                "jmbowman",
                 "jmyatt",
                 "mikix",
                 "pwnage101",
-                "robrap",
-                "schenedx",
-                "tuchfarber",
                 "uzairr",
                 "waheedahmed"
             ]
         },
         {
             "slug": "jenkins-tools-ecommerce-jobs",
+            "maintainers": [
+                "dianakhuang",
+                "feanil",
+                "robrap",
+                "tuchfarber"
+            ],
             "members": [
                 "Dillon-Dumesnil",
                 "MatthewPiatetsky",
                 "Tj-Tracy",
-                "dianakhuang",
                 "dianekaplan",
                 "doctoryes",
-                "feanil",
                 "georgebabey",
                 "inventhouse",
                 "jmyatt",
                 "julianajlk",
                 "mikix",
-                "pwnage101",
-                "robrap",
-                "tuchfarber"
+                "pwnage101"
             ]
         },
         {
             "slug": "jenkins-tools-edx-platform-jobs",
-            "members": [
+            "maintainers": [
                 "Dillon-Dumesnil",
                 "MatthewPiatetsky",
                 "adzuci",
@@ -3551,26 +3756,31 @@
                 "ciduarte",
                 "jmyatt",
                 "mikix"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "jenkins-tools-engagement-jobs",
-            "members": [
+            "maintainers": [
                 "MatthewPiatetsky",
                 "adzuci",
                 "albemarle",
+                "mulby"
+            ],
+            "members": [
                 "marekwrobel",
-                "mulby",
                 "srwang"
             ]
         },
         {
             "slug": "jenkins-tools-enterprise-catalog-jobs",
+            "maintainers": [
+                "georgebabey"
+            ],
             "members": [
                 "adamstankiewicz",
                 "alex-sheehan-edx",
                 "binodpant",
-                "georgebabey",
                 "iloveagent57",
                 "johnnagro",
                 "kiram15",
@@ -3580,14 +3790,18 @@
         },
         {
             "slug": "jenkins-tools-enterprise-jobs",
+            "maintainers": [
+                "christopappas",
+                "georgebabey",
+                "robrap",
+                "tuchfarber"
+            ],
             "members": [
                 "Tj-Tracy",
                 "UsamaSadiq",
                 "adamstankiewicz",
                 "alex-sheehan-edx",
                 "binodpant",
-                "christopappas",
-                "georgebabey",
                 "iloveagent57",
                 "irfanuddinahmad",
                 "johnnagro",
@@ -3595,41 +3809,46 @@
                 "kiram15",
                 "mattdrayer",
                 "muhammad-ammar",
-                "natabene",
-                "robrap",
-                "tuchfarber"
+                "natabene"
             ]
         },
         {
             "slug": "jenkins-tools-entitlements-jobs",
-            "members": [
-                "Dillon-Dumesnil",
+            "maintainers": [
                 "dianakhuang",
-                "inventhouse",
-                "jmyatt",
                 "mikix",
                 "syed-awais-ali"
+            ],
+            "members": [
+                "Dillon-Dumesnil",
+                "inventhouse",
+                "jmyatt"
             ]
         },
         {
             "slug": "jenkins-tools-experiments-jobs",
-            "members": [
-                "dianekaplan",
+            "maintainers": [
                 "jdmulloy",
                 "mulby"
+            ],
+            "members": [
+                "dianekaplan"
             ]
         },
         {
             "slug": "jenkins-tools-fbe-jobs",
-            "members": [
+            "maintainers": [
                 "MatthewPiatetsky",
                 "mulby"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "jenkins-tools-geoipupdate",
+            "maintainers": [
+                "adeelehsan"
+            ],
             "members": [
-                "adeelehsan",
                 "mikix",
                 "uzairr",
                 "waheedahmed",
@@ -3638,6 +3857,15 @@
         },
         {
             "slug": "jenkins-tools-grading-jobs",
+            "maintainers": [
+                "dianakhuang",
+                "iloveagent57",
+                "mattcarter",
+                "matthugs",
+                "mikix",
+                "schenedx",
+                "tuchfarber"
+            ],
             "members": [
                 "Dillon-Dumesnil",
                 "MichaelRoytman",
@@ -3646,72 +3874,84 @@
                 "Zacharis278",
                 "adeelehsan",
                 "awaisdar001",
-                "dianakhuang",
-                "iloveagent57",
                 "inventhouse",
                 "jansenk",
                 "jmyatt",
                 "jnlapierre",
                 "justinhynes",
-                "mattcarter",
-                "matthugs",
-                "mikix",
                 "nsprenkle",
                 "oliviaruizknott",
-                "schenedx",
-                "tuchfarber",
                 "uzairr",
                 "waheedahmed"
             ]
         },
         {
             "slug": "jenkins-tools-it-jobs",
-            "members": [
+            "maintainers": [
                 "caplan188",
                 "tnamgyal",
                 "wesmason"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "jenkins-tools-mckinsey-tasks",
+            "maintainers": [
+                "natabene"
+            ],
             "members": [
                 "attiyaIshaque",
                 "georgebabey",
-                "natabene",
                 "shafqatfarhan"
             ]
         },
         {
             "slug": "jenkins-tools-mobileapps-jobs",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "jenkins-tools-ora-jobs",
+            "maintainers": [
+                "georgebabey",
+                "iloveagent57",
+                "mattcarter",
+                "matthugs",
+                "nadeemshahzad"
+            ],
             "members": [
                 "bseverino",
                 "edx-pipeline-bot",
-                "georgebabey",
-                "iloveagent57",
                 "jansenk",
                 "kashifch",
-                "mattcarter",
-                "matthugs",
-                "nadeemshahzad",
                 "nsprenkle",
                 "schenedx"
             ]
         },
         {
             "slug": "jenkins-tools-partner-support-jobs",
+            "maintainers": [
+                "nadeemshahzad"
+            ],
             "members": [
                 "beckrecca",
                 "enavarro",
-                "jsongedx",
-                "nadeemshahzad"
+                "jsongedx"
             ]
         },
         {
             "slug": "jenkins-tools-programs-jobs",
+            "maintainers": [
+                "dianakhuang",
+                "doctoryes",
+                "jristau1984",
+                "kdmccormick",
+                "mattcarter",
+                "matthugs",
+                "robrap",
+                "schenedx",
+                "tuchfarber"
+            ],
             "members": [
                 "Dillon-Dumesnil",
                 "Tj-Tracy",
@@ -3720,23 +3960,14 @@
                 "adeelehsan",
                 "alangsto",
                 "bseverino",
-                "dianakhuang",
-                "doctoryes",
                 "iloveagent57",
                 "inventhouse",
                 "jansenk",
                 "jmyatt",
-                "jristau1984",
                 "justinhynes",
-                "kdmccormick",
-                "mattcarter",
-                "matthugs",
                 "mikix",
                 "nsprenkle",
                 "oliviaruizknott",
-                "robrap",
-                "schenedx",
-                "tuchfarber",
                 "uzairr",
                 "waheedahmed",
                 "zainab-amir"
@@ -3744,109 +3975,125 @@
         },
         {
             "slug": "jenkins-tools-registrar-jobs",
+            "maintainers": [
+                "mattcarter",
+                "matthugs",
+                "schenedx"
+            ],
             "members": [
                 "MichaelRoytman",
                 "Zacharis278",
                 "alangsto",
-                "bseverino",
-                "mattcarter",
-                "matthugs",
-                "schenedx"
+                "bseverino"
             ]
         },
         {
             "slug": "jenkins-tools-remote-config-jobs",
-            "members": [
+            "maintainers": [
                 "feanil",
                 "jdmulloy"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "jenkins-tools-sailthru-jobs",
+            "maintainers": [
+                "schenedx"
+            ],
             "members": [
                 "attiyaIshaque",
-                "schenedx",
                 "uzairr",
                 "waheedahmed"
             ]
         },
         {
             "slug": "jenkins-tools-saml-jobs",
-            "members": [
-                "adamstankiewicz",
+            "maintainers": [
                 "georgebabey",
                 "mattdrayer",
                 "matthugs"
+            ],
+            "members": [
+                "adamstankiewicz"
             ]
         },
         {
             "slug": "jenkins-tools-schedules-jobs",
+            "maintainers": [
+                "jmyatt",
+                "mulby",
+                "tuchfarber"
+            ],
             "members": [
                 "Dillon-Dumesnil",
                 "MatthewPiatetsky",
                 "ciduarte",
-                "jmyatt",
                 "mikix",
-                "mulby",
                 "schenedx",
-                "tuchfarber",
                 "zainab-amir"
             ]
         },
         {
             "slug": "jenkins-tools-seedjob-managers",
-            "members": [
+            "maintainers": [
                 "wesmason"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "jenkins-tools-software-secure-photo-verification",
-            "members": [
-                "schenedx",
+            "maintainers": [
                 "syedimranhassan"
+            ],
+            "members": [
+                "schenedx"
             ]
         },
         {
             "slug": "jenkins-tools-student-jobs",
-            "members": [
-                "adeelehsan",
+            "maintainers": [
                 "nadeemshahzad"
+            ],
+            "members": [
+                "adeelehsan"
             ]
         },
         {
             "slug": "jenkins-tools-translation-jobs",
+            "maintainers": [
+                "albemarle",
+                "davidjoy",
+                "dianakhuang",
+                "e0d",
+                "georgebabey",
+                "jmyatt",
+                "kdmccormick",
+                "matthugs",
+                "robrap",
+                "schenedx",
+                "tuchfarber"
+            ],
             "members": [
                 "DawoudSheraz",
                 "Dillon-Dumesnil",
                 "MatthewPiatetsky",
                 "MichaelRoytman",
                 "Zacharis278",
-                "albemarle",
                 "ashultz0",
                 "bseverino",
                 "ciduarte",
-                "davidjoy",
-                "dianakhuang",
                 "dianekaplan",
-                "e0d",
-                "georgebabey",
                 "inventhouse",
-                "jmyatt",
                 "julianajlk",
                 "justinhynes",
-                "kdmccormick",
                 "leangseu-edx",
                 "marekwrobel",
-                "matthugs",
                 "mikix",
                 "natabene",
                 "nsprenkle",
                 "oliviaruizknott",
                 "rgraber",
-                "robrap",
-                "schenedx",
                 "srwang",
-                "tuchfarber",
                 "uzairr",
                 "waheedahmed",
                 "zainab-amir"
@@ -3854,89 +4101,106 @@
         },
         {
             "slug": "jenkins-tools-user-retirement-jobs",
-            "members": [
+            "maintainers": [
                 "brianhw",
-                "doctoryes",
                 "estute",
                 "macdiesel",
                 "pwnage101"
+            ],
+            "members": [
+                "doctoryes"
             ]
         },
         {
             "slug": "jenkins-tools-verified-tracks-jobs",
+            "maintainers": [
+                "sstack22"
+            ],
             "members": [
                 "enavarro",
-                "jsongedx",
-                "sstack22"
+                "jsongedx"
             ]
         },
         {
             "slug": "jenkins-tools-video-jobs",
-            "members": [
+            "maintainers": [
                 "irfanuddinahmad"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "jenkins-tools-videos-jobs",
-            "members": [
+            "maintainers": [
                 "irfanuddinahmad"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "latex2edx_xserver-push",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "learner",
+            "maintainers": [
+                "dianakhuang",
+                "robrap",
+                "schenedx"
+            ],
             "members": [
                 "MatthewPiatetsky",
-                "dianakhuang",
                 "jasperho",
                 "jmyatt",
                 "mikix",
-                "robrap",
-                "schenedx",
                 "uzairr"
             ]
         },
         {
             "slug": "learner-admins",
+            "maintainers": [],
             "members": [
                 "jmyatt"
             ]
         },
         {
             "slug": "learner-growth",
-            "members": [
+            "maintainers": [
                 "dianakhuang"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "learner-helio",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "learner-performance",
-            "members": [
+            "maintainers": [
                 "robrap"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "learner-product",
+            "maintainers": [],
             "members": [
                 "jasperho"
             ]
         },
         {
             "slug": "load-tests-push",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "marketing-analytics",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "masters-admins",
+            "maintainers": [],
             "members": [
                 "mattcarter",
                 "schenedx"
@@ -3944,6 +4208,11 @@
         },
         {
             "slug": "masters-all",
+            "maintainers": [
+                "mattcarter",
+                "matthugs",
+                "schenedx"
+            ],
             "members": [
                 "MichaelRoytman",
                 "Zacharis278",
@@ -3954,23 +4223,29 @@
                 "jansenk",
                 "katymyw",
                 "mattcarter",
-                "matthugs",
                 "nsprenkle",
                 "schenedx"
             ]
         },
         {
             "slug": "masters-dahlia",
-            "members": [
+            "maintainers": [
                 "MichaelRoytman",
+                "matthugs"
+            ],
+            "members": [
                 "iloveagent57",
                 "jansenk",
-                "matthugs",
                 "nsprenkle"
             ]
         },
         {
             "slug": "masters-devs",
+            "maintainers": [
+                "mattcarter",
+                "matthugs",
+                "schenedx"
+            ],
             "members": [
                 "MichaelRoytman",
                 "Zacharis278",
@@ -3981,7 +4256,6 @@
                 "jnlapierre",
                 "leangseu-edx",
                 "mattcarter",
-                "matthugs",
                 "muselesscreator",
                 "nsprenkle",
                 "schenedx"
@@ -3989,7 +4263,7 @@
         },
         {
             "slug": "masters-devs-cosmonauts",
-            "members": [
+            "maintainers": [
                 "MichaelRoytman",
                 "Zacharis278",
                 "alangsto",
@@ -3997,28 +4271,36 @@
                 "bseverino",
                 "matthugs",
                 "schenedx"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "masters-devs-gta",
-            "members": [
+            "maintainers": [
                 "jansenk",
-                "jnlapierre",
-                "leangseu-edx",
                 "mattcarter",
                 "matthugs",
-                "muselesscreator",
                 "nsprenkle"
+            ],
+            "members": [
+                "jnlapierre",
+                "leangseu-edx",
+                "muselesscreator"
             ]
         },
         {
             "slug": "masters-mallow",
+            "maintainers": [],
             "members": [
                 "muhammad-ammar"
             ]
         },
         {
             "slug": "masters-mm-dev",
+            "maintainers": [
+                "matthugs",
+                "schenedx"
+            ],
             "members": [
                 "MichaelRoytman",
                 "Zacharis278",
@@ -4027,43 +4309,48 @@
                 "iloveagent57",
                 "jansenk",
                 "mattcarter",
-                "matthugs",
-                "nsprenkle",
-                "schenedx"
+                "nsprenkle"
             ]
         },
         {
             "slug": "masters-product",
-            "members": [
+            "maintainers": [
                 "katymyw",
                 "sstack22"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "mobile-product",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "mooc-org-users",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "no-repos",
+            "maintainers": [
+                "edx-webhook"
+            ],
             "members": [
                 "caesar2164",
-                "edx-webhook",
                 "kluo"
             ]
         },
         {
             "slug": "open-edx-data",
-            "members": [
+            "maintainers": [
                 "edx-webhook",
                 "nedbat"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "open-release-maintainers",
+            "maintainers": [],
             "members": [
                 "BbrSofiane",
                 "arbrandes",
@@ -4073,44 +4360,52 @@
         },
         {
             "slug": "open-source-team",
-            "members": [
+            "maintainers": [
                 "nedbat"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "openbadging-push",
-            "members": [
+            "maintainers": [
                 "dianakhuang"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "openedx-ceng-test",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "openedx-support-team",
+            "maintainers": [],
             "members": [
                 "natabene"
             ]
         },
         {
             "slug": "openedx-tooling",
-            "members": [
+            "maintainers": [
                 "nedbat"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "ospr",
-            "members": [
+            "maintainers": [
                 "nedbat"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "paragon-working-group",
-            "members": [
+            "maintainers": [
                 "adamstankiewicz",
+                "davidjoy"
+            ],
+            "members": [
                 "ciduarte",
-                "davidjoy",
                 "edx-netlify",
                 "georgebabey",
                 "long74100",
@@ -4122,21 +4417,25 @@
         },
         {
             "slug": "perf-interest",
-            "members": [
-                "DawoudSheraz",
-                "MichaelRoytman",
-                "jansenk",
+            "maintainers": [
                 "jmbowman",
                 "kdmccormick",
                 "ormsbee"
+            ],
+            "members": [
+                "DawoudSheraz",
+                "MichaelRoytman",
+                "jansenk"
             ]
         },
         {
             "slug": "personal",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "pipeline-bot",
+            "maintainers": [],
             "members": [
                 "edx-pipeline-bot",
                 "edx-secure"
@@ -4144,85 +4443,101 @@
         },
         {
             "slug": "pipeline-team",
-            "members": [
-                "MatthewPiatetsky",
-                "doctoryes",
+            "maintainers": [
                 "e0d",
                 "estute",
                 "feanil",
                 "jdmulloy",
-                "macdiesel",
                 "matthugs",
                 "nadeemshahzad",
-                "srwang",
                 "tuchfarber"
+            ],
+            "members": [
+                "MatthewPiatetsky",
+                "doctoryes",
+                "macdiesel",
+                "srwang"
             ]
         },
         {
             "slug": "platform",
-            "members": [
+            "maintainers": [
                 "feanil",
-                "iloveagent57",
                 "jmbowman",
                 "matthugs",
                 "nedbat"
+            ],
+            "members": [
+                "iloveagent57"
             ]
         },
         {
             "slug": "platform-authn",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "platform-core-extensions",
-            "members": [
+            "maintainers": [
                 "feanil",
                 "nedbat"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "platform-courseware",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "platform-credentials",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "platform-discovery",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "platform-grades",
-            "members": [
-                "iloveagent57",
+            "maintainers": [
                 "matthugs"
+            ],
+            "members": [
+                "iloveagent57"
             ]
         },
         {
             "slug": "platform-mobile",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "platform-owners",
-            "members": [
+            "maintainers": [
                 "feanil",
                 "jmbowman"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "platform-python3-reviewers",
-            "members": [
+            "maintainers": [
                 "feanil",
                 "jmbowman",
                 "nedbat"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "pre-onboarding",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "pull-all",
+            "maintainers": [],
             "members": [
                 "JAAkana",
                 "ProductRyan",
@@ -4245,12 +4560,42 @@
         },
         {
             "slug": "pull-private-all",
+            "maintainers": [],
             "members": [
                 "edx-status-bot"
             ]
         },
         {
             "slug": "push-pull-all",
+            "maintainers": [
+                "NIXKnight",
+                "aghaawais01",
+                "arbabkhalil",
+                "caplan188",
+                "christopappas",
+                "davidjoy",
+                "dianakhuang",
+                "e0d",
+                "estute",
+                "jazibhumayun",
+                "jdmulloy",
+                "jmbowman",
+                "kdmccormick",
+                "loucicchese",
+                "matthugs",
+                "mulby",
+                "nadeemshahzad",
+                "nedbat",
+                "ormsbee",
+                "pshiu",
+                "robrap",
+                "saleem-latif",
+                "sarina",
+                "syed-awais-ali",
+                "syedimranhassan",
+                "tuchfarber",
+                "wesmason"
+            ],
             "members": [
                 "Ahernkb",
                 "AhtishamShahid",
@@ -4264,14 +4609,12 @@
                 "Jawayria",
                 "MatthewPiatetsky",
                 "MichaelRoytman",
-                "NIXKnight",
                 "Nickett3",
                 "Tj-Tracy",
                 "UsamaSadiq",
                 "Zacharis278",
                 "adamstankiewicz",
                 "adeelehsan",
-                "aghaawais01",
                 "ahsanshafiq742",
                 "aht007",
                 "akummins",
@@ -4282,7 +4625,6 @@
                 "anhhhh",
                 "ansabgillani",
                 "antoviaque",
-                "arbabkhalil",
                 "arch-bom-gocd-alerts",
                 "ark-edly",
                 "asadazam93",
@@ -4297,19 +4639,14 @@
                 "binodpant",
                 "brianhw",
                 "bseverino",
-                "caplan188",
                 "ccmelo",
                 "cdeery",
-                "christopappas",
                 "ciduarte",
                 "colinbrash",
                 "connorhaugh",
-                "davidjoy",
                 "debbiejacob",
-                "dianakhuang",
                 "dianekaplan",
                 "doctoryes",
-                "e0d",
                 "edx-build-docs-bot",
                 "edx-clamps",
                 "edx-codecov-bot",
@@ -4318,7 +4655,6 @@
                 "edx-status-bot",
                 "ekangedx",
                 "enavarro",
-                "estute",
                 "farhan-arshad-dev",
                 "georgebabey",
                 "hbwhbw",
@@ -4329,11 +4665,8 @@
                 "irfanuddinahmad",
                 "jansenk",
                 "jawad-khan",
-                "jazibhumayun",
-                "jdmulloy",
                 "jinder1s",
                 "jjodonohue",
-                "jmbowman",
                 "jmyatt",
                 "jnlapierre",
                 "johnnagro",
@@ -4344,21 +4677,18 @@
                 "julieliberty",
                 "justinhynes",
                 "kashifch",
-                "kdmccormick",
                 "kenclary",
                 "kevincanavan",
                 "kiram15",
                 "leangseu-edx",
                 "llewenstein",
                 "long74100",
-                "loucicchese",
                 "macdiesel",
                 "manny-m",
                 "marcotuts",
                 "marekwrobel",
                 "mattcarter",
                 "mattdrayer",
-                "matthugs",
                 "mehaknasir",
                 "miankhalid",
                 "mikix",
@@ -4367,13 +4697,10 @@
                 "mraarif",
                 "mubbsharanwar",
                 "muhammad-ammar",
-                "mulby",
                 "mumer92",
                 "muneebGH",
                 "muselesscreator",
-                "nadeemshahzad",
                 "natabene",
-                "nedbat",
                 "nickpizzo",
                 "nrobertson1992",
                 "nsprenkle",
@@ -4381,16 +4708,11 @@
                 "oliviaruizknott",
                 "omerhabib26",
                 "openedx-release-bot",
-                "ormsbee",
-                "pshiu",
                 "pwnage101",
                 "rgraber",
-                "robrap",
                 "saadyousafarbi",
                 "saeedbashir",
-                "saleem-latif",
                 "sameenfatima78",
-                "sarina",
                 "sbishop0905",
                 "schenedx",
                 "sethmccann",
@@ -4398,17 +4720,13 @@
                 "spencertiberi",
                 "srwang",
                 "sstack22",
-                "syed-awais-ali",
-                "syedimranhassan",
                 "timmc-edx",
-                "tuchfarber",
                 "usama101",
                 "usmanmurad",
                 "uzairr",
                 "waheedahmed",
                 "wajeeha-khalid",
                 "wblarsen",
-                "wesmason",
                 "wittjeff",
                 "zainab-amir",
                 "zamanafzal"
@@ -4416,61 +4734,69 @@
         },
         {
             "slug": "rapid-experiments-team",
-            "members": [
+            "maintainers": [
                 "mulby"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "requires-io",
-            "members": [
+            "maintainers": [
                 "edx-requires-io-bot"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "ret",
-            "members": [
+            "maintainers": [
                 "mulby"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "revenue-squad",
-            "members": [
+            "maintainers": [
                 "colinbrash",
                 "dianekaplan",
                 "inventhouse",
                 "julianajlk",
                 "pshiu"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "sandbox-hammer-admin",
-            "members": [
+            "maintainers": [
                 "NIXKnight",
                 "adzuci",
                 "arbabkhalil",
                 "christopappas",
-                "colinbrash",
-                "doctoryes",
                 "e0d",
                 "feanil",
                 "jdmulloy",
                 "loucicchese",
-                "macdiesel",
                 "matthugs",
-                "oel8man",
                 "syedimranhassan",
                 "thomty",
                 "tuchfarber"
+            ],
+            "members": [
+                "colinbrash",
+                "doctoryes",
+                "macdiesel",
+                "oel8man"
             ]
         },
         {
             "slug": "scratchmm",
-            "members": [
+            "maintainers": [
                 "e0d"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "services",
+            "maintainers": [],
             "members": [
                 "edx-status-bot",
                 "kashifch",
@@ -4479,7 +4805,7 @@
         },
         {
             "slug": "site-reliability-engineering",
-            "members": [
+            "maintainers": [
                 "NIXKnight",
                 "adzuci",
                 "arbabkhalil",
@@ -4487,132 +4813,157 @@
                 "jdmulloy",
                 "loucicchese",
                 "nadeemshahzad",
-                "oel8man",
                 "syed-awais-ali",
                 "syedimranhassan"
+            ],
+            "members": [
+                "oel8man"
             ]
         },
         {
             "slug": "skel-team",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "solutions-team",
+            "maintainers": [],
             "members": [
                 "mattdrayer"
             ]
         },
         {
             "slug": "status-edx-org-admin",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "status-edx-org-push",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "sustaining-team",
-            "members": [
+            "maintainers": [
                 "kashifch"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "sustaining-vulcans",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "teaching-and-learning",
+            "maintainers": [
+                "doctoryes",
+                "jristau1984"
+            ],
             "members": [
                 "connorhaugh",
-                "doctoryes",
-                "jristau1984",
                 "kenclary",
                 "marcotuts"
             ]
         },
         {
             "slug": "terraform-prospectus",
-            "members": [
+            "maintainers": [
                 "dianakhuang",
                 "inventhouse",
-                "jdmulloy",
+                "jdmulloy"
+            ],
+            "members": [
                 "rgraber"
             ]
         },
         {
             "slug": "terraform-push-pull",
-            "members": [
+            "maintainers": [
                 "dianakhuang",
+                "estute",
+                "jmbowman",
+                "mulby",
+                "robrap",
+                "wesmason"
+            ],
+            "members": [
                 "doctoryes",
                 "edx-atlantis",
                 "edx-secure",
-                "estute",
-                "jmbowman",
                 "macdiesel",
                 "muhammad-ammar",
-                "mulby",
                 "pwnage101",
-                "robrap",
-                "schenedx",
-                "wesmason"
-            ]
-        },
-        {
-            "slug": "terraform-veda",
-            "members": [
-                "jdmulloy",
-                "muhammad-ammar",
                 "schenedx"
             ]
         },
         {
-            "slug": "testeng",
+            "slug": "terraform-veda",
+            "maintainers": [
+                "jdmulloy",
+                "schenedx"
+            ],
             "members": [
-                "bilalawan321",
+                "muhammad-ammar"
+            ]
+        },
+        {
+            "slug": "testeng",
+            "maintainers": [
                 "estute",
                 "jmbowman"
+            ],
+            "members": [
+                "bilalawan321"
             ]
         },
         {
             "slug": "tools-core",
-            "members": [
+            "maintainers": [
                 "estute",
                 "jmbowman"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "tools-edx-jenkins-pull-request-builder",
+            "maintainers": [],
             "members": [
                 "tools-edx-jenkins-pull-request-builder"
             ]
         },
         {
             "slug": "tools-performance",
-            "members": [
+            "maintainers": [
                 "pwnage101"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "transfer_test_team",
-            "members": [
+            "maintainers": [
                 "kdmccormick",
                 "ormsbee"
-            ]
+            ],
+            "members": []
         },
         {
             "slug": "vanguards",
+            "maintainers": [
+                "waheedahmed"
+            ],
             "members": [
                 "adeelehsan",
                 "attiyaIshaque",
                 "mubbsharanwar",
                 "shafqatfarhan",
                 "uzairr",
-                "waheedahmed",
                 "zainab-amir"
             ]
         },
         {
             "slug": "vem-devel",
+            "maintainers": [],
             "members": [
                 "DawoudSheraz",
                 "zainab-amir"
@@ -4620,19 +4971,23 @@
         },
         {
             "slug": "website",
-            "members": [
+            "maintainers": [
                 "albemarle",
+                "mulby"
+            ],
+            "members": [
                 "marekwrobel",
-                "mulby",
                 "srwang"
             ]
         },
         {
             "slug": "xqueue-new-push",
+            "maintainers": [],
             "members": []
         },
         {
             "slug": "xqueue-watcher-push",
+            "maintainers": [],
             "members": []
         }
     ]

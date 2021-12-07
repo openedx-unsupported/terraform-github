@@ -107,6 +107,7 @@ class Team:
     """
 
     slug: TeamSlug
+    maintainers: List[Username]
     members: List[Username]
 
 
@@ -128,7 +129,7 @@ def fetch_repo_permissions(
     # pylint: disable=too-many-locals
 
     team_members: Dict[TeamSlug, Set[Username]] = {
-        team.slug: set(team.members) for team in teams
+        team.slug: set(team.maintainers + team.members) for team in teams
     }
 
     LOG.info(" Fetching metadata for all repos in org.")
@@ -312,11 +313,11 @@ def fetch_teams(gh_headers: dict, org: ApiOrganization) -> List[Team]:
     assert isinstance(admin_user_response.json(), list)
     admin_team = Team(
         slug=get_admin_team_slug(org.login),
-        members=list(
-            sorted(
-                Username(admin_user_data["login"])
-                for admin_user_data in admin_user_response.json()
-            )
+        # Only destination org owners will be allowed to manage this team.
+        maintainers=[],
+        members=sorted(
+            Username(admin_user_data["login"])
+            for admin_user_data in admin_user_response.json()
         ),
     )
 
@@ -333,11 +334,24 @@ def fetch_teams(gh_headers: dict, org: ApiOrganization) -> List[Team]:
             continue
 
         LOG.info("  Fetching members for team %s.", team_slug)
+        maintainers = {
+            # Maintainers are special team members that can modify membership, settings, etc.
+            # In addition to any team members that are explicitly marked as maintainers,
+            # any and all organization owners on the team will implicitly be considered
+            # maintainers instead of normal team members.
+            Username(user.login)
+            for user in api_team.get_members(role="maintainer")
+        }
+        members = {
+            # By specifying role='member' in the API call, we exclude maintainers,
+            # instead only including the remaining "normal" team members.
+            Username(user.login)
+            for user in api_team.get_members(role="member")
+        }
         team = Team(
             slug=team_slug,
-            members=list(
-                sorted((Username(user.login) for user in api_team.get_members()))
-            ),
+            members=sorted(members),
+            maintainers=sorted(maintainers),
         )
         teams.append(team)
 
