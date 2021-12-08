@@ -4,8 +4,8 @@ Script for migrating repositories across GitHub organizations.
 """
 # pylint: disable=missing-function-docstring
 from collections import defaultdict
-from dataclasses import dataclass
 from typing import Dict, List
+import dataclasses
 import json
 import itertools
 import os
@@ -139,7 +139,9 @@ def migrate(
 
     # Check permissions file
     if permissions_file:
-        repos_to_permissions = load_permissions(permissions_file, api, dest_org)
+        repos_to_permissions = load_permissions(
+            permissions_file, api, dest_org, skip_missing_teams
+        )
 
         # Validation: Make sure we have permissions entries for all the repos
         # that we're transferring over.
@@ -191,7 +193,7 @@ def migrate(
             set_repo_permissions(permissions, api, dest_org, preview)
 
 
-@dataclass
+@dataclasses.dataclass(frozen=True)
 class RepoPermissions:
     """
     Permissions for a particular repository.
@@ -229,7 +231,7 @@ def extract_repo_names(repo_list_file):
     return empty_lines_removed
 
 
-def load_permissions(teams_file, api, dest_org):
+def load_permissions(teams_file, api, dest_org, skip_missing_teams):
     """
     Return a dict mapping of team_slug to RepoPermissions.
 
@@ -290,7 +292,7 @@ def load_permissions(teams_file, api, dest_org):
 
     if missing_teams_to_repos or missing_usernames_to_repos:
         click.echo(
-            "Fatal Error: There are references to teams or users in "
+            "Error: There are references to teams or users in "
             + f"{teams_file.name} that do not exist in destination org {dest_org}: "
         )
 
@@ -308,7 +310,23 @@ def load_permissions(teams_file, api, dest_org):
                 click.secho(f"  {username}", bold=True, nl=False)
                 click.echo(f" used in {', '.join(repos_user_is_used_in)}")
 
-        sys.exit(1)
+        if skip_missing_teams:
+            click.secho("Ignoring missing teams and users!", bold=True)
+            # Return a modified version of repos_to_permissions that has the
+            # missing information stripped out.
+            stripped_repos_to_permissions = {}
+            for repo, permissions in repos_to_permissions.items():
+                stripped_repos_to_permissions[repo] = dataclasses.replace(
+                    permissions,
+                    teams={team: role for team, role in permissions.teams.items() if team in known_team_slugs},
+                    users={username: role for username, role in permissions.users.items() if username in known_usernames}
+                )
+            return stripped_repos_to_permissions
+        else:
+            sys.exit(
+                "Exiting because teams or users are missing. "
+                "To ignore this check, use --skip-missing-teams"
+            )
 
     return repos_to_permissions
 
