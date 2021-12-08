@@ -237,7 +237,7 @@ def load_permissions(teams_file, api, dest_org, skip_missing_teams):
 
     These include the team permissions we're planning to apply. If
     skip_missing_teams is True, we'll strip out all missing teams and users
-    from the returned dictionary.
+    from the returned RepoPermissions objects.
     """
     click.echo(f"Fetching known teams from {dest_org}...")
     known_team_slugs = {
