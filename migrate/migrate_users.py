@@ -8,11 +8,13 @@
 import json
 import time
 from collections import defaultdict
+from dataclasses import dataclass
 from typing import Dict, List, Set
+from urllib.error import HTTPError
 
 import click
 from fastcore.net import \
-    HTTP403ForbiddenError  # pylint: disable=no-name-in-module
+    HTTP422UnprocessableEntityError  # pylint: disable=no-name-in-module;
 from ghapi.all import GhApi, paged
 
 
@@ -77,10 +79,6 @@ def migrate(
         click.secho("In Preview Mode: No changes will be made!", italic=True)
     api = GhApi(token=github_token)
 
-    # Load team memberships and list of usernames to migrate.
-    team_users: Dict[str, Set[str]] = extract_merged_team_memberships(org_export_files)
-    requested_users = set(extract_user_names(users_file))
-
     # Load a mapping from team slugs to team ids.
     # Includes teams we're not trying to migrate.
     team_slugs_to_ids = {}
@@ -88,12 +86,13 @@ def migrate(
         for team in page:
             team_slugs_to_ids[team["slug"]] = team["id"]
 
-    # Build a mapping from usernames to team slugs.
-    user_teams: Dict[str, Set[int]] = defaultdict(set)
-    for team_slug, members in team_users.items():
-        for username in members:
-            user_teams[username].add(team_slugs_to_ids[team_slug])
+    # Load team memberships and list of usernames to migrate.
+    user_to_teams: Dict[str, Set[Team]] = extract_merged_team_memberships(
+        org_export_files,
+        team_slugs_to_ids,
+    )
 
+    requested_users = set(extract_user_names(users_file))
     # Of the requested users, figure out which ones we shouldn't invite
     # (because they're members or have a pending invite).
     users_pending_invitation: Set[str] = set()
@@ -109,7 +108,8 @@ def migrate(
     requested_users_not_to_invite = (
         requested_users_already_in_org | requested_users_pending_invitation
     )
-    users_to_invite = requested_users - requested_users_not_to_invite
+    users_to_invite = sorted(requested_users - requested_users_not_to_invite)
+    requested_users_already_in_org = sorted(requested_users_already_in_org)
 
     click.echo(
         f"{len(requested_users_already_in_org)} users from list are already "
@@ -124,8 +124,17 @@ def migrate(
     click.echo("  " + "\n  ".join(requested_users_pending_invitation))
     click.echo()
 
-    click.secho(f"Will invite {len(users_to_invite)} to org {dest_org}:", bold=True)
+    click.secho(
+        f"Will invite {len(users_to_invite)} user(s) to org {dest_org}:", bold=True
+    )
     click.echo("  " + "\n  ".join(users_to_invite))
+
+    click.secho(
+        f"Will update {len(requested_users_already_in_org)} user(s) "
+        f"that are already in org {dest_org}:",
+        bold=True,
+    )
+    click.echo("  " + "\n  ".join(requested_users_already_in_org))
 
     show_prompt = True
     if preview:
@@ -138,7 +147,7 @@ def migrate(
         click.echo()
 
     for index, username in enumerate(users_to_invite):
-        team_ids = user_teams[username]
+        team_ids = [team.team_id for team in user_to_teams[username]]
 
         user_id: int = api.users.get_by_username(username)["id"]
         click.echo(
@@ -159,12 +168,12 @@ def migrate(
                 )
             # Might have hit a secondary rate limit
             # https://docs.github.com/en/rest/overview/resources-in-the-rest-api#secondary-rate-limits
-            except HTTP403ForbiddenError as http403:
-                if attempt_count == attempt_count - 1:
-                    click.echo("  got a 403. Max attempts reached; will raise.")
+            except HTTP422UnprocessableEntityError as http422:
+                if attempt_count == num_attempts - 1:
+                    click.echo("  got a 422. Max attempts reached; will raise.")
                     raise
-                if "Retry-After" in http403.headers:
-                    wait_seconds = http403.headers["Retry-After"] + 1
+                if "Retry-After" in http422.headers:
+                    wait_seconds = http422.headers["Retry-After"] + 1
                     click.echo(
                         "  got a 403. Based on Retry-After header, will retry in "
                         f"{wait_seconds}s."
@@ -177,6 +186,23 @@ def migrate(
                     )
                 time.sleep(wait_seconds)
 
+    for index, username in enumerate(requested_users_already_in_org):
+        teams_for_user = user_to_teams[username]
+        click.echo(
+            f"({index:03d}/{len(requested_users_already_in_org)}) updating teams for "
+            f"user {username}; {len(teams_for_user)=}."
+        )
+
+        for team in teams_for_user:
+            click.echo(f"    adding/updating: {team.slug=} {team.role=}")
+            if not preview:
+                api.teams.add_or_update_membership_for_user_in_org(
+                    org=dest_org,
+                    team_slug=team.slug,
+                    username=username,
+                    role=team.role,
+                )
+
 
 def extract_user_names(user_list_file) -> List[str]:
     """
@@ -188,21 +214,67 @@ def extract_user_names(user_list_file) -> List[str]:
     return empty_lines_removed
 
 
-def extract_merged_team_memberships(org_export_files: list) -> Dict[str, Set[str]]:
+@dataclass(frozen=True)
+class Team:
     """
-    Given a list of handles to org export files, return a merged mapping of
-    team slugs to sets of usernames.
+    A class to represent the info weneed to know about each
+    github team to be able to add a user to the team.
     """
 
-    team_users: Dict[str, Set[str]] = defaultdict(set)
+    team_id: int
+    slug: str
+    role: str
+
+
+def extract_merged_team_memberships(
+    org_export_files: list,
+    team_slugs_to_ids: Dict[str, int],
+) -> Dict[str, Set[Team]]:
+    """
+    Given a list of handles to org export files, return a merged mapping of
+    usernames to all teams they are members of.
+    """
+    # Build a mapping from usernames to team slugs.
+    users_to_teams: Dict[str, Set[Team]] = defaultdict(set)
+
     for json_file in org_export_files:
         org_export_data = json.load(json_file)
         for team in org_export_data["teams"]:
+            team_slug = team["slug"]
+
+            member_team = Team(
+                team_id=team_slugs_to_ids[team_slug],
+                slug=team_slug,
+                role="member",
+            )
+            maintainer_team = Team(
+                team_id=team_slugs_to_ids[team_slug],
+                slug=team_slug,
+                role="maintainer",
+            )
+
             # If the team is in multiple export files, we combine
             # them into one team for the destination org.
-            team_users[team["slug"]].update(team["members"])
-    return team_users
+            for member in team["members"]:
+                if maintainer_team in users_to_teams[member]:
+                    continue
+                    # because the user is already on the team with maintainer level access
+                    # via another org.
+                users_to_teams[member].add(member_team)
+
+            for maintainer in team.get("maintainers", []):
+                if member_team in users_to_teams[maintainer]:
+                    users_to_teams[maintainer].remove(member_team)
+                    # because we're gonna elevate this user's access
+
+                users_to_teams[maintainer].add(maintainer_team)
+
+    return users_to_teams
 
 
 if __name__ == "__main__":
-    migrate()  # pylint: disable=no-value-for-parameter
+    try:
+        migrate()  # pylint: disable=no-value-for-parameter
+    except HTTPError as http_error:
+        click.echo(f"Exception body: {http_error.fp.read()}")
+        raise
