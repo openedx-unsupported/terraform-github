@@ -178,14 +178,14 @@ def migrate(
     for (i, repo) in enumerate(repos_to_transfer, start=1):
         click.secho(f"{i:>3}: {repo}", bold=True)
         if not preview:
-            # Transfer and add teams that have default push/pull permissions
-            # (other permissions require a separate call).
+            # Do the actual repo transfer call.
             api.repos.transfer(src_org, repo, dest_org)
 
-            # Without this sleep, I'd sometimes hit a race condition where the
+            # Without this sleep, we'll sometimes hit a race condition where the
             # repo would not have been recognized as transferred before the
             # permissions code tried to run, leading to errors because the repo
-            # did not exist at the new location yet.
+            # did not exist at the new location yet. Need to put something more
+            # robust here (auto-retry?) later.
             time.sleep(2)
 
         if repos_to_permissions:
