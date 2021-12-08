@@ -191,16 +191,15 @@ def migrate(
             f"user {username}; {len(teams_for_user)=}."
         )
 
-        if preview:
-            continue
-
         for team in teams_for_user:
-            api.teams.add_or_update_membership_for_user_in_org(
-                org=dest_org,
-                team_slug=team.slug,
-                username=username,
-                role=team.role,
-            )
+            click.echo(f"    adding/updating: {team.slug=} {team.role=}")
+            if not preview:
+                api.teams.add_or_update_membership_for_user_in_org(
+                    org=dest_org,
+                    team_slug=team.slug,
+                    username=username,
+                    role=team.role,
+                )
 
 
 def extract_user_names(user_list_file) -> List[str]:
