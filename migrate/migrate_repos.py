@@ -10,6 +10,7 @@ import json
 import itertools
 import os
 import sys
+import time
 
 import click
 from ghapi.all import GhApi, paged  # type: ignore
@@ -26,7 +27,7 @@ MAX_PAGE_SIZE = 100  # This is GitHub's page size limit
     "--preview", is_flag=True, help="Preview what will happen but don't execute."
 )
 @click.option(
-    "--skip-missing",
+    "--skip-missing-repos",
     is_flag=True,
     help=(
         "Skip repos that are not found in the source org, instead of failing. "
@@ -34,23 +35,38 @@ MAX_PAGE_SIZE = 100  # This is GitHub's page size limit
     ),
 )
 @click.option(
+    "--skip-missing-teams",
+    is_flag=True,
+    help=("Skip missing teams instead of failing. Use with caution."),
+)
+@click.option(
     "--no-prompt",
     is_flag=True,
     help="Don't ask for a confirmation before transferring the repos.",
 )
 @click.option(
-    '--permissions-file',
+    "--permissions-file",
     type=click.File(),
     help="JSON file with repos to teams/user permissions mappings.",
 )
 @click.option(
-    '--github-token',
-    envvar='GITHUB_TOKEN',
+    "--github-token",
+    envvar="GITHUB_TOKEN",
     show_default="$GITHUB_TOKEN environment variable.",
 )
-def migrate(src_org, dest_org, repo_list_file, preview, skip_missing, no_prompt, permissions_file, github_token):
+def migrate(
+    src_org,
+    dest_org,
+    repo_list_file,
+    preview,
+    skip_missing_repos,
+    skip_missing_teams,
+    no_prompt,
+    permissions_file,
+    github_token,
+):
     """
-    Migrate
+    Migrate repositories from SRC_ORG to DEST_ORG.
     """
     show_prompts = not no_prompt  # It just makes it clearer in later code.
     if preview:
@@ -58,7 +74,9 @@ def migrate(src_org, dest_org, repo_list_file, preview, skip_missing, no_prompt,
 
     # Basic validation: We need a GITHUB_TOKEN for the API
     if not github_token:
-        sys.exit("Fatal Error: Set your $GITHUB_TOKEN environment variable or specify it using --github-token")
+        sys.exit(
+            "Fatal Error: Set your $GITHUB_TOKEN environment variable or specify it using --github-token"
+        )
 
     # Basic validation: Doesn't make sense to transfer within the same org.
     if src_org == dest_org:
@@ -69,8 +87,13 @@ def migrate(src_org, dest_org, repo_list_file, preview, skip_missing, no_prompt,
     # matter, e.g. edx-solutions repos that we're not importing team data from).
     # But it's probably a good idea to double check.
     if show_prompts and not permissions_file:
-        click.echo("You haven't specified a team/user to repos permissions file (--permissions-file).")
-        click.secho("WARNING: Repos will be copied over with NO team/user permissions set!", bold=True)
+        click.echo(
+            "You haven't specified a team/user to repos permissions file (--permissions-file)."
+        )
+        click.secho(
+            "WARNING: Repos will be copied over with NO team/user permissions set!",
+            bold=True,
+        )
         click.confirm("Proceed anyway?", abort=True)
 
     # We passed the most basic input validations.
@@ -91,7 +114,7 @@ def migrate(src_org, dest_org, repo_list_file, preview, skip_missing, no_prompt,
     }
     missing_repos = [repo for repo in repos_to_transfer if repo not in src_org_repos]
     if missing_repos:
-        if skip_missing:
+        if skip_missing_repos:
             click.echo(
                 f"The following repositories are missing from {src_org} and will be skipped:"
             )
@@ -104,7 +127,7 @@ def migrate(src_org, dest_org, repo_list_file, preview, skip_missing, no_prompt,
                 repo for repo in repos_to_transfer if repo in src_org_repos
             ]
         else:
-            # If skip_missing isn't specified, treat missing repos as an error.
+            # If skip_missing_repos isn't specified, treat missing repos as an error.
             # (Maybe they're trying to move things from the wrong org.)
             sys.exit(
                 "Fatal Error: The following repos marked for transfer are not in "
@@ -125,9 +148,9 @@ def migrate(src_org, dest_org, repo_list_file, preview, skip_missing, no_prompt,
         ]
         if repos_with_no_permissions:
             sys.exit(
-                "Fatal Error: --permissions-file was specified, but the " +
-                "following repos have no permissions entries: " +
-                ", ".join(repos_with_no_permissions)
+                "Fatal Error: --permissions-file was specified, but the "
+                + "following repos have no permissions entries: "
+                + ", ".join(repos_with_no_permissions)
             )
     else:
         repos_to_permissions = {}
@@ -146,7 +169,9 @@ def migrate(src_org, dest_org, repo_list_file, preview, skip_missing, no_prompt,
 
     # Do the actual transfer
     click.echo()
-    click.echo(f"Transferring {len(repos_to_transfer)} repositories from {src_org} to {dest_org}...")
+    click.echo(
+        f"Transferring {len(repos_to_transfer)} repositories from {src_org} to {dest_org}..."
+    )
 
     for (i, repo) in enumerate(repos_to_transfer, start=1):
         click.secho(f"{i:>3}: {repo}", bold=True)
@@ -155,15 +180,15 @@ def migrate(src_org, dest_org, repo_list_file, preview, skip_missing, no_prompt,
             # (other permissions require a separate call).
             api.repos.transfer(src_org, repo, dest_org)
 
+            # Without this sleep, I'd sometimes hit a race condition where the
+            # repo would not have been recognized as transferred before the
+            # permissions code tried to run, leading to errors because the repo
+            # did not exist at the new location yet.
+            time.sleep(2)
+
         if repos_to_permissions:
             permissions = repos_to_permissions[repo]
             set_repo_permissions(permissions, api, dest_org, preview)
-
-def extract_repo_names(repo_list_file):
-    comments_removed = [line.partition("#")[0] for line in repo_list_file]
-    stripped = [line.strip() for line in comments_removed]
-    empty_lines_removed = [line for line in stripped if line]
-    return empty_lines_removed
 
 
 @dataclass
@@ -171,6 +196,7 @@ class RepoPermissions:
     """
     Permissions for a particular repository.
     """
+
     slug: str
     teams: Dict[str, str]  # Mapping of team slug to permission slug
     users: Dict[str, str]  # Mapping of username to permission slug
@@ -184,16 +210,23 @@ class RepoPermissions:
             4: "admin",
         }
         return cls(
-            slug=repo_data['name'],
+            slug=repo_data["name"],
             teams={
                 team_slug: access_level_mapping[access_level]
-                for team_slug, access_level in repo_data['team_access'].items()
+                for team_slug, access_level in repo_data["team_access"].items()
             },
             users={
                 username: access_level_mapping[access_level]
-                for username, access_level in repo_data['user_access'].items()
+                for username, access_level in repo_data["user_access"].items()
             },
         )
+
+
+def extract_repo_names(repo_list_file):
+    comments_removed = [line.partition("#")[0] for line in repo_list_file]
+    stripped = [line.strip() for line in comments_removed]
+    empty_lines_removed = [line for line in stripped if line]
+    return empty_lines_removed
 
 
 def load_permissions(teams_file, api, dest_org):
@@ -220,7 +253,7 @@ def load_permissions(teams_file, api, dest_org):
     """
     click.echo(f"Fetching known teams from {dest_org}...")
     known_team_slugs = {
-        team['slug']: team['id']
+        team["slug"]: team["id"]
         for team in itertools.chain.from_iterable(
             paged(api.teams.list, dest_org, per_page=MAX_PAGE_SIZE)
         )
@@ -229,7 +262,7 @@ def load_permissions(teams_file, api, dest_org):
 
     click.echo(f"Fetching known users from {dest_org}...")
     known_usernames = {
-        user['login']: user['id']
+        user["login"]: user["id"]
         for user in itertools.chain.from_iterable(
             paged(api.orgs.list_members, dest_org, per_page=MAX_PAGE_SIZE)
         )
@@ -238,7 +271,7 @@ def load_permissions(teams_file, api, dest_org):
 
     click.echo(f"Reading desired team and user permissions from {teams_file.name}...")
     repos_to_permissions = {
-        repo_data['name']: RepoPermissions.parse_from_file_entry(repo_data)
+        repo_data["name"]: RepoPermissions.parse_from_file_entry(repo_data)
         for repo_data in json.load(teams_file)["repos"]
     }
 
@@ -255,13 +288,10 @@ def load_permissions(teams_file, api, dest_org):
             if username not in known_usernames:
                 missing_usernames_to_repos[username].append(repo)
 
-    # For now, circumvent user/team data check.
-    return repos_to_permissions
-
     if missing_teams_to_repos or missing_usernames_to_repos:
         click.echo(
-            "Fatal Error: There are references to teams or users in " +
-            f"{teams_file.name} that do not exist in destination org {dest_org}: "
+            "Fatal Error: There are references to teams or users in "
+            + f"{teams_file.name} that do not exist in destination org {dest_org}: "
         )
 
         if missing_teams_to_repos:
@@ -282,17 +312,18 @@ def load_permissions(teams_file, api, dest_org):
 
     return repos_to_permissions
 
+
 def set_repo_permissions(permissions, api, dest_org, preview):
     """
-    Set permissions for one repo.
+    Set team permissions for one repo.
 
-    Don't actually execute anything if preview is True.
+    Won't actually make any GitHub API calls if preview is True.
 
     The permissions param is a dict of repo slugs to RepoPermissions objects.
 
-    Return the number of GitHub requests setting these permissions took. This is
-    mostly useful for preview planning, so that we can tell whether rate
-    limiting might be an issue.
+    This function only sets team permissions and not user permissions. User
+    roles will follow over with the transferred repository–there's no need to
+    set them manually here.
     """
     # teams_by_role is a mapping of access role (e.g. "admin") to a list of
     # team slugs.
@@ -300,16 +331,11 @@ def set_repo_permissions(permissions, api, dest_org, preview):
     for team_slug, access in sorted(permissions.teams.items()):
         teams_by_role[access].append(team_slug)
 
-    # users_by_role is a mapping of access role (e.g. "admin") to a list of
-    # usernames.
-    users_by_role = defaultdict(list)
-    for username, access in sorted(permissions.users.items()):
-        users_by_role[access].append(username)
-
-    # The permissions update call request that the owner be specified, but the
+    # The permissions update call requires that the owner be specified, but the
     # owner for a repo in an org is just the user that has the login of the org
     # name (verified by looking through the results of getting repo listings
-    # from this API).
+    # from this API). So everything in the org "openedx" is owned by user
+    # "openedx".
     owner = dest_org
 
     for access, teams in sorted(teams_by_role.items()):
@@ -321,13 +347,6 @@ def set_repo_permissions(permissions, api, dest_org, preview):
                 api.teams.add_or_update_repo_permissions_in_org(
                     dest_org, team_slug, owner, permissions.slug
                 )
-        click.echo()
-
-    for access, users in sorted(users_by_role.items()):
-        click.secho(f"     assigning {access} users:", italic=True)
-        click.echo("      ", nl=False)
-        for user in users:
-           click.echo(f" {user}", nl=False)
         click.echo()
 
 
