@@ -199,7 +199,7 @@ class RepoPermissions:
     Permissions for a particular repository.
     """
 
-    slug: str
+    slug: str              # Name of the repo
     teams: Dict[str, str]  # Mapping of team slug to permission slug
     users: Dict[str, str]  # Mapping of username to permission slug
 
@@ -349,7 +349,7 @@ def set_repo_permissions(permissions, api, dest_org, preview):
             click.echo(f" {team_slug}", nl=False)
             if not preview:
                 api.teams.add_or_update_repo_permissions_in_org(
-                    dest_org, team_slug, owner, permissions.slug
+                    dest_org, team_slug, owner, permissions.slug, access
                 )
         click.echo()
 
