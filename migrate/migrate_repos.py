@@ -349,7 +349,11 @@ def set_repo_permissions(permissions, api, dest_org, preview):
             click.echo(f" {team_slug}", nl=False)
             if not preview:
                 api.teams.add_or_update_repo_permissions_in_org(
-                    dest_org, team_slug, owner, permissions.slug, access
+                    org=dest_org,
+                    team_slug=team_slug,
+                    owner=owner,
+                    repo=permissions.slug,
+                    permission=access,
                 )
         click.echo()
 
