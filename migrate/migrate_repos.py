@@ -235,23 +235,9 @@ def load_permissions(teams_file, api, dest_org, skip_missing_teams):
     """
     Return a dict mapping of team_slug to RepoPermissions.
 
-    The GitHub API has two options for permissions:
-
-    Bulk permissions for multiple users/teams at a time, but no control over the
-    type of permission (just the common case: push):
-        https://docs.github.com/en/rest/reference/repos#set-team-access-restrictions
-        https://docs.github.com/en/rest/reference/repos#set-user-access-restrictions
-
-    More fine grained access that sets permissions for a single team/user + repo
-    at a time:
-        https://docs.github.com/en/rest/reference/teams#add-or-update-team-repository-permissions
-        https://docs.github.com/en/rest/reference/teams#add-or-update-user-repository-permissions
-
-    So the strategy is going to be:
-
-    1. Move repo
-    2. Set bulk permissions for teams and users that are "push"
-    3. Set individual permission for teams/users that have other levels of permissions.
+    These include the team permissions we're planning to apply. If
+    skip_missing_teams is True, we'll strip out all missing teams and users
+    from the returned dictionary.
     """
     click.echo(f"Fetching known teams from {dest_org}...")
     known_team_slugs = {
