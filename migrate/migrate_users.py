@@ -14,7 +14,7 @@ from urllib.error import HTTPError
 
 import click
 from fastcore.net import \
-    HTTP403ForbiddenError  # pylint: disable=no-name-in-module
+    HTTP422UnprocessableEntityError  # pylint: disable=no-name-in-module;
 from ghapi.all import GhApi, paged
 
 
@@ -108,7 +108,8 @@ def migrate(
     requested_users_not_to_invite = (
         requested_users_already_in_org | requested_users_pending_invitation
     )
-    users_to_invite = requested_users - requested_users_not_to_invite
+    users_to_invite = sorted(requested_users - requested_users_not_to_invite)
+    requested_users_already_in_org = sorted(requested_users_already_in_org)
 
     click.echo(
         f"{len(requested_users_already_in_org)} users from list are already "
@@ -167,12 +168,12 @@ def migrate(
                 )
             # Might have hit a secondary rate limit
             # https://docs.github.com/en/rest/overview/resources-in-the-rest-api#secondary-rate-limits
-            except HTTP403ForbiddenError as http403:
-                if attempt_count == attempt_count - 1:
-                    click.echo("  got a 403. Max attempts reached; will raise.")
+            except HTTP422UnprocessableEntityError as http422:
+                if attempt_count == num_attempts - 1:
+                    click.echo("  got a 422. Max attempts reached; will raise.")
                     raise
-                if "Retry-After" in http403.headers:
-                    wait_seconds = http403.headers["Retry-After"] + 1
+                if "Retry-After" in http422.headers:
+                    wait_seconds = http422.headers["Retry-After"] + 1
                     click.echo(
                         "  got a 403. Based on Retry-After header, will retry in "
                         f"{wait_seconds}s."
