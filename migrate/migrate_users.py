@@ -10,6 +10,7 @@ import time
 from collections import defaultdict
 from dataclasses import dataclass
 from typing import Dict, List, Set
+from urllib.error import HTTPError
 
 import click
 from fastcore.net import \
@@ -271,4 +272,8 @@ def extract_merged_team_memberships(
 
 
 if __name__ == "__main__":
-    migrate()  # pylint: disable=no-value-for-parameter
+    try:
+        migrate()  # pylint: disable=no-value-for-parameter
+    except HTTPError as http_error:
+        click.echo(f"Exception body: {http_error.fp.read()}")
+        raise
