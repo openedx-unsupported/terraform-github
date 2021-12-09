@@ -39,8 +39,17 @@ import requests
 from github.Organization import Organization as ApiOrganization
 from github.Permissions import Permissions as ApiPermissions
 
-from .utils import (REPO_ADMIN, REPO_MAINTAIN, REPO_NONE, REPO_READ,
-                    REPO_WRITE, RepoAccessLevel, RepoName, TeamSlug, Username)
+from .utils import (
+    REPO_ADMIN,
+    REPO_MAINTAIN,
+    REPO_NONE,
+    REPO_READ,
+    REPO_WRITE,
+    RepoAccessLevel,
+    RepoName,
+    TeamSlug,
+    Username,
+)
 
 # While iteratively develping, you might use a limited set of repos & teams
 # to speed up test runs and/or avoid getting rate-limited by GitHub

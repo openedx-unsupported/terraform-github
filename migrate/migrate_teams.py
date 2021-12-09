@@ -11,8 +11,7 @@ import time
 from typing import Dict, List, Set
 
 import click
-from fastcore.net import \
-    HTTP404NotFoundError  # pylint: disable=no-name-in-module
+from fastcore.net import HTTP404NotFoundError  # pylint: disable=no-name-in-module
 from ghapi.all import GhApi, paged
 
 

@@ -13,8 +13,9 @@ from typing import Dict, List, Set
 from urllib.error import HTTPError
 
 import click
-from fastcore.net import \
-    HTTP422UnprocessableEntityError  # pylint: disable=no-name-in-module;
+from fastcore.net import (  # pylint: disable=no-name-in-module;
+    HTTP422UnprocessableEntityError,
+)
 from ghapi.all import GhApi, paged
 
 
