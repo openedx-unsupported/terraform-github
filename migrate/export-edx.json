@@ -1,5 +1,5 @@
 {
-    "export_date_utc": "2021-12-07T22:15:52.569301",
+    "export_date_utc": "2021-12-09T16:38:33.597188",
     "repos": [
         {
             "name": ".github",
@@ -1603,6 +1603,7 @@
         {
             "name": "frontend-component-header",
             "user_access": {
+                "edx-transifex-bot": 4,
                 "edx-travis": 2
             },
             "team_access": {
@@ -2371,7 +2372,7 @@
                 "miankhalid"
             ],
             "members": [
-                "HamzaIsrar-arbisoft",
+                "HamzaIsrar12",
                 "farhan-arshad-dev",
                 "omerhabib26"
             ]
@@ -3213,7 +3214,7 @@
                 "mulby"
             ],
             "members": [
-                "HamzaIsrar-arbisoft",
+                "HamzaIsrar12",
                 "bilalawan321",
                 "colinbrash",
                 "edx-travis-rw",
@@ -4604,7 +4605,7 @@
                 "DawoudSheraz",
                 "Dillon-Dumesnil",
                 "HammadAhmadWaqas",
-                "HamzaIsrar-arbisoft",
+                "HamzaIsrar12",
                 "HassanJaveed84",
                 "Jawayria",
                 "MatthewPiatetsky",

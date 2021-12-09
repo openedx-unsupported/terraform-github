@@ -276,5 +276,6 @@ if __name__ == "__main__":
     try:
         migrate()  # pylint: disable=no-value-for-parameter
     except HTTPError as http_error:
+        click.echo(f"Exception url: {http_error.url}")
         click.echo(f"Exception body: {http_error.fp.read()}")
         raise
