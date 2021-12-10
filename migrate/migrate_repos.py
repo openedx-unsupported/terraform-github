@@ -54,6 +54,10 @@ MAX_PAGE_SIZE = 100  # This is GitHub's page size limit
     envvar="GITHUB_TOKEN",
     show_default="$GITHUB_TOKEN environment variable.",
 )
+@click.option(
+    "--resume-from",
+    help="Name of the repo to resume from. Used after a transfer has failed partway through."
+)
 def migrate(
     src_org,
     dest_org,
@@ -64,6 +68,7 @@ def migrate(
     no_prompt,
     permissions_file,
     github_token,
+    resume_from,
 ):
     """
     Migrate repositories from SRC_ORG to DEST_ORG.
@@ -98,7 +103,7 @@ def migrate(
 
     # We passed the most basic input validations.
     # Get the list of repos from our text file.
-    repos_to_transfer = extract_repo_names(repo_list_file)
+    repos_to_transfer = extract_repo_names(repo_list_file, resume_from)
     click.echo(f"Read {len(repos_to_transfer)} repos from {repo_list_file.name}")
 
     # Initialize the GitHub API client
@@ -112,8 +117,21 @@ def migrate(
             paged(api.repos.list_for_org, src_org, per_page=MAX_PAGE_SIZE)
         )
     }
+
     missing_repos = [repo for repo in repos_to_transfer if repo not in src_org_repos]
-    if missing_repos:
+
+    # Have we already transferred the repo we're supposed to resume from?
+    resume_from_repo_already_transferred = missing_repos and (missing_repos == [resume_from])
+
+    if resume_from_repo_already_transferred:
+        # Mostly likely reason we're here is because the repo transfer succeeded
+        # in a previous run, but there was an error applying permissions right
+        # afterwards.
+        click.echo(
+            f"The {resume_from} repo is not in the source org (probably alredy "
+            + "transerred?). We will re-apply team permissions to it."
+        )
+    elif missing_repos:
         if skip_missing_repos:
             click.echo(
                 f"The following repositories are missing from {src_org} and will be skipped:"
@@ -178,15 +196,20 @@ def migrate(
     for (i, repo) in enumerate(repos_to_transfer, start=1):
         click.secho(f"{i:>3}: {repo}", bold=True)
         if not preview:
-            # Do the actual repo transfer call.
-            api.repos.transfer(src_org, repo, dest_org)
+            # Special case handling: Don't transfer the repo if it's the resume_from
+            # repo that was already transferred (but had borked permissions).
+            skip_transfer = resume_from_repo_already_transferred and (repo == resume_from)
 
-            # Without this sleep, we'll sometimes hit a race condition where the
-            # repo would not have been recognized as transferred before the
-            # permissions code tried to run, leading to errors because the repo
-            # did not exist at the new location yet. Need to put something more
-            # robust here (auto-retry?) later.
-            time.sleep(2)
+            if not skip_transfer:
+                # Do the actual repo transfer call.
+                api.repos.transfer(src_org, repo, dest_org)
+
+                # Without this sleep, we'll sometimes hit a race condition where the
+                # repo would not have been recognized as transferred before the
+                # permissions code tried to run, leading to errors because the repo
+                # did not exist at the new location yet. Need to put something more
+                # robust here (auto-retry?) later.
+                time.sleep(2)
 
         if repos_to_permissions:
             permissions = repos_to_permissions[repo]
@@ -224,11 +247,29 @@ class RepoPermissions:
         )
 
 
-def extract_repo_names(repo_list_file):
+def extract_repo_names(repo_list_file, resume_from):
     comments_removed = [line.partition("#")[0] for line in repo_list_file]
     stripped = [line.strip() for line in comments_removed]
     empty_lines_removed = [line for line in stripped if line]
-    return empty_lines_removed
+    if resume_from:
+        # If we're passed a repo name to resume from, we'll ignore all the ones
+        # leading up to it.
+        final_repo_list = list(
+            itertools.dropwhile(
+                lambda repo: repo != resume_from, empty_lines_removed
+            )
+        )
+        if not final_repo_list:
+            sys.exit(
+                f"Fatal Error: --resume-from={resume_from} was specified, but "
+                + f"{resume_from} not found in repo list: \n  "
+                + ",".join(empty_lines_removed)
+            )
+        click.echo(f"Resuming transfer from repo {resume_from}")
+    else:
+        final_repo_list = empty_lines_removed
+
+    return final_repo_list
 
 
 def load_permissions(teams_file, api, dest_org, skip_missing_teams):
