@@ -1,18 +1,7 @@
+edx-enterprise
+edx-search
 edx-bulk-grades
-mockprock
-django-splash
-django-user-tasks
-edx-bootstrap
-edx-celeryutils
-edx-cookiecutters
-edx-developer-docs
-edx-documentation
-edx-drf-extensions
-edx-rest-api-client
-edx-sphinx-theme
-enmerkar-underscore
 eslint-config
-event-routing-backends
 event-tracking
 frontend-template-application
 open-edx-proposals
@@ -110,3 +99,6 @@ edx-certificates
 edx-notifications
 user-util
 ease
+edx-ora2
+edx-proctoring
+edx-submissions

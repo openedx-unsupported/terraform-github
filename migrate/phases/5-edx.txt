@@ -1,5 +1,1 @@
-edx-ora2
-edx-proctoring
-edx-submissions
-docs.edx.org
 devstack
