@@ -1,4 +1,3 @@
-frontend-build
 edx-lint
 openedx-chem
 api-doc-tools
@@ -6,5 +5,16 @@ django-pyfs
 edx-django-utils
 frontend-platform
 MongoDBProxy
-edx-enterprise
-edx-search
+mockprock
+django-splash
+django-user-tasks
+edx-bootstrap
+edx-celeryutils
+edx-cookiecutters
+edx-developer-docs
+edx-documentation
+edx-drf-extensions
+edx-rest-api-client
+edx-sphinx-theme
+enmerkar-underscore
+event-routing-backends

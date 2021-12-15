@@ -1,5 +1,5 @@
 {
-    "export_date_utc": "2021-12-09T16:38:33.597188",
+    "export_date_utc": "2021-12-14T20:47:18.753593",
     "repos": [
         {
             "name": ".github",
@@ -111,9 +111,7 @@
         },
         {
             "name": "acclaimbadge-xblock",
-            "user_access": {
-                "mslotkeEDX": 4
-            },
+            "user_access": {},
             "team_access": {
                 "edx-admin": 4,
                 "community-engineering": 4,
@@ -868,9 +866,7 @@
         },
         {
             "name": "edx-documentation",
-            "user_access": {
-                "carolguest": 2
-            },
+            "user_access": {},
             "team_access": {
                 "edx-admin": 4,
                 "community-engineering": 4,
@@ -2455,7 +2451,6 @@
                 "adamstankiewicz",
                 "alex-sheehan-edx",
                 "binodpant",
-                "carolguest",
                 "georgebabey",
                 "iloveagent57",
                 "irfanuddinahmad",
@@ -2509,9 +2504,7 @@
         {
             "slug": "business-product",
             "maintainers": [],
-            "members": [
-                "carolguest"
-            ]
+            "members": []
         },
         {
             "slug": "ccp-committer-agrendalath",
@@ -2750,7 +2743,6 @@
                 "waheedahmed"
             ],
             "members": [
-                "adeelehsan",
                 "attiyaIshaque",
                 "mubbsharanwar",
                 "shafqatfarhan",
@@ -3634,6 +3626,7 @@
             ],
             "members": [
                 "Dillon-Dumesnil",
+                "cdeery",
                 "ciduarte",
                 "mikix"
             ]
@@ -3642,8 +3635,8 @@
             "slug": "jenkins-tools-course_runs-jobs",
             "maintainers": [],
             "members": [
-                "adeelehsan",
                 "awaisdar001",
+                "jmyatt",
                 "mikix"
             ]
         },
@@ -3670,7 +3663,6 @@
                 "MichaelRoytman",
                 "Tj-Tracy",
                 "Zacharis278",
-                "adeelehsan",
                 "awaisdar001",
                 "doctoryes",
                 "iloveagent57",
@@ -3846,9 +3838,7 @@
         },
         {
             "slug": "jenkins-tools-geoipupdate",
-            "maintainers": [
-                "adeelehsan"
-            ],
+            "maintainers": [],
             "members": [
                 "mikix",
                 "uzairr",
@@ -3873,7 +3863,6 @@
                 "Tj-Tracy",
                 "UsamaSadiq",
                 "Zacharis278",
-                "adeelehsan",
                 "awaisdar001",
                 "inventhouse",
                 "jansenk",
@@ -3958,7 +3947,6 @@
                 "Tj-Tracy",
                 "UsamaSadiq",
                 "Zacharis278",
-                "adeelehsan",
                 "alangsto",
                 "bseverino",
                 "iloveagent57",
@@ -4055,9 +4043,7 @@
             "maintainers": [
                 "nadeemshahzad"
             ],
-            "members": [
-                "adeelehsan"
-            ]
+            "members": []
         },
         {
             "slug": "jenkins-tools-translation-jobs",
@@ -4615,7 +4601,6 @@
                 "UsamaSadiq",
                 "Zacharis278",
                 "adamstankiewicz",
-                "adeelehsan",
                 "ahsanshafiq742",
                 "aht007",
                 "akummins",
@@ -4636,6 +4621,7 @@
                 "awaisdar001",
                 "ayub02",
                 "azanbinzahid",
+                "bcitro",
                 "bilalawan321",
                 "binodpant",
                 "brianhw",
@@ -4660,6 +4646,7 @@
                 "georgebabey",
                 "hbwhbw",
                 "hilaryg123",
+                "hurtstotouchfire",
                 "iamsobanjaved",
                 "iloveagent57",
                 "inventhouse",
@@ -4954,7 +4941,6 @@
                 "waheedahmed"
             ],
             "members": [
-                "adeelehsan",
                 "attiyaIshaque",
                 "mubbsharanwar",
                 "shafqatfarhan",
