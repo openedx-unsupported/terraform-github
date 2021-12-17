@@ -34,6 +34,11 @@ from ghapi.all import GhApi, paged
     help="Don't ask for a confirmation before transferring the repos.",
 )
 @click.option(
+    "--no-update",
+    is_flag=True,
+    help="Don't update team memberships for users already in the organization.",
+)
+@click.option(
     "--github_token",
     envvar="GITHUB_TOKEN",
     required=True,
@@ -44,6 +49,7 @@ def migrate(
     users_file,
     preview: bool,
     no_prompt: bool,
+    no_update: bool,
     github_token: str,
 ):
     """
@@ -129,13 +135,22 @@ def migrate(
         f"Will invite {len(users_to_invite)} user(s) to org {dest_org}:", bold=True
     )
     click.echo("  " + "\n  ".join(users_to_invite))
+    click.echo()
 
-    click.secho(
-        f"Will update {len(requested_users_already_in_org)} user(s) "
-        f"that are already in org {dest_org}:",
-        bold=True,
-    )
-    click.echo("  " + "\n  ".join(requested_users_already_in_org))
+    if no_update:
+        click.echo(
+            f"There are {len(requested_users_already_in_org)} user(s) "
+            f"already in org {dest_org}."
+        )
+        click.echo("They will not be updated, as --no-update was specified.")
+    else:
+        click.secho(
+            f"Will update {len(requested_users_already_in_org)} user(s) "
+            f"that are already in org {dest_org}:",
+            bold=True,
+        )
+        click.echo("  " + "\n  ".join(requested_users_already_in_org))
+    click.echo()
 
     show_prompt = True
     if preview:
@@ -187,22 +202,23 @@ def migrate(
                     )
                 time.sleep(wait_seconds)
 
-    for index, username in enumerate(requested_users_already_in_org):
-        teams_for_user = user_to_teams[username]
-        click.echo(
-            f"({index:03d}/{len(requested_users_already_in_org)}) updating teams for "
-            f"user {username}; {len(teams_for_user)=}."
-        )
+    if not no_update:
+        for index, username in enumerate(requested_users_already_in_org):
+            teams_for_user = user_to_teams[username]
+            click.echo(
+                f"({index:03d}/{len(requested_users_already_in_org)}) updating teams for "
+                f"user {username}; {len(teams_for_user)=}."
+            )
 
-        for team in teams_for_user:
-            click.echo(f"    adding/updating: {team.slug=} {team.role=}")
-            if not preview:
-                api.teams.add_or_update_membership_for_user_in_org(
-                    org=dest_org,
-                    team_slug=team.slug,
-                    username=username,
-                    role=team.role,
-                )
+            for team in teams_for_user:
+                click.echo(f"    adding/updating: {team.slug=} {team.role=}")
+                if not preview:
+                    api.teams.add_or_update_membership_for_user_in_org(
+                        org=dest_org,
+                        team_slug=team.slug,
+                        username=username,
+                        role=team.role,
+                    )
 
 
 def extract_user_names(user_list_file) -> List[str]:
