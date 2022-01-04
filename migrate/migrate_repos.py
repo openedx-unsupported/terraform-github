@@ -11,6 +11,7 @@ import itertools
 import os
 import sys
 import time
+from urllib.error import HTTPError
 
 import click
 from ghapi.all import GhApi, paged  # type: ignore
@@ -400,4 +401,9 @@ def set_repo_permissions(permissions, api, dest_org, preview):
 
 
 if __name__ == "__main__":
-    migrate()  # pylint: disable=no-value-for-parameter
+    try:
+        migrate()  # pylint: disable=no-value-for-parameter
+    except HTTPError as http_error:
+        click.echo(f"Exception url: {http_error.url}")
+        click.echo(f"Exception body: {http_error.fp.read()}")
+        raise
