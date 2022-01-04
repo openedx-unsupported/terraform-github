@@ -18,7 +18,7 @@ cypress-e2e-tests
 edx-django-sites-extensions
 edx-enterprise-data
 cc2olx
-platform-plugin-common-cartridge
+#platform-plugin-common-cartridge
 acclaimbadge-xblock
 acid-block
 AnimationXBlock
@@ -40,7 +40,7 @@ schoolyourself-xblock
 staff_graded-xblock
 studio-frontend
 tinymce-language-selector
-ubcpi
+#ubcpi
 XBlock
 xblock-free-text-response
 xblock-image-modal
@@ -67,7 +67,7 @@ edx-custom-a11y-rules
 edx-ui-toolkit
 frontend-component-footer
 frontend-component-header
-frontend-component-site-header
+#frontend-component-site-header
 i18n-tools
 reactifex
 taxonomy-connector
