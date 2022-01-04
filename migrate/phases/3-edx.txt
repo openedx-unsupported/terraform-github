@@ -19,7 +19,7 @@ edx-django-sites-extensions
 edx-enterprise-data
 cc2olx
 #platform-plugin-common-cartridge
-acclaimbadge-xblock
+#acclaimbadge-xblock
 acid-block
 AnimationXBlock
 AudioXBlock
