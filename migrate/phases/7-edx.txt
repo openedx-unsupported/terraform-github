@@ -5,7 +5,7 @@ enterprise-catalog
 license-manager
 blockstore
 edx-analytics-dashboard
-i18n-tools
+#i18n-tools
 course-discovery
 cs_comments_service
 ecommerce
