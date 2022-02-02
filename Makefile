@@ -14,13 +14,8 @@ format:  ## Format all the terraform files
 check-github-ratelimit: ## Check your github rate limits
 	curl --header "Authorization: token $${GITHUB_TOKEN}" "https://api.github.com/rate_limit"
 
-migrate-github-to-json: ## export edx and edx-solutions github org data to JSON
-	python -m migrate.github_to_json edx
-	python -m migrate.github_to_json edx-solutions
-
-migrate-json-to-userlist: ## Generate user lists for invitation based on the export json.
-	python -m migrate.json_to_userlist export-edx.json > migrate/edx-users.list
-	python -m migrate.json_to_userlist export-edx-solutions.json > migrate/edx-solutions-users.list
+migrate-github-to-json: ## export openedx github org data
+	python -m migrate.github_to_json openedx
 
 migrate-lint: ## Lint and format migration related python scripts.
 	black migrate
