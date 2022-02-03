@@ -1,7 +1,0 @@
-xblock-discussion
-xblock-drag-and-drop
-xblock-google-drive
-xblock-group-project
-xblock-image-explorer
-xblock-mentoring
-xblock-ooyala

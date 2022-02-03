@@ -1,9 +1,0 @@
-xblock-adventure
-xblock-discussion
-xblock-drag-and-drop
-xblock-drag-and-drop-v2
-xblock-google-drive
-xblock-group-project
-xblock-image-explorer
-xblock-mentoring
-xblock-ooyala

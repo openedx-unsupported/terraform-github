@@ -1,5 +1,0 @@
-openedx-calc
-frontend-app-support-tools
-xqueue
-edx-organizations
-frontend-build
