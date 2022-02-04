@@ -1,14 +1,13 @@
 from pprint import pprint
 
 import click
-from cache_to_disk import cache_to_disk
+from cache_to_disk import cache_to_disk, delete_disk_caches_for_function
 from ghapi.all import GhApi, paged
 
 
 @cache_to_disk(1)
 def load_teams_data_from_github(org):
     """
-
     returns a Tuple of
 
     - fully_empty_teams: A list of team slugs of teams that have no members, repos, projects or
@@ -59,8 +58,17 @@ def load_teams_data_from_github(org):
     is_flag=True,
     help="Show what changes would be made without making them.",
 )
+@click.option(
+    "--refresh-cache",
+    help="Refresh cache of github data before running.",
+    default=False,
+    is_flag=True,
+)
 @click.command()
-def main(org, dry_run):
+def main(org, dry_run, refresh_cache):
+    if refresh_cache:
+        load_teams_data_from_github.cache_clear()
+
     deletion_count = 0
     api = GhApi()
     (
