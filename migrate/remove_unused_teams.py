@@ -1,3 +1,4 @@
+from itertools import chain
 from pprint import pprint
 
 import click
@@ -22,29 +23,35 @@ def load_teams_data_from_github(org):
     fully_empty_teams = []
     members_but_nothing_else = []
     team_to_members = {}
-    for page in paged(api.teams.list, org, per_page=100):
-        teams.extend(page)
+    teams = chain.from_iterable(paged(api.teams.list, org, per_page=100))
 
     for team in teams:
         # we ignore the fact that there could be multiple pages of responses because we don't need
         # a full list of teams, since we're just looking for the teams that don't have any of these
         # objects.
-        repos = api.teams.list_repos_in_org(org, team.slug)
-        projects = api.teams.list_projects_in_org(org, team.slug)
-        child_teams = api.teams.list_child_in_org(org, team.slug)
+        has_repos = bool(api.teams.list_repos_in_org(org, team.slug))
+        has_projects = bool(api.teams.list_projects_in_org(org, team.slug))
+        has_child_teams = bool(api.teams.list_child_in_org(org, team.slug))
 
         # We get all the team members so we can review teams that still
         # have members.
-        team_members = []
-        for page in paged(api.teams.list_members_in_org, org, team.slug):
-            team_members.extend(page)
+        # We convert this to a list so that we can do boolean checks with
+        # it later
+        team_members = list(
+            chain.from_iterable(paged(api.teams.list_members_in_org, org, team.slug))
+        )
 
         team_to_members[team.slug] = [member.login for member in team_members]
-        if len(repos) == 0 and len(projects) == 0 and len(child_teams) == 0:
-            if len(team_members) == 0:
-                fully_empty_teams.append(team.slug)
-            else:
+        if not (has_repos or has_projects or has_child_teams):
+            if team_members:
                 members_but_nothing_else.append(team.slug)
+            else:
+                fully_empty_teams.append(team.slug)
+
+    # Leaving this as a complex 3-tuple but if we're making more changes, it
+    # probably makes sense to create a `Team` class with things like `members`
+    # and `has_projects` as attributes and computed properties for things like
+    # `members_but_nothing_else`.
     return (fully_empty_teams, members_but_nothing_else, team_to_members)
 
 
@@ -81,14 +88,15 @@ def main(org, dry_run, refresh_cache):
         "The following teams have no related repos, projects, members, or child teams:",
         bold=True,
     )
-    click.secho("    - ", nl=False, fg="red")
-    click.secho("\n    - ".join(fully_empty_teams), fg="red")
+    for team in fully_empty_teams:
+        click.secho(f"    - {team}", fg="red")
 
-    if len(fully_empty_teams) > 0 and (
-        dry_run or click.confirm("Delete all fully empty teams?")
+    if fully_empty_teams and (
+        click.confirm(
+            f"Delete {len(fully_empty_teams)} fully empty team(s)?({dry_run=})"
+        )
     ):
         click.secho("Deleting fully empty teams.", bold=True, fg="red")
-        # TODO: Actually do the deletion here.
         for team in fully_empty_teams:
             click.secho(f"Deleting '{team}'...", nl=False, fg="red")
             if not dry_run:
@@ -96,17 +104,24 @@ def main(org, dry_run, refresh_cache):
             click.secho(f"Done", fg="red")
             deletion_count += 1
 
+    click.secho(
+        "The following teams have members but no other related resources:", bold=True
+    )
     for team in members_but_nothing_else:
-        click.secho(f"'{team}' has the following members:", bold=True)
-        click.secho("    - ", nl=False)
-        click.secho("\n    - ".join(team_to_members[team]))
+        click.secho(f"    - {team}")
 
-        if dry_run or click.confirm(f"Delete '{team}'?"):
-            click.secho(f"Deleting '{team}'...", nl=False, fg="red")
-            if not dry_run:
-                api.teams.delete_in_org(org, team)
-            click.secho(f"Done", fg="red")
-            deletion_count += 1
+    if click.confirm(f"Review {len(members_but_nothing_else)} team(s) for deletion?"):
+        for team in members_but_nothing_else:
+            click.secho(f"'{team}' has the following members:", bold=True)
+            for member in team_to_members[team]:
+                click.secho(f"    - {member}")
+
+            if click.confirm(f"Delete '{team}'?({dry_run=})"):
+                click.secho(f"Deleting '{team}'...", nl=False, fg="red")
+                if not dry_run:
+                    api.teams.delete_in_org(org, team)
+                click.secho(f"Done", fg="red")
+                deletion_count += 1
 
     click.echo("\n\n")
     click.echo(click.style(f"{deletion_count}", bold=True) + " teams deleted.")
