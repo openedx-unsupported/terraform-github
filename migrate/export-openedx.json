@@ -1,5 +1,5 @@
 {
-    "export_date_utc": "2022-02-04T15:53:04.816365",
+    "export_date_utc": "2022-02-07T20:30:19.572037",
     "repos": [
         {
             "name": ".github",
@@ -96,9 +96,7 @@
         },
         {
             "name": "TinCanPython",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "edx-admin": 4,
@@ -143,9 +141,7 @@
         },
         {
             "name": "api-doc-tools",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "arbi-bom": 2,
@@ -264,9 +260,7 @@
         },
         {
             "name": "code-annotations",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "ccp-committer-regisb": 3,
@@ -312,9 +306,7 @@
         },
         {
             "name": "completion",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "edx-admin": 4,
@@ -407,9 +399,7 @@
         },
         {
             "name": "crowdsourcehinter",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "community-engineering": 4,
@@ -437,9 +427,7 @@
         },
         {
             "name": "cypress-e2e-tests",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "ccp-committer-cmltawt0": 2,
@@ -741,9 +729,7 @@
         },
         {
             "name": "edx-analytics-exporter",
-            "user_access": {
-                "edx-travis": 2
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "analytics-admin": 4,
@@ -845,9 +831,7 @@
         },
         {
             "name": "edx-celeryutils",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "arbi-bom": 2,
@@ -860,9 +844,7 @@
         },
         {
             "name": "edx-cookiecutters",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "arbi-bom": 2,
@@ -900,8 +882,7 @@
         {
             "name": "edx-developer-docs",
             "user_access": {
-                "PrecisionWordcraft": 2,
-                "edx-travis": 1
+                "PrecisionWordcraft": 2
             },
             "team_access": {
                 "openedx-admin": 4,
@@ -991,7 +972,7 @@
                 "edx-admin": 4,
                 "edx-testeng-robot-rw": 2,
                 "edx-webhook-admin": 4,
-                "enterprise-online-campus": 2,
+                "enterprise-quokkas": 2,
                 "pull-all": 1,
                 "push-pull-all": 2,
                 "requires-io": 1
@@ -1004,7 +985,7 @@
                 "openedx-admin": 4,
                 "edx-admin": 4,
                 "edx-webhook-admin": 4,
-                "enterprise-online-campus": 2,
+                "enterprise-quokkas": 2,
                 "enterprise-titans": 1,
                 "pull-all": 1,
                 "push-pull-all": 2
@@ -1232,9 +1213,7 @@
         },
         {
             "name": "edx-submissions",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "edx-admin": 4,
@@ -1247,9 +1226,7 @@
         },
         {
             "name": "edx-toggles",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "arbi-bom": 2,
@@ -1325,9 +1302,7 @@
         },
         {
             "name": "edx-when",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "edx-admin": 4,
@@ -1362,9 +1337,7 @@
         },
         {
             "name": "enterprise-catalog",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "business-enterprise-team": 2,
@@ -1379,9 +1352,7 @@
         },
         {
             "name": "eslint-config",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "community-engineering": 4,
@@ -1422,8 +1393,7 @@
         {
             "name": "frontend-app-account",
             "user_access": {
-                "edx-transifex-bot": 4,
-                "edx-travis": 4
+                "edx-transifex-bot": 4
             },
             "team_access": {
                 "openedx-admin": 4,
@@ -1440,7 +1410,7 @@
             "team_access": {
                 "openedx-admin": 4,
                 "edx-admin": 4,
-                "enterprise-online-campus": 2,
+                "enterprise-quokkas": 2,
                 "pull-all": 1,
                 "push-pull-all": 2
             }
@@ -1449,7 +1419,6 @@
             "name": "frontend-app-authn",
             "user_access": {
                 "edx-transifex-bot": 4,
-                "edx-travis": 4,
                 "waheedahmed": 4
             },
             "team_access": {
@@ -1493,8 +1462,7 @@
             "name": "frontend-app-ecommerce",
             "user_access": {
                 "edx-revenue-tasks": 4,
-                "edx-transifex-bot": 4,
-                "edx-travis": 4
+                "edx-transifex-bot": 4
             },
             "team_access": {
                 "openedx-admin": 4,
@@ -1508,14 +1476,12 @@
         },
         {
             "name": "frontend-app-enterprise-public-catalog",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "edx-admin": 4,
                 "edx-semantic-release-bot": 2,
-                "enterprise-online-campus": 4,
+                "enterprise-quokkas": 4,
                 "fedx-admin": 4,
                 "pull-all": 1,
                 "push-pull-all": 2
@@ -1524,7 +1490,6 @@
         {
             "name": "frontend-app-gradebook",
             "user_access": {
-                "edx-travis": 2,
                 "iloveagent57": 4,
                 "schenedx": 4
             },
@@ -1540,14 +1505,12 @@
         },
         {
             "name": "frontend-app-learner-portal-enterprise",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "edx-admin": 4,
                 "edx-semantic-release-bot": 2,
-                "enterprise-online-campus": 2,
+                "enterprise-quokkas": 2,
                 "fedx-admin": 4,
                 "pull-all": 1,
                 "push-pull-all": 2
@@ -1555,9 +1518,7 @@
         },
         {
             "name": "frontend-app-learner-portal-programs",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "edx-admin": 4,
@@ -1569,8 +1530,7 @@
         {
             "name": "frontend-app-learning",
             "user_access": {
-                "edx-transifex-bot": 4,
-                "edx-travis": 4
+                "edx-transifex-bot": 4
             },
             "team_access": {
                 "openedx-admin": 4,
@@ -1601,8 +1561,7 @@
             "name": "frontend-app-payment",
             "user_access": {
                 "edx-revenue-tasks": 4,
-                "edx-transifex-bot": 4,
-                "edx-travis": 4
+                "edx-transifex-bot": 4
             },
             "team_access": {
                 "openedx-admin": 4,
@@ -1617,8 +1576,7 @@
         {
             "name": "frontend-app-profile",
             "user_access": {
-                "edx-transifex-bot": 4,
-                "edx-travis": 4
+                "edx-transifex-bot": 4
             },
             "team_access": {
                 "openedx-admin": 4,
@@ -1632,9 +1590,7 @@
         },
         {
             "name": "frontend-app-program-console",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "edx-admin": 4,
@@ -1657,7 +1613,6 @@
             "name": "frontend-app-publisher",
             "user_access": {
                 "Dillon-Dumesnil": 4,
-                "edx-travis": 4,
                 "jmyatt": 4,
                 "mikix": 4
             },
@@ -1688,9 +1643,7 @@
         },
         {
             "name": "frontend-build",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "ccp-committer-bbrsofiane": 2,
@@ -1703,9 +1656,7 @@
         },
         {
             "name": "frontend-component-cookie-policy-banner",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "edx-admin": 4,
@@ -1731,8 +1682,7 @@
         {
             "name": "frontend-component-header",
             "user_access": {
-                "edx-transifex-bot": 4,
-                "edx-travis": 2
+                "edx-transifex-bot": 4
             },
             "team_access": {
                 "openedx-admin": 4,
@@ -1744,9 +1694,7 @@
         },
         {
             "name": "frontend-enterprise",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "edx-admin": 4,
@@ -1758,9 +1706,7 @@
         },
         {
             "name": "frontend-learner-portal-base",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "edx-admin": 4,
@@ -1772,9 +1718,7 @@
         },
         {
             "name": "frontend-platform",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "arch-bom": 4,
@@ -1839,9 +1783,7 @@
         },
         {
             "name": "license-manager",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "community-release-managers": 2,
@@ -1946,9 +1888,7 @@
         },
         {
             "name": "openedx-calc",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "arch-bom": 4,
@@ -2157,9 +2097,7 @@
         },
         {
             "name": "registrar",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "edx-admin": 4,
@@ -2280,7 +2218,6 @@
         {
             "name": "taxonomy-connector",
             "user_access": {
-                "edx-travis": 4,
                 "georgebabey": 4,
                 "moconnell1453": 4
             },
@@ -2333,9 +2270,7 @@
         },
         {
             "name": "tinymce-language-selector",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "edx-admin": 4,
@@ -2449,9 +2384,7 @@
         },
         {
             "name": "xblock-free-text-response",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "community-engineering": 4,
@@ -2487,9 +2420,7 @@
         },
         {
             "name": "xblock-image-modal",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "community-engineering": 4,
@@ -2500,9 +2431,7 @@
         },
         {
             "name": "xblock-in-video-quiz",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "community-engineering": 4,
@@ -2529,9 +2458,7 @@
         },
         {
             "name": "xblock-qualtrics-survey",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "community-engineering": 4,
@@ -2560,9 +2487,7 @@
         },
         {
             "name": "xblock-sql-grader",
-            "user_access": {
-                "edx-travis": 1
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "community-engineering": 4,
@@ -2573,9 +2498,7 @@
         },
         {
             "name": "xblock-submit-and-compare",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "community-engineering": 4,
@@ -2638,9 +2561,7 @@
         },
         {
             "name": "xss-utils",
-            "user_access": {
-                "edx-travis": 4
-            },
+            "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
                 "arbi-bom": 2,
@@ -2847,6 +2768,7 @@
             "members": [
                 "adamstankiewicz",
                 "alex-sheehan-edx",
+                "bcitro",
                 "binodpant",
                 "christopappas",
                 "georgebabey",
@@ -2871,6 +2793,7 @@
             "members": [
                 "adamstankiewicz",
                 "alex-sheehan-edx",
+                "bcitro",
                 "binodpant",
                 "christopappas",
                 "georgebabey",
@@ -3947,8 +3870,9 @@
             ]
         },
         {
-            "slug": "enterprise-online-campus",
+            "slug": "enterprise-quokkas",
             "maintainers": [
+                "bcitro",
                 "georgebabey"
             ],
             "members": [
@@ -5419,6 +5343,14 @@
                 "Carlos-Muniz",
                 "arbrandes"
             ]
+        },
+        {
+            "slug": "tcril-oncall",
+            "maintainers": [
+                "kdmccormick",
+                "sarina"
+            ],
+            "members": []
         },
         {
             "slug": "teaching-and-learning",
