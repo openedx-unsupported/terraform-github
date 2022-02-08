@@ -68,7 +68,6 @@ def main():
     org_slug = sys.argv[1]
 
     LOG.info("Fetching organization repos, teams, and permissions from GitHub API.")
-    repo_names = get_repo_names_to_move(org_slug)
     gh_token = get_github_token()
 
     LOG.info(" Authenticating.")
@@ -81,7 +80,7 @@ def main():
     gh_headers = {"AUTHORIZATION": f"token {gh_token}"}
 
     teams = fetch_teams(gh_headers, org)
-    repo_permissions = fetch_repo_permissions(gh_headers, org, repo_names, teams)
+    repo_permissions = fetch_repo_permissions(gh_headers, org, teams)
 
     LOG.info("Done fetching.")
 
@@ -123,7 +122,6 @@ class Team:
 def fetch_repo_permissions(
     gh_headers: dict,
     org: ApiOrganization,
-    repo_names: List[RepoName],
     teams: List[Team],
 ) -> List[Repo]:
     """
@@ -150,9 +148,6 @@ def fetch_repo_permissions(
 
         # Skip repos that we're not interested in.
         repo_name = RepoName(api_repo.name)
-        if repo_name not in repo_names:
-            LOG.info("  Skipping repo %s; not in transfer list.", repo_name)
-            continue
         if not repo_name.startswith(  # pylint: disable=no-member
             DEBUG_REPO_NAME_PREFIX
         ):
@@ -373,14 +368,6 @@ def get_github_token() -> str:
     Load GH persoal access token from file.
     """
     return os.environ["GITHUB_TOKEN"]
-
-
-def get_repo_names_to_move(org_slug: str) -> Set[RepoName]:
-    """
-    Load repo names from file.
-    """
-    with open(f"migrate/repos-{org_slug}.txt") as repos_file:
-        return set(RepoName(line.strip()) for line in repos_file.readlines())
 
 
 def get_admin_team_slug(org_slug: str) -> TeamSlug:
