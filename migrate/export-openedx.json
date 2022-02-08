@@ -1,5 +1,5 @@
 {
-    "export_date_utc": "2022-02-08T15:33:33.931785",
+    "export_date_utc": "2022-02-08T16:24:29.585745",
     "repos": [
         {
             "name": ".github",
@@ -707,6 +707,26 @@
                 "edx-data-engineering": 2,
                 "edx-testeng-robot-rw": 2,
                 "edx-transifex-translations": 2,
+                "edx-webhook-admin": 4,
+                "masters-devs-cosmonauts": 2,
+                "pull-all": 1,
+                "push-pull-all": 2,
+                "requires-io": 1
+            }
+        },
+        {
+            "name": "edx-analytics-data-api",
+            "user_access": {
+                "schenedx": 4
+            },
+            "team_access": {
+                "openedx-admin": 4,
+                "analytics-admin": 4,
+                "analytics-push": 2,
+                "community-release-managers": 2,
+                "edx-admin": 4,
+                "edx-data-engineering": 2,
+                "edx-testeng-robot-rw": 2,
                 "edx-webhook-admin": 4,
                 "masters-devs-cosmonauts": 2,
                 "pull-all": 1,
