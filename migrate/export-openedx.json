@@ -1,5 +1,5 @@
 {
-    "export_date_utc": "2022-02-07T20:30:19.572037",
+    "export_date_utc": "2022-02-08T15:33:33.931785",
     "repos": [
         {
             "name": ".github",
@@ -309,6 +309,7 @@
             "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
+                "content-aurora": 2,
                 "edx-admin": 4,
                 "edx-testeng-robot-rw": 2,
                 "engage-squad": 4,
@@ -368,6 +369,7 @@
             "team_access": {
                 "openedx-admin": 4,
                 "community-release-managers": 2,
+                "content-aurora": 2,
                 "edx-admin": 4,
                 "edx-aperture": 2,
                 "edx-codecov-bot": 1,
@@ -822,6 +824,7 @@
             "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
+                "content-aurora": 3,
                 "edx-admin": 4,
                 "masters-dahlia": 2,
                 "masters-devs-gta": 3,
@@ -1054,6 +1057,7 @@
             "team_access": {
                 "openedx-admin": 4,
                 "ccp-committer-pomegranited": 2,
+                "content-aurora": 3,
                 "edx-admin": 4,
                 "edx-ora2-push": 2,
                 "edx-transifex-translations": 2,
@@ -1126,6 +1130,7 @@
                 "openedx-admin": 4,
                 "arch-bom": 1,
                 "ccp-committer-idegtiarov": 2,
+                "content-aurora": 2,
                 "edx-admin": 4,
                 "edx-testeng-robot-rw": 2,
                 "edx-transifex-translations": 2,
@@ -1439,6 +1444,7 @@
             "team_access": {
                 "openedx-admin": 4,
                 "ccp-committer-xitij2000": 2,
+                "content-aurora": 2,
                 "edx-admin": 4,
                 "masters-devs": 2,
                 "pull-all": 1,
@@ -1497,6 +1503,7 @@
                 "openedx-admin": 4,
                 "ccp-committer-bbrsofiane": 2,
                 "community-release-managers": 2,
+                "content-aurora": 2,
                 "edx-admin": 4,
                 "edx-semantic-release-bot": 2,
                 "pull-all": 1,
@@ -2100,6 +2107,7 @@
             "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
+                "content-aurora": 2,
                 "edx-admin": 4,
                 "edx-testeng-robot-rw": 2,
                 "masters-devs": 2,
@@ -2208,6 +2216,7 @@
             "user_access": {},
             "team_access": {
                 "openedx-admin": 4,
+                "content-aurora": 2,
                 "edx-admin": 4,
                 "masters-dahlia": 2,
                 "masters-devs-gta": 2,
@@ -2623,11 +2632,6 @@
             "members": []
         },
         {
-            "slug": "analytics-jenkins-access",
-            "maintainers": [],
-            "members": []
-        },
-        {
             "slug": "analytics-prefect",
             "maintainers": [
                 "e0d",
@@ -2822,11 +2826,6 @@
             ]
         },
         {
-            "slug": "business-product",
-            "maintainers": [],
-            "members": []
-        },
-        {
             "slug": "ccp-committer-agrendalath",
             "maintainers": [],
             "members": [
@@ -2948,11 +2947,6 @@
             "members": [
                 "ziafazal"
             ]
-        },
-        {
-            "slug": "certificates-push-pull",
-            "maintainers": [],
-            "members": []
         },
         {
             "slug": "codejail-ghprb",
@@ -3240,11 +3234,6 @@
             ]
         },
         {
-            "slug": "doc",
-            "maintainers": [],
-            "members": []
-        },
-        {
             "slug": "doc-a-thon-reviewers",
             "maintainers": [
                 "natabene"
@@ -3350,11 +3339,6 @@
             "maintainers": [
                 "e0d"
             ],
-            "members": []
-        },
-        {
-            "slug": "edx-accessibility",
-            "maintainers": [],
             "members": []
         },
         {
@@ -3508,16 +3492,6 @@
             ]
         },
         {
-            "slug": "edx-devops-interns",
-            "maintainers": [],
-            "members": []
-        },
-        {
-            "slug": "edx-diff-cover-community-managers",
-            "maintainers": [],
-            "members": []
-        },
-        {
             "slug": "edx-django-profiler",
             "maintainers": [
                 "nedbat"
@@ -3529,11 +3503,6 @@
         },
         {
             "slug": "edx-documentation-admin",
-            "maintainers": [],
-            "members": []
-        },
-        {
-            "slug": "edx-e2e-tests-push",
             "maintainers": [],
             "members": []
         },
@@ -3569,11 +3538,6 @@
             ]
         },
         {
-            "slug": "edx-hubot-push",
-            "maintainers": [],
-            "members": []
-        },
-        {
             "slug": "edx-infinity",
             "maintainers": [
                 "asadazam93",
@@ -3594,21 +3558,11 @@
             ]
         },
         {
-            "slug": "edx-labs-ocw-push",
-            "maintainers": [],
-            "members": []
-        },
-        {
             "slug": "edx-learner-operations",
             "maintainers": [],
             "members": [
                 "nrobertson1992"
             ]
-        },
-        {
-            "slug": "edx-media-push",
-            "maintainers": [],
-            "members": []
         },
         {
             "slug": "edx-milestones",
@@ -3630,21 +3584,6 @@
             ]
         },
         {
-            "slug": "edx-mktg-owner",
-            "maintainers": [],
-            "members": []
-        },
-        {
-            "slug": "edx-mktg-pull",
-            "maintainers": [],
-            "members": []
-        },
-        {
-            "slug": "edx-mktg-push",
-            "maintainers": [],
-            "members": []
-        },
-        {
             "slug": "edx-mobile-admin",
             "maintainers": [
                 "mulby"
@@ -3652,11 +3591,6 @@
             "members": [
                 "colinbrash"
             ]
-        },
-        {
-            "slug": "edx-mobile-pull",
-            "maintainers": [],
-            "members": []
         },
         {
             "slug": "edx-mobile-push",
@@ -3674,11 +3608,6 @@
                 "omerhabib26",
                 "saeedbashir"
             ]
-        },
-        {
-            "slug": "edx-ora-push",
-            "maintainers": [],
-            "members": []
         },
         {
             "slug": "edx-ora2-push",
@@ -3706,21 +3635,11 @@
             ]
         },
         {
-            "slug": "edx-read-only-bots",
-            "maintainers": [],
-            "members": []
-        },
-        {
             "slug": "edx-recruiting-team",
             "maintainers": [],
             "members": [
                 "Stevefavazza"
             ]
-        },
-        {
-            "slug": "edx-sandbox-pull",
-            "maintainers": [],
-            "members": []
         },
         {
             "slug": "edx-semantic-release-bot",
@@ -3799,16 +3718,6 @@
                 "edx-webhook",
                 "nedbat"
             ],
-            "members": []
-        },
-        {
-            "slug": "edx-www-push",
-            "maintainers": [],
-            "members": []
-        },
-        {
-            "slug": "edxanalytics-push",
-            "maintainers": [],
             "members": []
         },
         {
@@ -3924,30 +3833,10 @@
             ]
         },
         {
-            "slug": "forumacademy-theme-pull",
-            "maintainers": [],
-            "members": []
-        },
-        {
-            "slug": "fresh-tilled-soil",
-            "maintainers": [],
-            "members": []
-        },
-        {
             "slug": "github-pages-only",
             "maintainers": [
                 "nedbat"
             ],
-            "members": []
-        },
-        {
-            "slug": "helio",
-            "maintainers": [],
-            "members": []
-        },
-        {
-            "slug": "hiring-coding",
-            "maintainers": [],
             "members": []
         },
         {
@@ -3972,21 +3861,6 @@
                 "estute",
                 "mraarif"
             ]
-        },
-        {
-            "slug": "insights-push",
-            "maintainers": [],
-            "members": []
-        },
-        {
-            "slug": "internal-pull",
-            "maintainers": [],
-            "members": []
-        },
-        {
-            "slug": "interviewers",
-            "maintainers": [],
-            "members": []
         },
         {
             "slug": "intro-course",
@@ -4379,11 +4253,6 @@
             ]
         },
         {
-            "slug": "jenkins-tools-mobileapps-jobs",
-            "maintainers": [],
-            "members": []
-        },
-        {
             "slug": "jenkins-tools-ora-jobs",
             "maintainers": [
                 "georgebabey",
@@ -4599,11 +4468,6 @@
             "members": []
         },
         {
-            "slug": "latex2edx_xserver-push",
-            "maintainers": [],
-            "members": []
-        },
-        {
             "slug": "learner",
             "maintainers": [
                 "dianakhuang",
@@ -4634,30 +4498,10 @@
             "members": []
         },
         {
-            "slug": "learner-helio",
-            "maintainers": [],
-            "members": []
-        },
-        {
             "slug": "learner-performance",
             "maintainers": [
                 "robrap"
             ],
-            "members": []
-        },
-        {
-            "slug": "learner-product",
-            "maintainers": [],
-            "members": []
-        },
-        {
-            "slug": "load-tests-push",
-            "maintainers": [],
-            "members": []
-        },
-        {
-            "slug": "marketing-analytics",
-            "maintainers": [],
             "members": []
         },
         {
@@ -4783,16 +4627,6 @@
             ]
         },
         {
-            "slug": "mobile-product",
-            "maintainers": [],
-            "members": []
-        },
-        {
-            "slug": "mooc-org-users",
-            "maintainers": [],
-            "members": []
-        },
-        {
             "slug": "no-repos",
             "maintainers": [
                 "edx-webhook"
@@ -4851,11 +4685,6 @@
             "members": []
         },
         {
-            "slug": "openedx-ceng-test",
-            "maintainers": [],
-            "members": []
-        },
-        {
             "slug": "openedx-support-team",
             "maintainers": [],
             "members": [
@@ -4907,11 +4736,6 @@
             ]
         },
         {
-            "slug": "personal",
-            "maintainers": [],
-            "members": []
-        },
-        {
             "slug": "pipeline-bot",
             "maintainers": [],
             "members": [
@@ -4951,31 +4775,11 @@
             ]
         },
         {
-            "slug": "platform-authn",
-            "maintainers": [],
-            "members": []
-        },
-        {
             "slug": "platform-core-extensions",
             "maintainers": [
                 "feanil",
                 "nedbat"
             ],
-            "members": []
-        },
-        {
-            "slug": "platform-courseware",
-            "maintainers": [],
-            "members": []
-        },
-        {
-            "slug": "platform-credentials",
-            "maintainers": [],
-            "members": []
-        },
-        {
-            "slug": "platform-discovery",
-            "maintainers": [],
             "members": []
         },
         {
@@ -4986,11 +4790,6 @@
             "members": [
                 "iloveagent57"
             ]
-        },
-        {
-            "slug": "platform-mobile",
-            "maintainers": [],
-            "members": []
         },
         {
             "slug": "platform-owners",
@@ -5007,11 +4806,6 @@
                 "jmbowman",
                 "nedbat"
             ],
-            "members": []
-        },
-        {
-            "slug": "pre-onboarding",
-            "maintainers": [],
             "members": []
         },
         {
@@ -5298,26 +5092,11 @@
             ]
         },
         {
-            "slug": "skel-team",
-            "maintainers": [],
-            "members": []
-        },
-        {
             "slug": "solutions-team",
             "maintainers": [],
             "members": [
                 "mattdrayer"
             ]
-        },
-        {
-            "slug": "status-edx-org-admin",
-            "maintainers": [],
-            "members": []
-        },
-        {
-            "slug": "status-edx-org-push",
-            "maintainers": [],
-            "members": []
         },
         {
             "slug": "sustaining-team",
