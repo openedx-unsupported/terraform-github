@@ -1,5 +1,5 @@
 {
-    "export_date_utc": "2022-02-08T19:20:40.117606",
+    "export_date_utc": "2022-02-08T21:28:35.482638",
     "repos": [
         {
             "name": ".github",
@@ -1914,6 +1914,14 @@
             }
         },
         {
+            "name": "openedx-learning",
+            "user_access": {},
+            "team_access": {
+                "openedx-admin": 4,
+                "tcril-engineering": 1
+            }
+        },
+        {
             "name": "openedx-slack-invite",
             "user_access": {},
             "team_access": {
@@ -2956,15 +2964,6 @@
             ]
         },
         {
-            "slug": "conference-website",
-            "maintainers": [
-                "nedbat"
-            ],
-            "members": [
-                "joedolson"
-            ]
-        },
-        {
             "slug": "configuration-pull",
             "maintainers": [],
             "members": []
@@ -3250,7 +3249,6 @@
             ],
             "members": [
                 "BbrSofiane",
-                "eLRuLL",
                 "felipemontoya",
                 "pdpinch"
             ]
@@ -3697,13 +3695,6 @@
             "maintainers": [],
             "members": [
                 "schenedx"
-            ]
-        },
-        {
-            "slug": "edx-recruiting-team",
-            "maintainers": [],
-            "members": [
-                "Stevefavazza"
             ]
         },
         {
@@ -4466,7 +4457,6 @@
             "slug": "jenkins-tools-partner-support-jobs",
             "maintainers": [],
             "members": [
-                "beckrecca",
                 "enavarro",
                 "jsongedx",
                 "nadeemshahzad"
@@ -4816,16 +4806,6 @@
             "maintainers": [],
             "members": [
                 "katymyw"
-            ]
-        },
-        {
-            "slug": "no-repos",
-            "maintainers": [
-                "edx-webhook"
-            ],
-            "members": [
-                "caesar2164",
-                "kluo"
             ]
         },
         {
