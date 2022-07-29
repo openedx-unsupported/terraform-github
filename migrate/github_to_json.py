@@ -5,9 +5,9 @@ Load GH teams, specified repos, and user/team permissions on those repos.
 Dumps JSON to migrate/export-$ORGANIZATION.json. Logs progess to stderr.
 
 Usage:
-    python -m migrate.github_to_json.py ORGANIZATION
+    python -m migrate.github_to_json ORGANIZATION
 Or just:
-    make migrat-github-to-json
+    make migrate-github-to-json
 
 Requirement installation:
     make migrate-requirements  # in a virtualenv, from repo root
@@ -51,7 +51,7 @@ from .utils import (
     Username,
 )
 
-# While iteratively develping, you might use a limited set of repos & teams
+# While iteratively developing, you might use a limited set of repos & teams
 # to speed up test runs and/or avoid getting rate-limited by GitHub
 DEBUG_TEAM_SLUG_PREFIX = ""
 DEBUG_REPO_NAME_PREFIX = ""
@@ -182,13 +182,13 @@ def fetch_repo_permissions(
 
         # Fetch teams associated with repository from GitHub API.
         LOG.info("   Fetching team permissions.")
-        teams_response = requests.get(api_repo.teams_url, headers=gh_headers)
+        teams_response = requests.get(api_repo.teams_url + "?per_page=100", headers=gh_headers)
         assert teams_response.status_code == 200
         teams_data = teams_response.json()
         assert isinstance(teams_data, list)
 
         # Populate team_access and user_access_via_team mappings based on
-        # teams returned from repository-teams-lsiting API.
+        # teams returned from repository-teams-listing API.
         for team_data in sorted(teams_data, key=lambda t: t["slug"]):
             team_slug = team_data["slug"]
             team_access[team_slug] = normalize_access_level(team_data["permissions"])
