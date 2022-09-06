@@ -16,8 +16,8 @@ variable "visibility" {
   default     = "public"
 }
 
-resource "github_repository" "this" {
-  count = var.phony ? 0 : 1
+resource "github_repository" "repo" {
+  #  count = var.phony ? 0 : 1
 
   name       = var.name
   visibility = "public"
@@ -26,12 +26,19 @@ resource "github_repository" "this" {
     ignore_changes = [
       allow_rebase_merge,
       allow_squash_merge,
+      allow_auto_merge,
+      allow_merge_commit,
       delete_branch_on_merge,
       description,
       has_downloads,
       has_issues,
       has_projects,
       has_wiki,
+      homepage_url,
+      is_template,
+      pages,
+      template,
+      topics,
       vulnerability_alerts,
     ]
   }
