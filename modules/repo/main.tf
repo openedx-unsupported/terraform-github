@@ -4,12 +4,6 @@ variable "name" {
   description = "Name of the GitHub repository"
 }
 
-variable "phony" {
-  type        = bool
-  default     = false
-  description = "Whether this module instance should NOT be associated with a real GitHub repository. For use in TCRIL transition."
-}
-
 variable "visibility" {
   type        = string
   description = "Repository visibility ('public', 'private', or 'secret'. Defaults 'public')."
@@ -17,10 +11,8 @@ variable "visibility" {
 }
 
 resource "github_repository" "repo" {
-  #  count = var.phony ? 0 : 1
-
   name       = var.name
-  visibility = "public"
+  visibility = var.visibility
 
   lifecycle {
     ignore_changes = [
@@ -42,10 +34,6 @@ resource "github_repository" "repo" {
       vulnerability_alerts,
     ]
   }
-}
-
-output "phony" {
-  value = var.phony
 }
 
 output "name" {
