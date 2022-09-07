@@ -1150,3 +1150,9 @@ module "architecture_coordination_wg" {
     name = "architecture-coordination-wg"
 }
 
+
+module "django_require" {
+    source = "./modules/repo"
+    name = "django-require"
+}
+
