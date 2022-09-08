@@ -4,41 +4,36 @@ variable "name" {
   description = "Name of the GitHub repository"
 }
 
-variable "phony" {
-  type        = bool
-  default     = false
-  description = "Whether this module instance should NOT be associated with a real GitHub repository. For use in TCRIL transition."
-}
-
 variable "visibility" {
   type        = string
   description = "Repository visibility ('public', 'private', or 'secret'. Defaults 'public')."
   default     = "public"
 }
 
-resource "github_repository" "this" {
-  count = var.phony ? 0 : 1
-
+resource "github_repository" "repo" {
   name       = var.name
-  visibility = "public"
+  visibility = var.visibility
 
   lifecycle {
     ignore_changes = [
       allow_rebase_merge,
       allow_squash_merge,
+      allow_auto_merge,
+      allow_merge_commit,
       delete_branch_on_merge,
       description,
       has_downloads,
       has_issues,
       has_projects,
       has_wiki,
+      homepage_url,
+      is_template,
+      pages,
+      template,
+      topics,
       vulnerability_alerts,
     ]
   }
-}
-
-output "phony" {
-  value = var.phony
 }
 
 output "name" {
