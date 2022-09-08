@@ -1052,6 +1052,7 @@ module "data_wg" {
 module "terraform_github" {
     source = "./modules/repo"
     name = "terraform-github"
+    ensure_commitlint = true
 }
 
 

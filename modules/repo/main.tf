@@ -10,6 +10,12 @@ variable "visibility" {
   default     = "public"
 }
 
+variable "ensure_commitlint" {
+  type = bool
+  description = "Whether or not this repo has the commitlint github action installed."
+  default = "false"
+}
+
 resource "github_repository" "repo" {
   name       = var.name
   visibility = var.visibility
@@ -34,6 +40,19 @@ resource "github_repository" "repo" {
       vulnerability_alerts,
     ]
   }
+}
+
+data "github_repository" "repo" {
+  name = github_repository.repo.name
+}
+
+resource "github_repository_file" "commitlint_action" {
+  repository = github_repository.repo.name
+  branch =  data.github_repository.repo.default_branch
+  file = ".github/workflows/commitlint.yml"
+  content = file("${path.module}/files/commitlint.yml")
+
+  count = var.ensure_commitlint ? 1 : 0
 }
 
 output "name" {
