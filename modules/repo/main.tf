@@ -44,13 +44,22 @@ resource "github_repository" "repo" {
 
 data "github_repository" "repo" {
   name = github_repository.repo.name
+  count = var.ensure_commitlint ? 1 : 0
+}
+
+data "github_repository_file" "commitlint_action" {
+  repository = ".github"
+  branch =  "master"
+  file = "workflow-templates/commitlint.yml"
+
+  count = var.ensure_commitlint ? 1 : 0
 }
 
 resource "github_repository_file" "commitlint_action" {
   repository = github_repository.repo.name
-  branch =  data.github_repository.repo.default_branch
+  branch =  data.github_repository.repo[0].default_branch
   file = ".github/workflows/commitlint.yml"
-  content = file("${path.module}/files/commitlint.yml")
+  content = data.github_repository_file.commitlint_action[0].content
 
   count = var.ensure_commitlint ? 1 : 0
 }
