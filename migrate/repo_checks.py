@@ -1,0 +1,305 @@
+"""
+Run checks Against Repos and correct them if they're missing something.
+
+"""
+from itertools import chain
+from pprint import pformat
+
+import click
+import requests
+from fastcore.net import HTTP4xxClientError, HTTP5xxServerError, HTTP404NotFoundError
+from ghapi.all import GhApi, paged
+
+
+class Check:
+    def __init__(self, api, org, repo):
+        raise NotImplementedError
+
+    def check(self):
+        raise NotImplementedError
+
+    def fix(self):
+        raise NotImplementedError
+
+    def dry_run(self):
+        raise NotImplementedError
+
+
+class RequiredCLACheck(Check):
+    """
+    This class validates the following:
+
+    * Branch Protection is enabled on the default branch.
+    * The CLA Check is a required check.
+
+    If the check fails, the fix function can update the repo
+    so that it has branch protection enabled with the "openedx/cla"
+    check as a required check.
+    """
+
+    def __init__(self, api, org_name, repo_name):
+        self.api = api
+        self.org_name = org_name
+        self.repo_name = repo_name
+
+        self.cla_check = {"context": "openedx/cla", "app_id": -1}
+
+        self.has_a_branch_protection_rule = False
+        self.branch_protection_has_required_checks = False
+        self.required_checks_has_cla_required = False
+
+    def check(self):
+        repo = self.api.repos.get(self.org_name, self.repo_name)
+        default_branch = repo.default_branch
+        # Branch protection rule might not exist.
+        try:
+            branch_protection = self.api.repos.get_branch_protection(
+                self.org_name, self.repo_name, default_branch
+            )
+            self.has_a_branch_protection_rule = True
+        except HTTP404NotFoundError as e:
+            return (False, "No branch protection rule.")
+
+        if "required_status_checks" not in branch_protection:
+            return (False, "No required status checks in place.")
+        self.branch_protection_has_required_checks = True
+
+        # We don't need to check the `contexts` list because, github mirrors
+        # all existing checks in `contexts` into the `checks` data.  The `contexts`
+        # data is deprecated and will not be available in the future.
+        contexts = [
+            check["context"]
+            for check in branch_protection.required_status_checks.checks
+        ]
+        if "openedx/cla" not in contexts:
+            return (False, "No CLA Check")
+        self.required_checks_has_cla_required = True
+
+        return (True, "Branch Protection with CLA Check in Place.")
+
+    def dry_run(self):
+        """
+        Provide info on what would be done to make this check pass.
+        """
+        return self.fix(dry_run=True)
+
+    def fix(self, dry_run=False):
+        try:
+            steps = []
+
+            # Short Circuit if there is nothing to do.
+            if self.required_checks_has_cla_required:
+                return steps
+
+            repo = self.api.repos.get(self.org_name, self.repo_name)
+            default_branch = repo.default_branch
+
+            # While the API docs claim that "contexts" is a required part
+            # of the put body, it is only required if "checks" is not supplied.
+            required_status_checks = {
+                "strict": False,
+                "checks": [
+                    self.cla_check,
+                ],
+            }
+
+            if not self.has_a_branch_protection_rule:
+                # The easy case where we don't already have branch protection setup.
+                # Might not work actually because of the bug we found below.  We'll need
+                # to test against github to verify.
+                params = {
+                    "owner": self.org_name,
+                    "repo": self.repo_name,
+                    "branch": default_branch,
+                    "required_status_checks": required_status_checks,
+                    "endorce_admins": None,
+                    "required_pull_request_reviews": None,
+                    "restrictions": None,
+                }
+                if not dry_run:
+                    self._update_branch_protection(params)
+
+                steps.append(
+                    f"Added new branch protection with `openedx/cla` as a required check."
+                )
+                return steps
+
+            # There's already a branch protection rule, so we need to make sure
+            # not to clobber the existing checks or settings.
+            params = self._get_update_params_from_get_branch_protection()
+            steps.append(f"State Before Update: {pformat(dict(params))}")
+
+            if not self.branch_protection_has_required_checks:
+                # We need to add a check object to the params we get
+                # since this branch protection rule has no required checks.
+                steps.append(f"Adding a new required check.\n{required_status_checks}")
+                params["required_status_checks"] = required_status_checks
+            else:
+                # There is already a set of required checks, we just need to
+                # add our new check to the existing list.
+                steps.append(
+                    f"Adding `openedx/cla` as a new required check to existing branch protection."
+                )
+                params["required_status_checks"]["checks"].append(self.cla_check)
+
+            if not self.required_checks_has_cla_required:
+                # Have to do this because of a bug in GhAPI see
+                # _update_branch_protection docstring for more details.
+                steps.append(f"Update we're requesting: {pformat(dict(params))}")
+                if not dry_run:
+                    self._update_branch_protection(params)
+                # self.api.repos.update_branch_protection(**params)
+        except HTTP4xxClientError as e:
+            # Print the steps before raising the existing exception so we have
+            # some more context on what might have happened.
+            click.echo("\n".join(steps))
+            click.echo(e.fp.read().decode("utf-8"))
+            raise
+        except requests.HTTPError as e:
+            # Print the steps before raising the existing exception so we have
+            # some more context on what might have happened.
+            click.echo("\n".join(steps))
+            click.echo(pformat(e.response.json()))
+            raise
+
+        return steps
+
+    def _update_branch_protection(self, params):
+        """
+        Need to do this ourselves because of a bug in GhAPI that ignores
+        `None` parameters and doesn't pass them through to the API.
+
+        - https://github.com/fastai/ghapi/issues/81
+        - https://github.com/fastai/ghapi/pull/91
+        """
+        params = dict(params)
+        headers = self.api.headers
+        url = (
+            "https://api.github.com"
+            + self.api.repos.update_branch_protection.path.format(**params)
+        )
+        resp = requests.put(url, headers=headers, json=params)
+
+        resp.raise_for_status()
+
+    def _get_update_params_from_get_branch_protection(self):
+        """
+        Get the params needed to do an update operation that would produce
+        the same branch protection as doing a get on this repo.
+
+        We'll need this in cases where there are already some branch protection
+        rules on the default branch and we want to update only some it without
+        resetting the rest of it.
+        """
+
+        # TODO: Could use Glom here in the future, but didn't need it.
+        repo = self.api.repos.get(self.org_name, self.repo_name)
+        default_branch = repo.default_branch
+        bp = self.api.repos.get_branch_protection(
+            self.org_name, self.repo_name, default_branch
+        )
+
+        required_checks = None
+        if "required_status_checks" in bp:
+            # While the API docs claim that "contexts" is a required part
+            # of the put body, it is only required if "checks" is not supplied.
+            # The GET endpoint provides the curent set of required checks in both
+            # format. So we only use the new "checks" format in our PUT params.
+            required_checks = {
+                "strict": bp.required_status_checks.strict,
+                "checks": list(bp.required_status_checks.checks),
+            }
+
+        required_pr_reviews = None
+        if "required_pull_request_reviews" in bp:
+            required_pr_reviews = {
+                "dismiss_stale_reviews": bp.required_pull_request_reviews.dismiss_stale_reviews,
+                "require_code_owner_reviews": bp.required_pull_request_reviews.require_code_owner_reviews,
+                "required_approving_review_count": bp.required_pull_request_reviews.required_approving_review_count,
+            }
+
+        restrictions = None
+        if "restrictions" in bp:
+            restrictions = {
+                "users": bp.restrictions.users,
+                "teams": bp.restrictions.teams,
+                "apps": bp.restrictions.apps,
+            }
+
+        params = {
+            "owner": self.org_name,
+            "repo": self.repo_name,
+            "branch": default_branch,
+            "required_status_checks": required_checks,
+            "enforce_admins": True if bp.enforce_admins.enabled else None,
+            "required_pull_request_reviews": required_pr_reviews,
+            "restrictions": restrictions,
+        }
+
+        return params
+
+
+CHECKS = [RequiredCLACheck]
+
+
+@click.command()
+@click.option(
+    "--github-token",
+    envvar="GITHUB_TOKEN",
+    required=True,
+    help="A github personal access token.",
+)
+@click.option(
+    "--org",
+    default="openedx",
+    help="The github org that you wish check.",
+)
+@click.option(
+    "--dry-run/--no-dry-run",
+    "-n",
+    default=True,
+    is_flag=True,
+    help="Show what changes would be made without making them.",
+)
+def main(org, dry_run, github_token):
+    api = GhApi()
+    repos = [
+        repo.name
+        for repo in chain.from_iterable(
+            paged(api.repos.list_for_org, org, per_page=100)
+        )
+    ]
+
+    # repos = ["docs.openedx.org", "terraform-github", "openedx-webhooks-data"]
+    # repos = ["openedx-webhooks-data"]
+    # repos = ["terraform-github"]
+    for repo in repos:
+        click.secho(f"{repo}: ")
+        for CheckType in CHECKS:
+            check = CheckType(api, org, repo)
+
+            result = check.check()
+            if result[0]:
+                color = "green"
+            else:
+                color = "red"
+
+            click.secho(f"\t{result[1]}", fg=color)
+
+            if dry_run:
+                steps = check.dry_run()
+                steps_color = "yellow"
+            else:
+                steps = check.fix()
+                steps_color = "green"
+
+            if steps:
+                # TODO: Make the color configurable based on dry-run or not.
+                click.secho("\tSteps:\n\t\t", fg=steps_color, nl=False)
+                click.secho(
+                    "\n\t\t".join([step.replace("\n", "\n\t\t") for step in steps])
+                )
+
+
+if __name__ == "__main__":
+    main()
