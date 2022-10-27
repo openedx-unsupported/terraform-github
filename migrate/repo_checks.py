@@ -43,12 +43,22 @@ class RequiredCLACheck(Check):
         self.repo_name = repo_name
 
         self.cla_check = {"context": "openedx/cla", "app_id": -1}
+        self.cla_team = "cla-checker"
 
         self.has_a_branch_protection_rule = False
         self.branch_protection_has_required_checks = False
         self.required_checks_has_cla_required = False
+        self.team_setup_correctly = False
 
     def check(self):
+        is_required_check = self._check_cla_is_required_check()
+        repo_on_required_team = self._check_cla_team_has_write_access()
+
+        value = is_required_check[0] and repo_on_required_team[0]
+        reason = f"{is_required_check[1]} {repo_on_required_team[1]}"
+        return (value, reason)
+
+    def _check_cla_is_required_check(self):
         repo = self.api.repos.get(self.org_name, self.repo_name)
         default_branch = repo.default_branch
         # Branch protection rule might not exist.
@@ -72,10 +82,35 @@ class RequiredCLACheck(Check):
             for check in branch_protection.required_status_checks.checks
         ]
         if "openedx/cla" not in contexts:
-            return (False, "No CLA Check")
+            return (False, "CLA Check is not a required check.")
         self.required_checks_has_cla_required = True
 
-        return (True, "Branch Protection with CLA Check in Place.")
+        return (True, "Branch Protection with CLA Check is in Place.")
+
+    def _check_cla_team_has_write_access(self):
+        teams = chain.from_iterable(
+            paged(
+                self.api.repos.list_teams,
+                self.org_name,
+                self.repo_name,
+                per_page=100,
+            )
+        )
+
+        team_permissions = {team.slug: team.permission for team in teams}
+        if self.cla_team not in team_permissions:
+            return (False, f"'{self.cla_team}' team not listed on the repo.")
+        # CLA Checker needs write access to push status but it doesn't need anything
+        # higher than that.
+        elif team_permissions[self.cla_team] != "push":
+            return (
+                False,
+                f"'{self.cla_team}' team does not have the correct access. "
+                f"Has {team_permissions[self.cla_team]} instead of push.",
+            )
+        else:
+            self.team_setup_correctly = True
+            return (True, f"'{self.cla_team}' team has 'push' access.")
 
     def dry_run(self):
         """
@@ -84,6 +119,16 @@ class RequiredCLACheck(Check):
         return self.fix(dry_run=True)
 
     def fix(self, dry_run=False):
+        steps = []
+        if not self.required_checks_has_cla_required:
+            steps += self._fix_branch_protection(dry_run)
+
+        if not self.team_setup_correctly:
+            steps += self._fix_team_setup(dry_run)
+
+        return steps
+
+    def _fix_branch_protection(self, dry_run=False):
         try:
             steps = []
 
@@ -163,6 +208,21 @@ class RequiredCLACheck(Check):
             raise
 
         return steps
+
+    def _fix_team_setup(self, dry_run=False):
+        try:
+            if not dry_run:
+                self.api.teams.add_or_update_repo_permissions_in_org(
+                    self.org_name,
+                    self.cla_team,
+                    self.org_name,
+                    self.repo_name,
+                    "push",
+                )
+            return ["Added push access for {self.cla_team} to {self.repo_name}."]
+        except HTTP4xxClientError as e:
+            click.echo(e.fp.read().decode("utf-8"))
+            raise
 
     def _update_branch_protection(self, params):
         """
@@ -294,7 +354,6 @@ def main(org, dry_run, github_token):
                 steps_color = "green"
 
             if steps:
-                # TODO: Make the color configurable based on dry-run or not.
                 click.secho("\tSteps:\n\t\t", fg=steps_color, nl=False)
                 click.secho(
                     "\n\t\t".join([step.replace("\n", "\n\t\t") for step in steps])
