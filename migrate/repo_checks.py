@@ -13,15 +13,30 @@ from ghapi.all import GhApi, paged
 
 class Check:
     def __init__(self, api, org, repo):
-        raise NotImplementedError
+        self.api = api
+        self.org_name = org
+        self.repo_name = repo
 
     def check(self):
+        """
+        Verify whether or not the check is failing.
+
+        This should not change anything and should not have a side-effect.
+        """
+
         raise NotImplementedError
 
     def fix(self):
+        """
+        Make an idempotent change to resolve the issue.
+        """
+
         raise NotImplementedError
 
     def dry_run(self):
+        """
+        See what will happen without making any changes.
+        """
         raise NotImplementedError
 
 
@@ -37,10 +52,8 @@ class RequiredCLACheck(Check):
     check as a required check.
     """
 
-    def __init__(self, api, org_name, repo_name):
-        self.api = api
-        self.org_name = org_name
-        self.repo_name = repo_name
+    def __init__(self, api, org, repo):
+        super().__init__(api, org, repo)
 
         self.cla_check = {"context": "openedx/cla", "app_id": -1}
         self.cla_team = "cla-checker"
@@ -330,9 +343,6 @@ def main(org, dry_run, github_token):
         )
     ]
 
-    # repos = ["docs.openedx.org", "terraform-github", "openedx-webhooks-data"]
-    # repos = ["openedx-webhooks-data"]
-    # repos = ["terraform-github"]
     for repo in repos:
         click.secho(f"{repo}: ")
         for CheckType in CHECKS:
