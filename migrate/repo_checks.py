@@ -2,6 +2,7 @@
 Run checks Against Repos and correct them if they're missing something.
 
 """
+import re
 from itertools import chain
 from pprint import pformat
 
@@ -9,6 +10,19 @@ import click
 import requests
 from fastcore.net import HTTP4xxClientError, HTTP5xxServerError, HTTP404NotFoundError
 from ghapi.all import GhApi, paged
+
+HAS_GHSA_SUFFIX = re.compile(".*?-ghsa-\w{4}-\w{4}-\w{4}$")
+
+
+def is_security_private_fork(api, org, repo):
+    """
+    Check to see if a specific repo is a private security fork.
+    """
+
+    # Also make sure that it's a private repo.
+    is_private = api.repos.get(org, repo).private
+
+    return is_private and HAS_GHSA_SUFFIX.match(repo)
 
 
 class Check:
@@ -344,6 +358,9 @@ def main(org, dry_run, github_token):
     ]
 
     for repo in repos:
+        if is_security_private_fork(api, org, repo):
+            continue
+
         click.secho(f"{repo}: ")
         for CheckType in CHECKS:
             check = CheckType(api, org, repo)
