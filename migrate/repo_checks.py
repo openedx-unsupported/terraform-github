@@ -184,7 +184,7 @@ class RequiredCLACheck(Check):
                     "repo": self.repo_name,
                     "branch": default_branch,
                     "required_status_checks": required_status_checks,
-                    "endorce_admins": None,
+                    "enforce_admins": None,
                     "required_pull_request_reviews": None,
                     "restrictions": None,
                 }
@@ -246,7 +246,7 @@ class RequiredCLACheck(Check):
                     self.repo_name,
                     "push",
                 )
-            return ["Added push access for {self.cla_team} to {self.repo_name}."]
+            return [f"Added push access for {self.cla_team} to {self.repo_name}."]
         except HTTP4xxClientError as e:
             click.echo(e.fp.read().decode("utf-8"))
             raise
@@ -308,9 +308,9 @@ class RequiredCLACheck(Check):
         restrictions = None
         if "restrictions" in bp:
             restrictions = {
-                "users": bp.restrictions.users,
-                "teams": bp.restrictions.teams,
-                "apps": bp.restrictions.apps,
+                "users": [user.login for user in bp.restrictions.users],
+                "teams": [team.slug for team in bp.restrictions.teams],
+                "apps": [app.slug for app in bp.restrictions.apps],
             }
 
         params = {
