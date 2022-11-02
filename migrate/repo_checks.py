@@ -31,6 +31,17 @@ class Check:
         self.org_name = org
         self.repo_name = repo
 
+    def is_relevant(self):
+        """
+        Checks to see if the given check is relevant to run on the
+        given repo.
+
+        This is independent of whether or not the check passes on this repo
+        and should be run before trying to check the repo.
+        """
+
+        raise NotImplementedError
+
     def check(self):
         """
         Verify whether or not the check is failing.
@@ -141,6 +152,9 @@ class RequiredCLACheck(Check):
         self.branch_protection_has_required_checks = False
         self.required_checks_has_cla_required = False
         self.team_setup_correctly = False
+
+    def is_relevant(self):
+        return not is_security_private_fork(self.api, self.org_name, self.repo_name)
 
     def check(self):
         is_required_check = self._check_cla_is_required_check()
@@ -423,33 +437,33 @@ def main(org, dry_run, github_token):
     ]
 
     for repo in repos:
-        if is_security_private_fork(api, org, repo):
-            continue
-
         click.secho(f"{repo}: ")
         for CheckType in CHECKS:
             check = CheckType(api, org, repo)
 
-            result = check.check()
-            if result[0]:
-                color = "green"
+            if check.is_relevant():
+                result = check.check()
+                if result[0]:
+                    color = "green"
+                else:
+                    color = "red"
+
+                click.secho(f"\t{result[1]}", fg=color)
+
+                if dry_run:
+                    steps = check.dry_run()
+                    steps_color = "yellow"
+                else:
+                    steps = check.fix()
+                    steps_color = "green"
+
+                if steps:
+                    click.secho("\tSteps:\n\t\t", fg=steps_color, nl=False)
+                    click.secho(
+                        "\n\t\t".join([step.replace("\n", "\n\t\t") for step in steps])
+                    )
             else:
-                color = "red"
-
-            click.secho(f"\t{result[1]}", fg=color)
-
-            if dry_run:
-                steps = check.dry_run()
-                steps_color = "yellow"
-            else:
-                steps = check.fix()
-                steps_color = "green"
-
-            if steps:
-                click.secho("\tSteps:\n\t\t", fg=steps_color, nl=False)
-                click.secho(
-                    "\n\t\t".join([step.replace("\n", "\n\t\t") for step in steps])
-                )
+                click.secho(f"Skipping {CheckType} as it is not relevant on this repo.")
 
 
 if __name__ == "__main__":
