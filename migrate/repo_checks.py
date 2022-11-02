@@ -25,6 +25,16 @@ def is_security_private_fork(api, org, repo):
     return is_private and HAS_GHSA_SUFFIX.match(repo)
 
 
+def is_public(api, org, repo):
+    """
+    Check to see if a specific repo is public.
+    """
+
+    is_private = api.repos.get(org, repo).private
+
+    return not is_private
+
+
 class Check:
     def __init__(self, api, org, repo):
         self.api = api
@@ -96,7 +106,7 @@ class RequireTeamPermission(Check):
             return (False, f"'{self.team}' team not listed on the repo.")
         # Check to see if the team has the correct permission.
         # More and less acess are both considered incorrect.
-        elif team_permissions[self.cla_team] != self.permission:
+        elif team_permissions[self.team] != self.permission:
             return (
                 False,
                 f"'{self.team}' team does not have the correct access. "
@@ -146,7 +156,17 @@ class RequiredCLACheck(Check):
         super().__init__(api, org, repo)
 
         self.cla_check = {"context": "openedx/cla", "app_id": -1}
+
         self.cla_team = "cla-checker"
+        self.cla_team_permission = "push"
+
+        self.team_check = RequireTeamPermission(
+            api,
+            org,
+            repo,
+            self.cla_team,
+            self.cla_team_permission,
+        )
 
         self.has_a_branch_protection_rule = False
         self.branch_protection_has_required_checks = False
@@ -158,7 +178,7 @@ class RequiredCLACheck(Check):
 
     def check(self):
         is_required_check = self._check_cla_is_required_check()
-        repo_on_required_team = self._check_cla_team_has_write_access()
+        repo_on_required_team = self.team_check.check()
 
         value = is_required_check[0] and repo_on_required_team[0]
         reason = f"{is_required_check[1]} {repo_on_required_team[1]}"
@@ -193,31 +213,6 @@ class RequiredCLACheck(Check):
 
         return (True, "Branch Protection with CLA Check is in Place.")
 
-    def _check_cla_team_has_write_access(self):
-        teams = chain.from_iterable(
-            paged(
-                self.api.repos.list_teams,
-                self.org_name,
-                self.repo_name,
-                per_page=100,
-            )
-        )
-
-        team_permissions = {team.slug: team.permission for team in teams}
-        if self.cla_team not in team_permissions:
-            return (False, f"'{self.cla_team}' team not listed on the repo.")
-        # CLA Checker needs write access to push status but it doesn't need anything
-        # higher than that.
-        elif team_permissions[self.cla_team] != "push":
-            return (
-                False,
-                f"'{self.cla_team}' team does not have the correct access. "
-                f"Has {team_permissions[self.cla_team]} instead of push.",
-            )
-        else:
-            self.team_setup_correctly = True
-            return (True, f"'{self.cla_team}' team has 'push' access.")
-
     def dry_run(self):
         """
         Provide info on what would be done to make this check pass.
@@ -229,8 +224,8 @@ class RequiredCLACheck(Check):
         if not self.required_checks_has_cla_required:
             steps += self._fix_branch_protection(dry_run)
 
-        if not self.team_setup_correctly:
-            steps += self._fix_team_setup(dry_run)
+        if not self.team_check.team_setup_correctly:
+            steps += self.team_check.fix(dry_run)
 
         return steps
 
@@ -314,21 +309,6 @@ class RequiredCLACheck(Check):
             raise
 
         return steps
-
-    def _fix_team_setup(self, dry_run=False):
-        try:
-            if not dry_run:
-                self.api.teams.add_or_update_repo_permissions_in_org(
-                    self.org_name,
-                    self.cla_team,
-                    self.org_name,
-                    self.repo_name,
-                    "push",
-                )
-            return [f"Added push access for {self.cla_team} to {self.repo_name}."]
-        except HTTP4xxClientError as e:
-            click.echo(e.fp.read().decode("utf-8"))
-            raise
 
     def _update_branch_protection(self, params):
         """
