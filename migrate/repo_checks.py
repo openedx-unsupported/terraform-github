@@ -123,6 +123,9 @@ class RequireTeamPermission(Check):
         return self.fix(dry_run=True)
 
     def fix(self, dry_run=False):
+        if self.team_setup_correctly:
+            return []
+
         try:
             if not dry_run:
                 self.api.teams.add_or_update_repo_permissions_in_org(
@@ -138,6 +141,25 @@ class RequireTeamPermission(Check):
         except HTTP4xxClientError as e:
             click.echo(e.fp.read().decode("utf-8"))
             raise
+
+
+class RequireTriageTeamAccess(RequireTeamPermission):
+    """
+    The CC Triage Team needs to be able to triage
+    tickets in all repos in the Open edX Platform.
+
+    The check function will tell us if the team has the correct level of access
+    and the fix function will make it so if it does not.
+    """
+
+    def __init__(self, api, org, repo):
+        team = "community-pr-triage-managers"
+        permission = "triage"
+        super().__init__(api, org, repo, team, permission)
+
+    def is_relevant(self):
+        # Need to be a public repo.
+        return is_public(self.api, self.org_name, self.repo_name)
 
 
 class RequiredCLACheck(Check):
@@ -385,7 +407,7 @@ class RequiredCLACheck(Check):
         return params
 
 
-CHECKS = [RequiredCLACheck]
+CHECKS = [RequiredCLACheck, RequireTriageTeamAccess]
 
 
 @click.command()
