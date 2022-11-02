@@ -54,6 +54,71 @@ class Check:
         raise NotImplementedError
 
 
+class RequireTeamPermission(Check):
+    """
+    A generic check that is not meant to be used directly
+    but is used to reduce some copy-pasta.
+
+    Do not use directly, instead, subclass this class with
+    a specific team and permission level.
+    """
+
+    def __init__(self, api, org, repo, team, permission):
+        super().__init__(api, org, repo)
+        self.team = team
+        self.permission = permission
+
+        self.team_setup_correctly = False
+
+    def check(self):
+        teams = chain.from_iterable(
+            paged(
+                self.api.repos.list_teams,
+                self.org_name,
+                self.repo_name,
+                per_page=100,
+            )
+        )
+
+        team_permissions = {team.slug: team.permission for team in teams}
+        if self.team not in team_permissions:
+            return (False, f"'{self.team}' team not listed on the repo.")
+        # Check to see if the team has the correct permission.
+        # More and less acess are both considered incorrect.
+        elif team_permissions[self.cla_team] != self.permission:
+            return (
+                False,
+                f"'{self.team}' team does not have the correct access. "
+                f"Has {team_permissions[self.team]} instead of {self.permission}.",
+            )
+        else:
+            self.team_setup_correctly = True
+            return (True, f"'{self.team}' team has '{self.permission}' access.")
+
+    def dry_run(self):
+        """
+        Provide info on what would be done to make this check pass.
+        """
+        return self.fix(dry_run=True)
+
+    def fix(self, dry_run=False):
+        try:
+            if not dry_run:
+                self.api.teams.add_or_update_repo_permissions_in_org(
+                    self.org_name,
+                    self.team,
+                    self.org_name,
+                    self.repo_name,
+                    self.permission,
+                )
+            return [
+                f"Added {self.permission} access for {self.team} to {self.repo_name}."
+            ]
+        except HTTP4xxClientError as e:
+            click.echo(e.fp.read().decode("utf-8"))
+            raise
+
+
 class RequiredCLACheck(Check):
     """
     This class validates the following:
