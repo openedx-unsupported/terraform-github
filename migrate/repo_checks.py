@@ -79,12 +79,16 @@ class RequireTeamPermission(Check):
     """
     A generic check that is not meant to be used directly
     but is used to reduce some copy-pasta.
-
-    Do not use directly, instead, subclass this class with
-    a specific team and permission level.
     """
 
-    def __init__(self, api, org, repo, team, permission):
+    def __init__(self, api: GhApi, org: str, repo: str, team: str, permission: str):
+        """
+        Valid permission strings are defined in the Github REST API docs:
+
+        https://docs.github.com/en/rest/teams/teams#add-or-update-team-repository-permissions
+
+        They include 'pull', 'triage', 'push', 'maintain', and 'admin'.
+        """
         super().__init__(api, org, repo)
         self.team = team
         self.permission = permission
