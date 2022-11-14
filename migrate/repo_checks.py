@@ -77,8 +77,10 @@ class Check:
 
 class RequireTeamPermission(Check):
     """
-    A generic check that is not meant to be used directly
-    but is used to reduce some copy-pasta.
+    Require that a team has a certain level of access to a repository.
+
+    To use this class as a check, create a subclass that specifies a particular
+    team and permission level, such as RequireTriageTeamAccess below.
     """
 
     def __init__(self, api: GhApi, org: str, repo: str, team: str, permission: str):
@@ -149,8 +151,8 @@ class RequireTeamPermission(Check):
 
 class RequireTriageTeamAccess(RequireTeamPermission):
     """
-    The CC Triage Team needs to be able to triage
-    tickets in all repos in the Open edX Platform.
+    The Core Contributor Triage Team needs to be able to triage
+    issues in all repos in the Open edX Platform.
 
     The check function will tell us if the team has the correct level of access
     and the fix function will make it so if it does not.
