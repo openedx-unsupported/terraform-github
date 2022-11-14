@@ -25,11 +25,32 @@ def is_security_private_fork(api, org, repo):
     return is_private and HAS_GHSA_SUFFIX.match(repo)
 
 
+def is_public(api, org, repo):
+    """
+    Check to see if a specific repo is public.
+    """
+
+    is_private = api.repos.get(org, repo).private
+
+    return not is_private
+
+
 class Check:
     def __init__(self, api, org, repo):
         self.api = api
         self.org_name = org
         self.repo_name = repo
+
+    def is_relevant(self):
+        """
+        Checks to see if the given check is relevant to run on the
+        given repo.
+
+        This is independent of whether or not the check passes on this repo
+        and should be run before trying to check the repo.
+        """
+
+        raise NotImplementedError
 
     def check(self):
         """
@@ -54,6 +75,99 @@ class Check:
         raise NotImplementedError
 
 
+class RequireTeamPermission(Check):
+    """
+    Require that a team has a certain level of access to a repository.
+
+    To use this class as a check, create a subclass that specifies a particular
+    team and permission level, such as RequireTriageTeamAccess below.
+    """
+
+    def __init__(self, api: GhApi, org: str, repo: str, team: str, permission: str):
+        """
+        Valid permission strings are defined in the Github REST API docs:
+
+        https://docs.github.com/en/rest/teams/teams#add-or-update-team-repository-permissions
+
+        They include 'pull', 'triage', 'push', 'maintain', and 'admin'.
+        """
+        super().__init__(api, org, repo)
+        self.team = team
+        self.permission = permission
+
+        self.team_setup_correctly = False
+
+    def check(self):
+        teams = chain.from_iterable(
+            paged(
+                self.api.repos.list_teams,
+                self.org_name,
+                self.repo_name,
+                per_page=100,
+            )
+        )
+
+        team_permissions = {team.slug: team.permission for team in teams}
+        if self.team not in team_permissions:
+            return (False, f"'{self.team}' team not listed on the repo.")
+        # Check to see if the team has the correct permission.
+        # More and less acess are both considered incorrect.
+        elif team_permissions[self.team] != self.permission:
+            return (
+                False,
+                f"'{self.team}' team does not have the correct access. "
+                f"Has {team_permissions[self.team]} instead of {self.permission}.",
+            )
+        else:
+            self.team_setup_correctly = True
+            return (True, f"'{self.team}' team has '{self.permission}' access.")
+
+    def dry_run(self):
+        """
+        Provide info on what would be done to make this check pass.
+        """
+        return self.fix(dry_run=True)
+
+    def fix(self, dry_run=False):
+        if self.team_setup_correctly:
+            return []
+
+        try:
+            if not dry_run:
+                self.api.teams.add_or_update_repo_permissions_in_org(
+                    self.org_name,
+                    self.team,
+                    self.org_name,
+                    self.repo_name,
+                    self.permission,
+                )
+            return [
+                f"Added {self.permission} access for {self.team} to {self.repo_name}."
+            ]
+        except HTTP4xxClientError as e:
+            click.echo(e.fp.read().decode("utf-8"))
+            raise
+
+
+class RequireTriageTeamAccess(RequireTeamPermission):
+    """
+    The Core Contributor Triage Team needs to be able to triage
+    issues in all repos in the Open edX Platform.
+
+    The check function will tell us if the team has the correct level of access
+    and the fix function will make it so if it does not.
+    """
+
+    def __init__(self, api, org, repo):
+        team = "community-pr-triage-managers"
+        permission = "triage"
+        super().__init__(api, org, repo, team, permission)
+
+    def is_relevant(self):
+        # Need to be a public repo.
+        return is_public(self.api, self.org_name, self.repo_name)
+
+
 class RequiredCLACheck(Check):
     """
     This class validates the following:
@@ -70,16 +184,29 @@ class RequiredCLACheck(Check):
         super().__init__(api, org, repo)
 
         self.cla_check = {"context": "openedx/cla", "app_id": -1}
+
         self.cla_team = "cla-checker"
+        self.cla_team_permission = "push"
+
+        self.team_check = RequireTeamPermission(
+            api,
+            org,
+            repo,
+            self.cla_team,
+            self.cla_team_permission,
+        )
 
         self.has_a_branch_protection_rule = False
         self.branch_protection_has_required_checks = False
         self.required_checks_has_cla_required = False
         self.team_setup_correctly = False
 
+    def is_relevant(self):
+        return not is_security_private_fork(self.api, self.org_name, self.repo_name)
+
     def check(self):
         is_required_check = self._check_cla_is_required_check()
-        repo_on_required_team = self._check_cla_team_has_write_access()
+        repo_on_required_team = self.team_check.check()
 
         value = is_required_check[0] and repo_on_required_team[0]
         reason = f"{is_required_check[1]} {repo_on_required_team[1]}"
@@ -114,31 +241,6 @@ class RequiredCLACheck(Check):
 
         return (True, "Branch Protection with CLA Check is in Place.")
 
-    def _check_cla_team_has_write_access(self):
-        teams = chain.from_iterable(
-            paged(
-                self.api.repos.list_teams,
-                self.org_name,
-                self.repo_name,
-                per_page=100,
-            )
-        )
-
-        team_permissions = {team.slug: team.permission for team in teams}
-        if self.cla_team not in team_permissions:
-            return (False, f"'{self.cla_team}' team not listed on the repo.")
-        # CLA Checker needs write access to push status but it doesn't need anything
-        # higher than that.
-        elif team_permissions[self.cla_team] != "push":
-            return (
-                False,
-                f"'{self.cla_team}' team does not have the correct access. "
-                f"Has {team_permissions[self.cla_team]} instead of push.",
-            )
-        else:
-            self.team_setup_correctly = True
-            return (True, f"'{self.cla_team}' team has 'push' access.")
-
     def dry_run(self):
         """
         Provide info on what would be done to make this check pass.
@@ -150,8 +252,8 @@ class RequiredCLACheck(Check):
         if not self.required_checks_has_cla_required:
             steps += self._fix_branch_protection(dry_run)
 
-        if not self.team_setup_correctly:
-            steps += self._fix_team_setup(dry_run)
+        if not self.team_check.team_setup_correctly:
+            steps += self.team_check.fix(dry_run)
 
         return steps
 
@@ -236,21 +338,6 @@ class RequiredCLACheck(Check):
 
         return steps
 
-    def _fix_team_setup(self, dry_run=False):
-        try:
-            if not dry_run:
-                self.api.teams.add_or_update_repo_permissions_in_org(
-                    self.org_name,
-                    self.cla_team,
-                    self.org_name,
-                    self.repo_name,
-                    "push",
-                )
-            return [f"Added push access for {self.cla_team} to {self.repo_name}."]
-        except HTTP4xxClientError as e:
-            click.echo(e.fp.read().decode("utf-8"))
-            raise
-
     def _update_branch_protection(self, params):
         """
         Need to do this ourselves because of a bug in GhAPI that ignores
@@ -326,7 +413,7 @@ class RequiredCLACheck(Check):
         return params
 
 
-CHECKS = [RequiredCLACheck]
+CHECKS = [RequiredCLACheck, RequireTriageTeamAccess]
 
 
 @click.command()
@@ -358,33 +445,33 @@ def main(org, dry_run, github_token):
     ]
 
     for repo in repos:
-        if is_security_private_fork(api, org, repo):
-            continue
-
         click.secho(f"{repo}: ")
         for CheckType in CHECKS:
             check = CheckType(api, org, repo)
 
-            result = check.check()
-            if result[0]:
-                color = "green"
+            if check.is_relevant():
+                result = check.check()
+                if result[0]:
+                    color = "green"
+                else:
+                    color = "red"
+
+                click.secho(f"\t{result[1]}", fg=color)
+
+                if dry_run:
+                    steps = check.dry_run()
+                    steps_color = "yellow"
+                else:
+                    steps = check.fix()
+                    steps_color = "green"
+
+                if steps:
+                    click.secho("\tSteps:\n\t\t", fg=steps_color, nl=False)
+                    click.secho(
+                        "\n\t\t".join([step.replace("\n", "\n\t\t") for step in steps])
+                    )
             else:
-                color = "red"
-
-            click.secho(f"\t{result[1]}", fg=color)
-
-            if dry_run:
-                steps = check.dry_run()
-                steps_color = "yellow"
-            else:
-                steps = check.fix()
-                steps_color = "green"
-
-            if steps:
-                click.secho("\tSteps:\n\t\t", fg=steps_color, nl=False)
-                click.secho(
-                    "\n\t\t".join([step.replace("\n", "\n\t\t") for step in steps])
-                )
+                click.secho(f"Skipping {CheckType} as it is not relevant on this repo.")
 
 
 if __name__ == "__main__":
