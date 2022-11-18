@@ -443,6 +443,8 @@ def main(org, dry_run, github_token):
             paged(api.repos.list_for_org, org, per_page=100)
         )
     ]
+    if dry_run:
+        click.secho("DRY RUN MODE: No Actual Changes Being Made", fg="yellow")
 
     for repo in repos:
         click.secho(f"{repo}: ")
