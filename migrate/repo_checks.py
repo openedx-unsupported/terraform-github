@@ -52,11 +52,14 @@ class Check:
 
         raise NotImplementedError
 
-    def check(self):
+    def check(self) -> (bool, str):
         """
         Verify whether or not the check is failing.
 
         This should not change anything and should not have a side-effect.
+
+        The string in the return tuple should be a human readable reason
+        that the check failed.
         """
 
         raise NotImplementedError
@@ -73,6 +76,83 @@ class Check:
         See what will happen without making any changes.
         """
         raise NotImplementedError
+
+
+class EnsureLabels(Check):
+    """
+    All repos in the org should have certain labels.
+    """
+
+    def __init__(self, api: GhApi, org: str, repo: str):
+        super().__init__(api, org, repo)
+        # A list of labels mapped to their hex colors
+        # so that they are the same color in all the repos.
+        # Relevant API Docs: https://docs.github.com/en/rest/issues/labels#create-a-label
+        self.labels = {
+            ":hammer_and_wrench: maintenance": "169509",
+        }
+
+    def is_relevant(self):
+        return not is_security_private_fork(self.api, self.org_name, self.repo_name)
+
+    def check(self):
+        """
+        See if our labels exist.
+        """
+        labels = chain.from_iterable(
+            paged(
+                self.api.issues.list_labels_for_repo,
+                self.org_name,
+                self.repo_name,
+                per_page=100,
+            )
+        )
+
+        existing_labels = {label.name: label.color for label in labels}
+
+        self.missing_labels = []
+        self.incorrectly_colored_labels = []
+        for label, color in self.labels.items():
+            if label not in existing_labels:
+                self.missing_labels.append(label)
+            elif color != existing_labels[label]:
+                self.incorrectly_colored_labels.append(label)
+
+        if self.missing_labels or self.incorrectly_colored_labels:
+            return (
+                False,
+                f"Labels need updating. {self.missing_labels=}  {self.incorrectly_colored_labels=}",
+            )
+        return (True, "All desired labels exist with the right color.")
+
+    def dry_run(self):
+        return self.fix(dry_run=True)
+
+    def fix(self, dry_run=False):
+        steps = []
+        # Create missing labels
+        for label in self.missing_labels:
+            if not dry_run:
+                self.api.issues.create_label(
+                    self.org_name,
+                    self.repo_name,
+                    label,
+                    self.labels[label],
+                )
+            steps.append(f"Created {label=}.")
+
+        # Update incorrectly colored labels
+        for label in self.incorrectly_colored_labels:
+            if not dry_run:
+                self.api.issues.update_label(
+                    self.org_name,
+                    self.repo_name,
+                    label,
+                    color=self.labels[label],
+                )
+            steps.append(f"Updated color for {label=}")
+
+        return steps
 
 
 class RequireTeamPermission(Check):
@@ -433,6 +513,7 @@ CHECKS = [
     RequiredCLACheck,
     RequireTriageTeamAccess,
     RequireProductManagersAccess,
+    EnsureLabels,
 ]
 
 
