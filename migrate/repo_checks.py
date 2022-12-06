@@ -108,20 +108,44 @@ class EnsureLabels(Check):
             )
         )
 
-        existing_labels = {label.name: label.color for label in labels}
-
+        existing_labels = {
+            self._simplify_label(label.name): {"color": label.color, "name": label.name}
+            for label in labels
+        }
         self.missing_labels = []
-        self.incorrectly_colored_labels = []
-        for label, color in self.labels.items():
-            if label not in existing_labels:
-                self.missing_labels.append(label)
-            elif color != existing_labels[label]:
-                self.incorrectly_colored_labels.append(label)
+        self.labels_that_need_updates = []
+        # [
+        #     {
+        #         "current_label": "<current label name>",
+        #         "new_label": "<new_label_name>",
+        #         "color": "<new_label_color>",
+        #     }
+        # ]
 
-        if self.missing_labels or self.incorrectly_colored_labels:
+        for new_label, new_color in self.labels.items():
+            simple_new_label = self._simplify_label(new_label)
+            if simple_new_label in existing_labels:
+                # We need to potentially update the label if the name or color have changed.
+                current_label = existing_labels[simple_new_label]
+                if (
+                    current_label["name"] != new_label
+                    or current_label["color"] != new_color
+                ):
+                    self.labels_that_need_updates.append(
+                        {
+                            "current_label": existing_labels[simple_new_label],
+                            "new_label": new_label,
+                            "new_color": new_color,
+                        }
+                    )
+            else:
+                # We need to create the label as it doesn't already exist.
+                self.missing_labels.append(new_label)
+
+        if self.missing_labels or self.labels_that_need_updates:
             return (
                 False,
-                f"Labels need updating. {self.missing_labels=}  {self.incorrectly_colored_labels=}",
+                f"Labels need updating. {self.missing_labels=}  {self.labels_that_need_updates=}",
             )
         return (True, "All desired labels exist with the right color.")
 
@@ -130,6 +154,7 @@ class EnsureLabels(Check):
 
     def fix(self, dry_run=False):
         steps = []
+
         # Create missing labels
         for label in self.missing_labels:
             if not dry_run:
@@ -142,17 +167,24 @@ class EnsureLabels(Check):
             steps.append(f"Created {label=}.")
 
         # Update incorrectly colored labels
-        for label in self.incorrectly_colored_labels:
+        for label in self.labels_that_need_updates:
             if not dry_run:
                 self.api.issues.update_label(
                     self.org_name,
                     self.repo_name,
-                    label,
-                    color=self.labels[label],
+                    label["current_label"],
+                    color=label["new_color"],
+                    new_name=label["new_label"],
                 )
             steps.append(f"Updated color for {label=}")
 
         return steps
+
+    def _simplify_label(self, label: str):
+        emoji = re.compile(r":\S+:")
+
+        simplified_label = emoji.sub("", label).strip().lower()
+        return simplified_label
 
 
 class RequireTeamPermission(Check):
