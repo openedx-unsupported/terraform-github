@@ -11,7 +11,7 @@ import requests
 from fastcore.net import HTTP4xxClientError, HTTP5xxServerError, HTTP404NotFoundError
 from ghapi.all import GhApi, paged
 
-HAS_GHSA_SUFFIX = re.compile(".*?-ghsa-\w{4}-\w{4}-\w{4}$")
+HAS_GHSA_SUFFIX = re.compile(r".*?-ghsa-\w{4}-\w{4}-\w{4}$")
 
 
 def is_security_private_fork(api, org, repo):
