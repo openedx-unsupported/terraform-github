@@ -429,7 +429,11 @@ class RequiredCLACheck(Check):
         return params
 
 
-CHECKS = [RequiredCLACheck, RequireTriageTeamAccess]
+CHECKS = [
+    RequiredCLACheck,
+    RequireTriageTeamAccess,
+    RequireProductManagersAccess,
+]
 
 
 @click.command()
