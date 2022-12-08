@@ -181,9 +181,9 @@ class EnsureLabels(Check):
         return steps
 
     def _simplify_label(self, label: str):
-        emoji = re.compile(r":\S+:")
+        special_content = re.compile(r"(:\S+:|-|_|'|\"|\.|\!|\s)")
 
-        simplified_label = emoji.sub("", label).strip().lower()
+        simplified_label = special_content.sub("", label).strip().lower()
         return simplified_label
 
 

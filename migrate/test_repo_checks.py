@@ -43,7 +43,7 @@ class TestEnsureLabels:
         assert not api.issues.update_label.called
 
     def test_update_label(self, maintenance_label):
-        maintenance_label.name = ":+1: Maintenance :-1:"
+        maintenance_label.name = ":+1: Ma.in-t 'e'n_a\"nce!\" :-1:"
         api = MagicMock()
         api.issues.list_labels_for_repo.side_effect = [[maintenance_label], None]
 
