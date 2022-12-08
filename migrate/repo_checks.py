@@ -11,7 +11,7 @@ import requests
 from fastcore.net import HTTP4xxClientError, HTTP5xxServerError, HTTP404NotFoundError
 from ghapi.all import GhApi, paged
 
-HAS_GHSA_SUFFIX = re.compile(".*?-ghsa-\w{4}-\w{4}-\w{4}$")
+HAS_GHSA_SUFFIX = re.compile(r".*?-ghsa-\w{4}-\w{4}-\w{4}$")
 
 
 def is_security_private_fork(api, org, repo):
@@ -52,11 +52,14 @@ class Check:
 
         raise NotImplementedError
 
-    def check(self):
+    def check(self) -> (bool, str):
         """
         Verify whether or not the check is failing.
 
         This should not change anything and should not have a side-effect.
+
+        The string in the return tuple should be a human readable reason
+        that the check failed.
         """
 
         raise NotImplementedError
@@ -73,6 +76,115 @@ class Check:
         See what will happen without making any changes.
         """
         raise NotImplementedError
+
+
+class EnsureLabels(Check):
+    """
+    All repos in the org should have certain labels.
+    """
+
+    def __init__(self, api: GhApi, org: str, repo: str):
+        super().__init__(api, org, repo)
+        # A list of labels mapped to their hex colors
+        # so that they are the same color in all the repos.
+        # Relevant API Docs: https://docs.github.com/en/rest/issues/labels#create-a-label
+        self.labels = {
+            ":hammer_and_wrench: maintenance": "169509",
+        }
+
+    def is_relevant(self):
+        return not is_security_private_fork(self.api, self.org_name, self.repo_name)
+
+    def check(self):
+        """
+        See if our labels exist.
+        """
+        labels = chain.from_iterable(
+            paged(
+                self.api.issues.list_labels_for_repo,
+                self.org_name,
+                self.repo_name,
+                per_page=100,
+            )
+        )
+
+        existing_labels = {
+            self._simplify_label(label.name): {"color": label.color, "name": label.name}
+            for label in labels
+        }
+        self.missing_labels = []
+        self.labels_that_need_updates = []
+        # [
+        #     {
+        #         "current_label": "<current label name>",
+        #         "new_label": "<new_label_name>",
+        #         "color": "<new_label_color>",
+        #     }
+        # ]
+
+        for new_label, new_color in self.labels.items():
+            simple_new_label = self._simplify_label(new_label)
+            if simple_new_label in existing_labels:
+                # We need to potentially update the label if the name or color have changed.
+                current_label = existing_labels[simple_new_label]
+                if (
+                    current_label["name"] != new_label
+                    or current_label["color"] != new_color
+                ):
+                    self.labels_that_need_updates.append(
+                        {
+                            "current_label": existing_labels[simple_new_label],
+                            "new_label": new_label,
+                            "new_color": new_color,
+                        }
+                    )
+            else:
+                # We need to create the label as it doesn't already exist.
+                self.missing_labels.append(new_label)
+
+        if self.missing_labels or self.labels_that_need_updates:
+            return (
+                False,
+                f"Labels need updating. {self.missing_labels=}  {self.labels_that_need_updates=}",
+            )
+        return (True, "All desired labels exist with the right color.")
+
+    def dry_run(self):
+        return self.fix(dry_run=True)
+
+    def fix(self, dry_run=False):
+        steps = []
+
+        # Create missing labels
+        for label in self.missing_labels:
+            if not dry_run:
+                self.api.issues.create_label(
+                    self.org_name,
+                    self.repo_name,
+                    label,
+                    self.labels[label],
+                )
+            steps.append(f"Created {label=}.")
+
+        # Update incorrectly colored labels
+        for label in self.labels_that_need_updates:
+            if not dry_run:
+                self.api.issues.update_label(
+                    self.org_name,
+                    self.repo_name,
+                    label["current_label"],
+                    color=label["new_color"],
+                    new_name=label["new_label"],
+                )
+            steps.append(f"Updated color for {label=}")
+
+        return steps
+
+    def _simplify_label(self, label: str):
+        special_content = re.compile(r"(:\S+:|-|_|'|\"|\.|\!|\s)")
+
+        simplified_label = special_content.sub("", label).strip().lower()
+        return simplified_label
 
 
 class RequireTeamPermission(Check):
@@ -433,6 +545,7 @@ CHECKS = [
     RequiredCLACheck,
     RequireTriageTeamAccess,
     RequireProductManagersAccess,
+    EnsureLabels,
 ]
 
 

@@ -3,3 +3,4 @@ isort
 mypy
 pylint
 types-requests
+pytest
