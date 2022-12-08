@@ -7,6 +7,9 @@ from .repo_checks import EnsureLabels
 
 @pytest.fixture
 def maintenance_label():
+    """
+    Quickly make a basic label to return via the API.
+    """
     maintenance_label = MagicMock()
     maintenance_label.name = ":hammer_and_wrench: maintenance"
     maintenance_label.color = "169509"
@@ -20,6 +23,7 @@ class TestEnsureLabels:
         api.issues.list_labels_for_repo.side_effect = [[maintenance_label], None]
         check_cls = EnsureLabels(api, "test_org", "test_repo")
 
+        # Make sure that the check returns True, indicating that no changes need to be made.
         assert check_cls.check()[0]
 
     def test_addition(self, maintenance_label):
@@ -27,6 +31,7 @@ class TestEnsureLabels:
         api.issues.list_labels_for_repo.return_value = []
         check_cls = EnsureLabels(api, "test_org", "test_repo")
 
+        # The check should be false because the maintenance label should be missing.
         assert check_cls.check()[0] == False
 
         check_cls.fix()
