@@ -57,5 +57,15 @@ class TestEnsureLabels:
         assert check_cls.check()[0] == False
         check_cls.fix()
 
+        call_args = api.issues.update_label.call_args
+        expected_call = call(
+            "test_org",
+            "test_repo",
+            name=maintenance_label.name,
+            color=maintenance_label.color,
+            new_name=":hammer_and_wrench: maintenance",
+        )
+
+        assert call_args == expected_call
         assert not api.issues.create_label.called
         assert api.issues.update_label.called

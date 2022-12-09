@@ -133,7 +133,7 @@ class EnsureLabels(Check):
                 ):
                     self.labels_that_need_updates.append(
                         {
-                            "current_label": existing_labels[simple_new_label],
+                            "current_label": existing_labels[simple_new_label]["name"],
                             "new_label": new_label,
                             "new_color": new_color,
                         }
