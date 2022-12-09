@@ -158,24 +158,32 @@ class EnsureLabels(Check):
         # Create missing labels
         for label in self.missing_labels:
             if not dry_run:
-                self.api.issues.create_label(
-                    self.org_name,
-                    self.repo_name,
-                    label,
-                    self.labels[label],
-                )
+                try:
+                    self.api.issues.create_label(
+                        self.org_name,
+                        self.repo_name,
+                        label,
+                        self.labels[label],
+                    )
+                except HTTP4xxClientError as e:
+                    click.echo(e.fp.read().decode("utf-8"))
+                    raise
             steps.append(f"Created {label=}.")
 
         # Update incorrectly colored labels
         for label in self.labels_that_need_updates:
             if not dry_run:
-                self.api.issues.update_label(
-                    self.org_name,
-                    self.repo_name,
-                    label["current_label"],
-                    color=label["new_color"],
-                    new_name=label["new_label"],
-                )
+                try:
+                    self.api.issues.update_label(
+                        self.org_name,
+                        self.repo_name,
+                        name=label["current_label"],
+                        color=label["new_color"],
+                        new_name=label["new_label"],
+                    )
+                except HTTP4xxClientError as e:
+                    click.echo(e.fp.read().decode("utf-8"))
+                    raise
             steps.append(f"Updated color for {label=}")
 
         return steps
