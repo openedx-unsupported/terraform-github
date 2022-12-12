@@ -133,7 +133,7 @@ class EnsureLabels(Check):
                 ):
                     self.labels_that_need_updates.append(
                         {
-                            "current_label": existing_labels[simple_new_label],
+                            "current_label": existing_labels[simple_new_label]["name"],
                             "new_label": new_label,
                             "new_color": new_color,
                         }
@@ -158,24 +158,32 @@ class EnsureLabels(Check):
         # Create missing labels
         for label in self.missing_labels:
             if not dry_run:
-                self.api.issues.create_label(
-                    self.org_name,
-                    self.repo_name,
-                    label,
-                    self.labels[label],
-                )
+                try:
+                    self.api.issues.create_label(
+                        self.org_name,
+                        self.repo_name,
+                        label,
+                        self.labels[label],
+                    )
+                except HTTP4xxClientError as e:
+                    click.echo(e.fp.read().decode("utf-8"))
+                    raise
             steps.append(f"Created {label=}.")
 
         # Update incorrectly colored labels
         for label in self.labels_that_need_updates:
             if not dry_run:
-                self.api.issues.update_label(
-                    self.org_name,
-                    self.repo_name,
-                    label["current_label"],
-                    color=label["new_color"],
-                    new_name=label["new_label"],
-                )
+                try:
+                    self.api.issues.update_label(
+                        self.org_name,
+                        self.repo_name,
+                        name=label["current_label"],
+                        color=label["new_color"],
+                        new_name=label["new_label"],
+                    )
+                except HTTP4xxClientError as e:
+                    click.echo(e.fp.read().decode("utf-8"))
+                    raise
             steps.append(f"Updated color for {label=}")
 
         return steps
@@ -568,14 +576,22 @@ CHECKS = [
     is_flag=True,
     help="Show what changes would be made without making them.",
 )
-def main(org, dry_run, github_token):
+@click.option(
+    "--target",
+    "-t",
+    multiple=True,
+)
+def main(org, dry_run, github_token, target):
     api = GhApi()
-    repos = [
-        repo.name
-        for repo in chain.from_iterable(
-            paged(api.repos.list_for_org, org, per_page=100)
-        )
-    ]
+    if target:
+        repos = target
+    else:
+        repos = [
+            repo.name
+            for repo in chain.from_iterable(
+                paged(api.repos.list_for_org, org, per_page=100)
+            )
+        ]
     if dry_run:
         click.secho("DRY RUN MODE: No Actual Changes Being Made", fg="yellow")
 
