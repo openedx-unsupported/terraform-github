@@ -90,6 +90,10 @@ class EnsureLabels(Check):
         # Relevant API Docs: https://docs.github.com/en/rest/issues/labels#create-a-label
         self.labels = {
             ":hammer_and_wrench: maintenance": "169509",
+            "waiting on author": "bfd6f6",
+            "inactive": "ff950a",
+            "closed-inactivity": "dbcd00",
+            "needs test run": "#f5424b",
         }
 
     def is_relevant(self):
