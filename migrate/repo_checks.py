@@ -93,7 +93,7 @@ class EnsureLabels(Check):
             "waiting on author": "bfd6f6",
             "inactive": "ff950a",
             "closed-inactivity": "dbcd00",
-            "needs test run": "#f5424b",
+            "needs test run": "f5424b",
         }
 
     def is_relevant(self):
