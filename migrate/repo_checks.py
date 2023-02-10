@@ -494,7 +494,16 @@ class RequiredCLACheck(Check):
         )
         resp = requests.put(url, headers=headers, json=params)
 
-        resp.raise_for_status()
+        try:
+            resp.raise_for_status()
+        except requests.HTTPError as e:
+            # If the branch is missing, the repo is probably new and has no branches
+            # ignore that for now.
+            if not (
+                "message" in resp.json()
+                and resp.json()["message"] == "Branch not found"
+            ):
+                raise
 
     def _get_update_params_from_get_branch_protection(self):
         """
@@ -593,7 +602,13 @@ def main(org, dry_run, github_token, target):
         repos = [
             repo.name
             for repo in chain.from_iterable(
-                paged(api.repos.list_for_org, org, per_page=100)
+                paged(
+                    api.repos.list_for_org,
+                    org,
+                    sort="created",
+                    direction="desc",
+                    per_page=100,
+                )
             )
         ]
     if dry_run:
