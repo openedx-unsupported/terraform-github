@@ -499,9 +499,7 @@ class RequiredCLACheck(Check):
         except requests.HTTPError as e:
             # If the branch is missing, the repo is probably new and has no branches
             # ignore that for now.
-            if not (
-                "message" in resp.json()
-                and resp.json()["message"] == "Branch not found"
+            if resp.json.get("message") != "Branch not found":
             ):
                 raise
 
