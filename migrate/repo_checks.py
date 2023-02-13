@@ -500,7 +500,6 @@ class RequiredCLACheck(Check):
             # If the branch is missing, the repo is probably new and has no branches
             # ignore that for now.
             if resp.json.get("message") != "Branch not found":
-            ):
                 raise
 
     def _get_update_params_from_get_branch_protection(self):

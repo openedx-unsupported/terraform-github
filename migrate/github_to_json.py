@@ -145,7 +145,6 @@ def fetch_repo_permissions(
 
     LOG.info(" Fetching permissions for individual repos.")
     for api_repo in sorted(api_repos, key=lambda api_repo: api_repo.name):
-
         # Skip repos that we're not interested in.
         repo_name = RepoName(api_repo.name)
         if not repo_name.startswith(  # pylint: disable=no-member
@@ -182,7 +181,9 @@ def fetch_repo_permissions(
 
         # Fetch teams associated with repository from GitHub API.
         LOG.info("   Fetching team permissions.")
-        teams_response = requests.get(api_repo.teams_url + "?per_page=100", headers=gh_headers)
+        teams_response = requests.get(
+            api_repo.teams_url + "?per_page=100", headers=gh_headers
+        )
         assert teams_response.status_code == 200
         teams_data = teams_response.json()
         assert isinstance(teams_data, list)
