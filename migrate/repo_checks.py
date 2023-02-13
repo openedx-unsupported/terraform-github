@@ -88,12 +88,14 @@ class EnsureLabels(Check):
         # A list of labels mapped to their hex colors
         # so that they are the same color in all the repos.
         # Relevant API Docs: https://docs.github.com/en/rest/issues/labels#create-a-label
+        # https://www.htmlcolor-picker.com/
         self.labels = {
             ":hammer_and_wrench: maintenance": "169509",
             "waiting on author": "bfd6f6",
             "inactive": "ff950a",
             "closed-inactivity": "dbcd00",
             "needs test run": "f5424b",
+            "good first issue :tada:": "43dd35",
         }
 
     def is_relevant(self):
