@@ -3,6 +3,8 @@ Run checks Against Repos and correct them if they're missing something.
 
 """
 import re
+from base64 import standard_b64decode
+from functools import cache
 from itertools import chain
 from pprint import pformat
 
@@ -33,6 +35,18 @@ def is_public(api, org, repo):
     is_private = api.repos.get(org, repo).private
 
     return not is_private
+
+
+@cache
+def get_github_file_contents(api, org, repo, path, ref):
+    """
+    A caching proxy for the get repository content api endpoint.
+
+    It returns the content of the file as a string.
+    """
+    return standard_b64decode(
+        api.repos.get_content(org, repo, path, ref).content
+    ).decode()
 
 
 class Check:
@@ -76,6 +90,128 @@ class Check:
         See what will happen without making any changes.
         """
         raise NotImplementedError
+
+
+class EnsureWorkflowTemplates(Check):
+    """
+    There are certain github action workflows that we to exist on all
+    repos exactly as they are defined in the `.github` repo in the org.
+
+    Check to see if they're in a repo and if not, make a pull request
+    to add them to the repository.
+    """
+
+    def __init__(self, api: GhApi, org: str, repo: str):
+        super().__init__(api, org, repo)
+
+        self.workflow_templates = [
+            "self-assign-issue.yml",
+            "add-depr-ticket-to-depr-board.yml",
+            "commitlint.yml",
+            "add-remove-label-on-comment.yml",
+        ]
+
+        self.branch_name = "repo_checks/ensure_workflows"
+
+        self.files_to_create_or_update = []
+
+    def is_relevant(self):
+        return is_public(self.api, self.org_name, self.repo_name)
+
+    def check(self):
+        """
+        See if our workflow templates are in the repo and have the same content
+        as the default templates in the `.github` repo.
+        """
+        # Get the current default branch.
+        repo = self.api.repos.get(self.org_name, self.repo_name)
+        default_branch = repo.default_branch
+
+        files_that_differ, files_that_are_missing = self._check_branch(default_branch)
+        # Return False and save the list of files that need to be updated.
+        if files_that_differ or files_that_are_missing:
+            self.files_to_create_or_update = files_that_differ + files_that_are_missing
+            return (
+                False,
+                f"Some workflows in this repo don't match the template.\n\t\t{files_that_differ=}\n\t\t{files_that_are_missing=}",
+            )
+
+        return (
+            True,
+            "All desired workflows are in sync with what's in the .github repo.",
+        )
+
+    def _check_branch(self, branch_name):
+        """
+        Check the contents the listed workflow files on a branch against the
+        default content in the .github folder.
+        """
+        dot_github_default_branch = self.api.repos.get(
+            self.org_name, ".github"
+        ).default_branch
+        # Get the content of the .github files, maybe this should be a memoized
+        # function since we'll want to get the same .github content from all
+        # the repos.
+        template_contents = {}
+        for file in self.workflow_templates:
+            file_path = f"workflow-templates/{file}"
+            try:
+                template_contents[file] = get_github_file_contents(
+                    self.api,
+                    self.org_name,
+                    ".github",
+                    file_path,
+                    dot_github_default_branch,
+                )
+            except HTTP4xxClientError as e:
+                click.echo(
+                    f"File: https://github.com/{org_name}/.github/blob/{dot_github_default_branch}/{file_path}"
+                )
+                click.echo(e.fp.read().decode("utf-8"))
+                raise
+
+        # Get the content of the repo specific file.
+        repo_contents = {}
+        files_that_are_missing = []
+        for file in self.workflow_templates:
+            file_path = f".github/workflows/{file}"
+            try:
+                repo_contents[file] = get_github_file_contents(
+                    self.api,
+                    self.org_name,
+                    self.repo_name,
+                    file_path,
+                    branch_name,
+                )
+            except HTTP4xxClientError as e:
+                if e.status == 404:
+                    files_that_are_missing.append(file)
+
+        # Compare the two.
+        files_that_differ = []
+        for file in self.workflow_templates:
+            if (
+                file not in files_that_are_missing
+                and template_contents[file] != repo_contents[file]
+            ):
+                files_that_differ.append(file)
+
+        return (files_that_differ, files_that_are_missing)
+
+    def dry_run(self):
+        return self.fix(dry_run=True)
+
+    def fix(self, dry_run=False):
+        # Check to see if a PR exists from this check,
+        #   naming convention in the branch name?: `repo_checks/ensure_workflows_\d+` ?
+        # If it exists, delete the branch, this will also close the PR
+
+        # For each file in the list of files that needs to be fixed
+
+        # Create a new branch.
+        # On the branch, Update the file with the contents from .github template.
+        # Create a Pull request
+        pass
 
 
 class EnsureLabels(Check):
