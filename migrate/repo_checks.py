@@ -3,7 +3,8 @@ Run checks Against Repos and correct them if they're missing something.
 
 """
 import re
-from base64 import standard_b64decode
+import textwrap
+from base64 import standard_b64decode, standard_b64encode
 from functools import cache
 from itertools import chain
 from pprint import pformat
@@ -44,9 +45,7 @@ def get_github_file_contents(api, org, repo, path, ref):
 
     It returns the content of the file as a string.
     """
-    return standard_b64decode(
-        api.repos.get_content(org, repo, path, ref).content
-    ).decode()
+    return api.repos.get_content(org, repo, path, ref).content
 
 
 class Check:
@@ -113,7 +112,9 @@ class EnsureWorkflowTemplates(Check):
 
         self.branch_name = "repo_checks/ensure_workflows"
 
-        self.files_to_create_or_update = []
+        self.files_to_create = []
+        self.files_to_update = []
+        self.dot_github_template_contents = {}
 
     def is_relevant(self):
         return is_public(self.api, self.org_name, self.repo_name)
@@ -130,7 +131,8 @@ class EnsureWorkflowTemplates(Check):
         files_that_differ, files_that_are_missing = self._check_branch(default_branch)
         # Return False and save the list of files that need to be updated.
         if files_that_differ or files_that_are_missing:
-            self.files_to_create_or_update = files_that_differ + files_that_are_missing
+            self.files_to_create = files_that_are_missing
+            self.files_to_update = files_that_differ
             return (
                 False,
                 f"Some workflows in this repo don't match the template.\n\t\t{files_that_differ=}\n\t\t{files_that_are_missing=}",
@@ -152,11 +154,10 @@ class EnsureWorkflowTemplates(Check):
         # Get the content of the .github files, maybe this should be a memoized
         # function since we'll want to get the same .github content from all
         # the repos.
-        template_contents = {}
         for file in self.workflow_templates:
             file_path = f"workflow-templates/{file}"
             try:
-                template_contents[file] = get_github_file_contents(
+                self.dot_github_template_contents[file] = get_github_file_contents(
                     self.api,
                     self.org_name,
                     ".github",
@@ -192,7 +193,7 @@ class EnsureWorkflowTemplates(Check):
         for file in self.workflow_templates:
             if (
                 file not in files_that_are_missing
-                and template_contents[file] != repo_contents[file]
+                and self.dot_github_template_contents[file] != repo_contents[file]
             ):
                 files_that_differ.append(file)
 
@@ -202,16 +203,139 @@ class EnsureWorkflowTemplates(Check):
         return self.fix(dry_run=True)
 
     def fix(self, dry_run=False):
-        # Check to see if a PR exists from this check,
-        #   naming convention in the branch name?: `repo_checks/ensure_workflows_\d+` ?
-        # If it exists, delete the branch, this will also close the PR
+        """
+        Always use the same branch name and update the contents if necessary.
+        """
 
-        # For each file in the list of files that needs to be fixed
+        steps = []
+        # Check to see if the update branch already exists.
+        branch_exists = True
+        try:
+            self.api.git.get_ref(
+                self.org_name, self.repo_name, f"heads/{self.branch_name}"
+            )
+        except HTTP4xxClientError as e:
+            if e.status == 404:
+                branch_exists = False
+            else:
+                raise  # For any other unexpected errors.
 
-        # Create a new branch.
-        # On the branch, Update the file with the contents from .github template.
-        # Create a Pull request
-        pass
+        # Get the hash of the default branch.
+        repo = self.api.repos.get(self.org_name, self.repo_name)
+        default_branch = repo.default_branch
+        default_branch_sha = self.api.git.get_ref(
+            self.org_name,
+            self.repo_name,
+            f"heads/{default_branch}",
+        ).object.sha
+
+        if branch_exists:
+            steps.append("Workflow branch already exists.  Updating branch.")
+
+            if not dry_run:
+                # Force-push the branch to the lastest sha of the default branch.
+                self.api.git.update_ref(
+                    self.org_name,
+                    self.repo_name,
+                    f"heads/{self.branch_name}",
+                    default_branch_sha,
+                    force=True,
+                )
+
+        else:  # The branch does not exist
+            steps.append(f"Branch does not exist. Creating '{self.branch_name}'.")
+            if not dry_run:
+                self.api.git.create_ref(
+                    self.org_name,
+                    self.repo_name,
+                    # The create api needs the `refs/` prefix while the get api doesn't,
+                    # be sure to check the API reference before adding calls to other
+                    # parts of the GitHub `git/refs` REST api.
+                    # https://docs.github.com/en/rest/git/refs?apiVersion=2022-11-28
+                    f"refs/heads/{self.branch_name}",
+                    default_branch_sha,
+                )
+
+        steps.append(f"Updating workflow files on '{self.branch_name}'.")
+        commit_message_template = textwrap.dedent(
+            """
+            build: {creating_or_updating} a missing workflow file `{workflow}`.
+
+            The {path_in_repo} workflow is missing or needs an update to stay in
+            sync with the current standard for this workflow as defined in the
+            `.github` repo of the `{org_name}` GitHub org.
+            """
+        )
+
+        for workflow in self.files_to_create + self.files_to_update:
+            if workflow in self.files_to_create:
+                creating_or_updating = "Creating"
+            else:
+                creating_or_updating = "Updating"
+
+            path_in_repo = f".github/workflows/{workflow}"
+            commit_message = commit_message_template.format(
+                creating_or_updating=creating_or_updating,
+                path_in_repo=path_in_repo,
+                workflow=workflow,
+                org_name=self.org_name,
+            )
+            file_content = self.dot_github_template_contents[workflow]
+
+            steps.append(f"{creating_or_updating} {path_in_repo}")
+            if not dry_run:
+                # We need the sha to update an existing file.
+                if workflow in self.files_to_create:
+                    current_file_sha = None
+                else:
+                    current_file_sha = self.api.repos.get_content(
+                        self.org_name,
+                        self.repo_name,
+                        path_in_repo,
+                        self.branch_name,
+                    ).sha
+
+                self.api.repos.create_or_update_file_contents(
+                    owner=self.org_name,
+                    repo=self.repo_name,
+                    path=path_in_repo,
+                    message=commit_message,
+                    content=file_content,
+                    sha=current_file_sha,
+                    branch=self.branch_name,
+                )
+
+        # Check to see if a PR exists
+        prs = chain.from_iterable(
+            paged(
+                self.api.pulls.list,
+                owner=self.org_name,
+                repo=self.repo_name,
+                head=self.branch_name,
+                per_page=100,
+            )
+        )
+
+        prs = list([pr for pr in prs if pr.head.ref == self.branch_name])
+
+        if prs:
+            steps.append(f"PR already exists: {prs[0].html_url}")
+        else:
+            # If not, create a new PR
+            steps.append("No PR exists, creating a PR.")
+            if not dry_run:
+                pr = self.api.pulls.create(
+                    owner=self.org_name,
+                    repo=self.repo_name,
+                    title="Update standard workflow files.",
+                    head=self.branch_name,
+                    base=default_branch,
+                    body="",
+                    maintainer_can_modify=True,
+                )
+                steps.append(f"New PR: {pr.html_url}")
+
+        return steps
 
 
 class EnsureLabels(Check):
@@ -702,6 +826,7 @@ CHECKS = [
     RequireTriageTeamAccess,
     RequireProductManagersAccess,
     EnsureLabels,
+    EnsureWorkflowTemplates,
 ]
 
 
