@@ -889,11 +889,19 @@ def main(org, dry_run, github_token, target):
                 click.secho(f"\t{result[1]}", fg=color)
 
                 if dry_run:
-                    steps = check.dry_run()
-                    steps_color = "yellow"
+                    try:
+                        steps = check.dry_run()
+                        steps_color = "yellow"
+                    except HTTP4xxClientError as e:
+                        click.echo(e.fp.read().decode("utf-8"))
+                        raise
                 else:
-                    steps = check.fix()
-                    steps_color = "green"
+                    try:
+                        steps = check.fix()
+                        steps_color = "green"
+                    except HTTP4xxClientError as e:
+                        click.echo(e.fp.read().decode("utf-8"))
+                        raise
 
                 if steps:
                     click.secho("\tSteps:\n\t\t", fg=steps_color, nl=False)
