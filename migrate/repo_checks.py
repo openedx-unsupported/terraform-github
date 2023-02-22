@@ -1,6 +1,12 @@
 """
 Run checks Against Repos and correct them if they're missing something.
 
+Needs a token with the following scopes:
+
+    - admin:org
+    - repo
+    - user
+    - workflow
 """
 import re
 import textwrap
