@@ -17,7 +17,12 @@ from pprint import pformat
 
 import click
 import requests
-from fastcore.net import HTTP4xxClientError, HTTP5xxServerError, HTTP404NotFoundError
+from fastcore.net import (
+    HTTP4xxClientError,
+    HTTP5xxServerError,
+    HTTP404NotFoundError,
+    HTTP409ConflictError,
+)
 from ghapi.all import GhApi, paged
 
 HAS_GHSA_SUFFIX = re.compile(r".*?-ghsa-\w{4}-\w{4}-\w{4}$")
@@ -42,6 +47,29 @@ def is_public(api, org, repo):
     is_private = api.repos.get(org, repo).private
 
     return not is_private
+
+
+def is_empty(api, org, repo):
+    """
+    Check to see if a specific repo is empty and has no commits yet.
+    """
+    default_branch = api.repos.get(org, repo).default_branch
+
+    try:
+        default_branch_ref = api.git.get_ref(
+            org,
+            repo,
+            f"heads/{default_branch}",
+        )
+    except HTTP409ConflictError as e:
+        if "Git Repository is empty." in e.fp.read().decode():
+            return True
+        raise
+    except Exception as e:
+        breakpoint()
+        raise
+
+    return False
 
 
 @cache
@@ -123,7 +151,10 @@ class EnsureWorkflowTemplates(Check):
         self.dot_github_template_contents = {}
 
     def is_relevant(self):
-        return is_public(self.api, self.org_name, self.repo_name)
+        return (
+            is_public(self.api, self.org_name, self.repo_name)
+            and not is_empty(self.api, self.org_name, self.repo_name)
+        )
 
     def check(self):
         """
@@ -698,12 +729,19 @@ class RequiredCLACheck(Check):
                     "required_pull_request_reviews": None,
                     "restrictions": None,
                 }
-                if not dry_run:
-                    self._update_branch_protection(params)
 
-                steps.append(
-                    f"Added new branch protection with `openedx/cla` as a required check."
-                )
+                if is_empty(self.api, self.org_name, self.repo_name):
+                    steps.append(
+                        "Repo has no branches, can't add branch protection rule yet."
+                    )
+                else:
+                    if not dry_run:
+                        self._update_branch_protection(params)
+
+                    steps.append(
+                        f"Added new branch protection with `openedx/cla` as a required check."
+                    )
+
                 return steps
 
             # There's already a branch protection rule, so we need to make sure
@@ -762,13 +800,7 @@ class RequiredCLACheck(Check):
         )
         resp = requests.put(url, headers=headers, json=params)
 
-        try:
-            resp.raise_for_status()
-        except requests.HTTPError as e:
-            # If the branch is missing, the repo is probably new and has no branches
-            # ignore that for now.
-            if resp.json().get("message") != "Branch not found":
-                raise
+        resp.raise_for_status()
 
     def _get_update_params_from_get_branch_protection(self):
         """
