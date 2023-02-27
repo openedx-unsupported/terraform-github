@@ -154,6 +154,7 @@ class EnsureWorkflowTemplates(Check):
         return (
             is_public(self.api, self.org_name, self.repo_name)
             and not is_empty(self.api, self.org_name, self.repo_name)
+            and self.repo_name != ".github"
         )
 
     def check(self):
