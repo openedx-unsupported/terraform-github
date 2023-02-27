@@ -181,7 +181,7 @@ class EnsureWorkflowTemplates(Check):
             "All desired workflows are in sync with what's in the .github repo.",
         )
 
-    def _check_branch(self, branch_name):
+    def _check_branch(self, branch_name) -> tuple[list[str], list[str]]:
         """
         Check the contents the listed workflow files on a branch against the
         default content in the .github folder.
@@ -297,7 +297,7 @@ class EnsureWorkflowTemplates(Check):
         steps.append(f"Updating workflow files on '{self.branch_name}'.")
         commit_message_template = textwrap.dedent(
             """
-            build: {creating_or_updating} a missing workflow file `{workflow}`.
+            build: {creating_or_updating} workflow `{workflow}`.
 
             The {path_in_repo} workflow is missing or needs an update to stay in
             sync with the current standard for this workflow as defined in the
@@ -357,10 +357,17 @@ class EnsureWorkflowTemplates(Check):
         prs = list([pr for pr in prs if pr.head.ref == self.branch_name])
 
         if prs:
+            pr = prs[0]
             steps.append(f"PR already exists: {prs[0].html_url}")
         else:
             # If not, create a new PR
             steps.append("No PR exists, creating a PR.")
+            pr_body = textwrap.dedent(
+                """
+                This PR was created automatically by the `repo_checks.py` script in the
+                https://github.com/openedx/terraform-github repository.
+                """
+            )
             if not dry_run:
                 pr = self.api.pulls.create(
                     owner=self.org_name,
@@ -368,7 +375,7 @@ class EnsureWorkflowTemplates(Check):
                     title="Update standard workflow files.",
                     head=self.branch_name,
                     base=default_branch,
-                    body="",
+                    body=pr_body,
                     maintainer_can_modify=True,
                 )
                 steps.append(f"New PR: {pr.html_url}")
