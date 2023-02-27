@@ -902,7 +902,13 @@ CHECKS = [
     "-t",
     multiple=True,
 )
-def main(org, dry_run, github_token, target):
+@click.option(
+    "--start-at",
+    "-s",
+    default=None,
+    help="Which repo in the list to start running checks at.",
+)
+def main(org, dry_run, github_token, target, start_at):
     api = GhApi()
     if target:
         repos = target
@@ -919,10 +925,18 @@ def main(org, dry_run, github_token, target):
                 )
             )
         ]
+
     if dry_run:
         click.secho("DRY RUN MODE: No Actual Changes Being Made", fg="yellow")
 
+    before_start_at = bool(start_at)
     for repo in repos:
+        if repo == start_at:
+            before_start_at = False
+
+        if before_start_at:
+            continue
+
         click.secho(f"{repo}: ")
         for CheckType in CHECKS:
             check = CheckType(api, org, repo)
