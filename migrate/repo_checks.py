@@ -244,8 +244,10 @@ class EnsureWorkflowTemplates(Check):
         """
         Always use the same branch name and update the contents if necessary.
         """
-
         steps = []
+        if not (self.files_to_create or self.files_to_update):
+            return steps
+
         # Check to see if the update branch already exists.
         branch_exists = True
         try:
