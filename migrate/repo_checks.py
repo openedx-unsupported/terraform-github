@@ -1,14 +1,28 @@
 """
 Run checks Against Repos and correct them if they're missing something.
 
+Needs a token with the following scopes:
+
+    - admin:org
+    - repo
+    - user
+    - workflow
 """
 import re
+import textwrap
+from base64 import standard_b64decode, standard_b64encode
+from functools import cache
 from itertools import chain
 from pprint import pformat
 
 import click
 import requests
-from fastcore.net import HTTP4xxClientError, HTTP5xxServerError, HTTP404NotFoundError
+from fastcore.net import (
+    HTTP4xxClientError,
+    HTTP5xxServerError,
+    HTTP404NotFoundError,
+    HTTP409ConflictError,
+)
 from ghapi.all import GhApi, paged
 
 HAS_GHSA_SUFFIX = re.compile(r".*?-ghsa-\w{4}-\w{4}-\w{4}$")
@@ -33,6 +47,39 @@ def is_public(api, org, repo):
     is_private = api.repos.get(org, repo).private
 
     return not is_private
+
+
+def is_empty(api, org, repo):
+    """
+    Check to see if a specific repo is empty and has no commits yet.
+    """
+    default_branch = api.repos.get(org, repo).default_branch
+
+    try:
+        default_branch_ref = api.git.get_ref(
+            org,
+            repo,
+            f"heads/{default_branch}",
+        )
+    except HTTP409ConflictError as e:
+        if "Git Repository is empty." in e.fp.read().decode():
+            return True
+        raise
+    except Exception as e:
+        breakpoint()
+        raise
+
+    return False
+
+
+@cache
+def get_github_file_contents(api, org, repo, path, ref):
+    """
+    A caching proxy for the get repository content api endpoint.
+
+    It returns the content of the file as a string.
+    """
+    return api.repos.get_content(org, repo, path, ref).content
 
 
 class Check:
@@ -76,6 +123,266 @@ class Check:
         See what will happen without making any changes.
         """
         raise NotImplementedError
+
+
+class EnsureWorkflowTemplates(Check):
+    """
+    There are certain github action workflows that we to exist on all
+    repos exactly as they are defined in the `.github` repo in the org.
+
+    Check to see if they're in a repo and if not, make a pull request
+    to add them to the repository.
+    """
+
+    def __init__(self, api: GhApi, org: str, repo: str):
+        super().__init__(api, org, repo)
+
+        self.workflow_templates = [
+            "self-assign-issue.yml",
+            "add-depr-ticket-to-depr-board.yml",
+            "commitlint.yml",
+            "add-remove-label-on-comment.yml",
+        ]
+
+        self.branch_name = "repo_checks/ensure_workflows"
+
+        self.files_to_create = []
+        self.files_to_update = []
+        self.dot_github_template_contents = {}
+
+    def is_relevant(self):
+        return (
+            is_public(self.api, self.org_name, self.repo_name)
+            and not is_empty(self.api, self.org_name, self.repo_name)
+            and self.repo_name != ".github"
+        )
+
+    def check(self):
+        """
+        See if our workflow templates are in the repo and have the same content
+        as the default templates in the `.github` repo.
+        """
+        # Get the current default branch.
+        repo = self.api.repos.get(self.org_name, self.repo_name)
+        default_branch = repo.default_branch
+
+        files_that_differ, files_that_are_missing = self._check_branch(default_branch)
+        # Return False and save the list of files that need to be updated.
+        if files_that_differ or files_that_are_missing:
+            self.files_to_create = files_that_are_missing
+            self.files_to_update = files_that_differ
+            return (
+                False,
+                f"Some workflows in this repo don't match the template.\n\t\t{files_that_differ=}\n\t\t{files_that_are_missing=}",
+            )
+
+        return (
+            True,
+            "All desired workflows are in sync with what's in the .github repo.",
+        )
+
+    def _check_branch(self, branch_name) -> tuple[list[str], list[str]]:
+        """
+        Check the contents the listed workflow files on a branch against the
+        default content in the .github folder.
+        """
+        dot_github_default_branch = self.api.repos.get(
+            self.org_name, ".github"
+        ).default_branch
+        # Get the content of the .github files, maybe this should be a memoized
+        # function since we'll want to get the same .github content from all
+        # the repos.
+        for file in self.workflow_templates:
+            file_path = f"workflow-templates/{file}"
+            try:
+                self.dot_github_template_contents[file] = get_github_file_contents(
+                    self.api,
+                    self.org_name,
+                    ".github",
+                    file_path,
+                    dot_github_default_branch,
+                )
+            except HTTP4xxClientError as e:
+                click.echo(
+                    f"File: https://github.com/{org_name}/.github/blob/{dot_github_default_branch}/{file_path}"
+                )
+                click.echo(e.fp.read().decode("utf-8"))
+                raise
+
+        # Get the content of the repo specific file.
+        repo_contents = {}
+        files_that_are_missing = []
+        for file in self.workflow_templates:
+            file_path = f".github/workflows/{file}"
+            try:
+                repo_contents[file] = get_github_file_contents(
+                    self.api,
+                    self.org_name,
+                    self.repo_name,
+                    file_path,
+                    branch_name,
+                )
+            except HTTP4xxClientError as e:
+                if e.status == 404:
+                    files_that_are_missing.append(file)
+
+        # Compare the two.
+        files_that_differ = []
+        for file in self.workflow_templates:
+            if (
+                file not in files_that_are_missing
+                and self.dot_github_template_contents[file] != repo_contents[file]
+            ):
+                files_that_differ.append(file)
+
+        return (files_that_differ, files_that_are_missing)
+
+    def dry_run(self):
+        return self.fix(dry_run=True)
+
+    def fix(self, dry_run=False):
+        """
+        Always use the same branch name and update the contents if necessary.
+        """
+        steps = []
+        if not (self.files_to_create or self.files_to_update):
+            return steps
+
+        # Check to see if the update branch already exists.
+        branch_exists = True
+        try:
+            self.api.git.get_ref(
+                self.org_name, self.repo_name, f"heads/{self.branch_name}"
+            )
+        except HTTP4xxClientError as e:
+            if e.status == 404:
+                branch_exists = False
+            else:
+                raise  # For any other unexpected errors.
+
+        # Get the hash of the default branch.
+        repo = self.api.repos.get(self.org_name, self.repo_name)
+        default_branch = repo.default_branch
+        default_branch_sha = self.api.git.get_ref(
+            self.org_name,
+            self.repo_name,
+            f"heads/{default_branch}",
+        ).object.sha
+
+        if branch_exists:
+            steps.append("Workflow branch already exists.  Updating branch.")
+
+            if not dry_run:
+                # Force-push the branch to the lastest sha of the default branch.
+                self.api.git.update_ref(
+                    self.org_name,
+                    self.repo_name,
+                    f"heads/{self.branch_name}",
+                    default_branch_sha,
+                    force=True,
+                )
+
+        else:  # The branch does not exist
+            steps.append(f"Branch does not exist. Creating '{self.branch_name}'.")
+            if not dry_run:
+                self.api.git.create_ref(
+                    self.org_name,
+                    self.repo_name,
+                    # The create api needs the `refs/` prefix while the get api doesn't,
+                    # be sure to check the API reference before adding calls to other
+                    # parts of the GitHub `git/refs` REST api.
+                    # https://docs.github.com/en/rest/git/refs?apiVersion=2022-11-28
+                    f"refs/heads/{self.branch_name}",
+                    default_branch_sha,
+                )
+
+        steps.append(f"Updating workflow files on '{self.branch_name}'.")
+        commit_message_template = textwrap.dedent(
+            """
+            build: {creating_or_updating} workflow `{workflow}`.
+
+            The {path_in_repo} workflow is missing or needs an update to stay in
+            sync with the current standard for this workflow as defined in the
+            `.github` repo of the `{org_name}` GitHub org.
+            """
+        )
+
+        for workflow in self.files_to_create + self.files_to_update:
+            if workflow in self.files_to_create:
+                creating_or_updating = "Creating"
+            else:
+                creating_or_updating = "Updating"
+
+            path_in_repo = f".github/workflows/{workflow}"
+            commit_message = commit_message_template.format(
+                creating_or_updating=creating_or_updating,
+                path_in_repo=path_in_repo,
+                workflow=workflow,
+                org_name=self.org_name,
+            )
+            file_content = self.dot_github_template_contents[workflow]
+
+            steps.append(f"{creating_or_updating} {path_in_repo}")
+            if not dry_run:
+                # We need the sha to update an existing file.
+                if workflow in self.files_to_create:
+                    current_file_sha = None
+                else:
+                    current_file_sha = self.api.repos.get_content(
+                        self.org_name,
+                        self.repo_name,
+                        path_in_repo,
+                        self.branch_name,
+                    ).sha
+
+                self.api.repos.create_or_update_file_contents(
+                    owner=self.org_name,
+                    repo=self.repo_name,
+                    path=path_in_repo,
+                    message=commit_message,
+                    content=file_content,
+                    sha=current_file_sha,
+                    branch=self.branch_name,
+                )
+
+        # Check to see if a PR exists
+        prs = chain.from_iterable(
+            paged(
+                self.api.pulls.list,
+                owner=self.org_name,
+                repo=self.repo_name,
+                head=self.branch_name,
+                per_page=100,
+            )
+        )
+
+        prs = list([pr for pr in prs if pr.head.ref == self.branch_name])
+
+        if prs:
+            pr = prs[0]
+            steps.append(f"PR already exists: {prs[0].html_url}")
+        else:
+            # If not, create a new PR
+            steps.append("No PR exists, creating a PR.")
+            pr_body = textwrap.dedent(
+                """
+                This PR was created automatically by the `repo_checks.py` script in the
+                https://github.com/openedx/terraform-github repository.
+                """
+            )
+            if not dry_run:
+                pr = self.api.pulls.create(
+                    owner=self.org_name,
+                    repo=self.repo_name,
+                    title="Update standard workflow files.",
+                    head=self.branch_name,
+                    base=default_branch,
+                    body=pr_body,
+                    maintainer_can_modify=True,
+                )
+                steps.append(f"New PR: {pr.html_url}")
+
+        return steps
 
 
 class EnsureLabels(Check):
@@ -432,12 +739,19 @@ class RequiredCLACheck(Check):
                     "required_pull_request_reviews": None,
                     "restrictions": None,
                 }
-                if not dry_run:
-                    self._update_branch_protection(params)
 
-                steps.append(
-                    f"Added new branch protection with `openedx/cla` as a required check."
-                )
+                if is_empty(self.api, self.org_name, self.repo_name):
+                    steps.append(
+                        "Repo has no branches, can't add branch protection rule yet."
+                    )
+                else:
+                    if not dry_run:
+                        self._update_branch_protection(params)
+
+                    steps.append(
+                        f"Added new branch protection with `openedx/cla` as a required check."
+                    )
+
                 return steps
 
             # There's already a branch protection rule, so we need to make sure
@@ -496,13 +810,7 @@ class RequiredCLACheck(Check):
         )
         resp = requests.put(url, headers=headers, json=params)
 
-        try:
-            resp.raise_for_status()
-        except requests.HTTPError as e:
-            # If the branch is missing, the repo is probably new and has no branches
-            # ignore that for now.
-            if resp.json().get("message") != "Branch not found":
-                raise
+        resp.raise_for_status()
 
     def _get_update_params_from_get_branch_protection(self):
         """
@@ -566,6 +874,7 @@ CHECKS = [
     RequireTriageTeamAccess,
     RequireProductManagersAccess,
     EnsureLabels,
+    EnsureWorkflowTemplates,
 ]
 
 
@@ -593,7 +902,13 @@ CHECKS = [
     "-t",
     multiple=True,
 )
-def main(org, dry_run, github_token, target):
+@click.option(
+    "--start-at",
+    "-s",
+    default=None,
+    help="Which repo in the list to start running checks at.",
+)
+def main(org, dry_run, github_token, target, start_at):
     api = GhApi()
     if target:
         repos = target
@@ -610,10 +925,18 @@ def main(org, dry_run, github_token, target):
                 )
             )
         ]
+
     if dry_run:
         click.secho("DRY RUN MODE: No Actual Changes Being Made", fg="yellow")
 
+    before_start_at = bool(start_at)
     for repo in repos:
+        if repo == start_at:
+            before_start_at = False
+
+        if before_start_at:
+            continue
+
         click.secho(f"{repo}: ")
         for CheckType in CHECKS:
             check = CheckType(api, org, repo)
@@ -628,11 +951,19 @@ def main(org, dry_run, github_token, target):
                 click.secho(f"\t{result[1]}", fg=color)
 
                 if dry_run:
-                    steps = check.dry_run()
-                    steps_color = "yellow"
+                    try:
+                        steps = check.dry_run()
+                        steps_color = "yellow"
+                    except HTTP4xxClientError as e:
+                        click.echo(e.fp.read().decode("utf-8"))
+                        raise
                 else:
-                    steps = check.fix()
-                    steps_color = "green"
+                    try:
+                        steps = check.fix()
+                        steps_color = "green"
+                    except HTTP4xxClientError as e:
+                        click.echo(e.fp.read().decode("utf-8"))
+                        raise
 
                 if steps:
                     click.secho("\tSteps:\n\t\t", fg=steps_color, nl=False)
