@@ -32,10 +32,12 @@ import textwrap
 from base64 import standard_b64decode, standard_b64encode
 from functools import cache
 from itertools import chain
+from pathlib import Path
 from pprint import pformat
 
 import click
 import requests
+import yaml
 from fastcore.net import (
     HTTP4xxClientError,
     HTTP5xxServerError,
@@ -45,6 +47,8 @@ from fastcore.net import (
 from ghapi.all import GhApi, paged
 
 HAS_GHSA_SUFFIX = re.compile(r".*?-ghsa-\w{4}-\w{4}-\w{4}$")
+
+LABELS_YAML_PATH = Path("./labels.yml")
 
 
 def is_security_private_fork(api, org, repo):
@@ -408,21 +412,15 @@ class EnsureLabels(Check):
     """
     All repos in the org should have certain labels.
     """
+    # Each item should be a dict with the fields:
+    #  name: str
+    #  color: str (rrggbb hex string)
+    labels: list
 
-    def __init__(self, api: GhApi, org: str, repo: str):
-        super().__init__(api, org, repo)
-        # A list of labels mapped to their hex colors
-        # so that they are the same color in all the repos.
-        # Relevant API Docs: https://docs.github.com/en/rest/issues/labels#create-a-label
-        # https://www.htmlcolor-picker.com/
-        self.labels = {
-            ":hammer_and_wrench: maintenance": "169509",
-            "waiting on author": "bfd6f6",
-            "inactive": "ff950a",
-            "closed-inactivity": "dbcd00",
-            "needs test run": "f5424b",
-            "good first issue :tada:": "43dd35",
-        }
+    with open(LABELS_YAML_PATH) as labels_yaml:
+        # Load up the labels file in the class definition so that we fail
+        # fast if the YAML if malformed.
+        labels = yaml.safe_load(labels_yaml)
 
     def is_relevant(self):
         return not is_security_private_fork(self.api, self.org_name, self.repo_name)
@@ -431,7 +429,7 @@ class EnsureLabels(Check):
         """
         See if our labels exist.
         """
-        labels = chain.from_iterable(
+        existing_labels_from_api = chain.from_iterable(
             paged(
                 self.api.issues.list_labels_for_repo,
                 self.org_name,
@@ -439,36 +437,23 @@ class EnsureLabels(Check):
                 per_page=100,
             )
         )
-
         existing_labels = {
-            self._simplify_label(label.name): {"color": label.color, "name": label.name}
-            for label in labels
+            self._simplify_label(label.name): {
+                "color": label.color,
+                "name": label.name,
+            }
+            for label in existing_labels_from_api
         }
         self.missing_labels = []
-        self.labels_that_need_updates = []
-        # [
-        #     {
-        #         "current_label": "<current label name>",
-        #         "new_label": "<new_label_name>",
-        #         "color": "<new_label_color>",
-        #     }
-        # ]
+        self.labels_that_need_updates = []  # pair of (current_label, new_label)
 
-        for new_label, new_color in self.labels.items():
-            simple_new_label = self._simplify_label(new_label)
-            if simple_new_label in existing_labels:
-                # We need to potentially update the label if the name or color have changed.
-                current_label = existing_labels[simple_new_label]
-                if (
-                    current_label["name"] != new_label
-                    or current_label["color"] != new_color
-                ):
+        for new_label in self.labels:
+            simple_name = self._simplify_label(new_label["name"])
+            if simple_name in existing_labels:
+                # We need to potentially update the label if the details have changed.
+                if existing_labels[simple_name] != new_label:
                     self.labels_that_need_updates.append(
-                        {
-                            "current_label": existing_labels[simple_new_label]["name"],
-                            "new_label": new_label,
-                            "new_color": new_color,
-                        }
+                        (existing_labels[simple_name], new_label)
                     )
             else:
                 # We need to create the label as it doesn't already exist.
@@ -477,9 +462,11 @@ class EnsureLabels(Check):
         if self.missing_labels or self.labels_that_need_updates:
             return (
                 False,
-                f"Labels need updating. {self.missing_labels=}  {self.labels_that_need_updates=}",
+                "Labels need updating. "
+                f"{len(self.missing_labels)} to create, "
+                f"{len(self.labels_that_need_updates)} to fix."
             )
-        return (True, "All desired labels exist with the right color.")
+        return (True, "All desired labels exist with the right name, color, description.")
 
     def dry_run(self):
         return self.fix(dry_run=True)
@@ -502,21 +489,21 @@ class EnsureLabels(Check):
                     raise
             steps.append(f"Created {label=}.")
 
-        # Update incorrectly colored labels
-        for label in self.labels_that_need_updates:
+        # Update labels with incorrect details
+        for current_label, new_label in self.labels_that_need_updates:
             if not dry_run:
                 try:
                     self.api.issues.update_label(
                         self.org_name,
                         self.repo_name,
-                        name=label["current_label"],
-                        color=label["new_color"],
-                        new_name=label["new_label"],
+                        name=current_label["name"],
+                        color=new_label["color"],
+                        new_name=new_label["name"],
                     )
                 except HTTP4xxClientError as e:
                     click.echo(e.fp.read().decode("utf-8"))
                     raise
-            steps.append(f"Updated color for {label=}")
+            steps.append(f"Fixed {current_label=} to {new_label=}")
 
         return steps
 
