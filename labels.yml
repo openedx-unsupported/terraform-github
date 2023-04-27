@@ -1,0 +1,17 @@
+# Repository labels to be synced across the entire org.
+# For picking hex colors, you can use: https://www.htmlcolor-picker.com/
+
+- name: ":hammer_and_wrench: maintenance"
+  color: "169509"  # grassy green
+
+- name: "waiting on author"
+  color: "bfd6f6"  # baby blue
+
+- name: "closed-inactivity"
+  color: "dbcd00"  # gold
+
+- name: "needs test run"
+  color: "f5424b"  # crimson red
+
+- name: "good first issue :tada:"
+  color: "43dd35"  # lime green
