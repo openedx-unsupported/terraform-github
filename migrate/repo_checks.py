@@ -415,6 +415,7 @@ class EnsureLabels(Check):
     # Each item should be a dict with the fields:
     #  name: str
     #  color: str (rrggbb hex string)
+    #  description: str
     labels: list
 
     with open(LABELS_YAML_PATH) as labels_yaml:
@@ -441,6 +442,7 @@ class EnsureLabels(Check):
             self._simplify_label(label.name): {
                 "color": label.color,
                 "name": label.name,
+                "description": label.description,
             }
             for label in existing_labels_from_api
         }
@@ -498,6 +500,7 @@ class EnsureLabels(Check):
                         self.repo_name,
                         name=current_label["name"],
                         color=new_label["color"],
+                        description=new_label["description"],
                         new_name=new_label["name"],
                     )
                 except HTTP4xxClientError as e:

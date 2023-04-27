@@ -3,15 +3,20 @@
 
 - name: ":hammer_and_wrench: maintenance"
   color: "169509"  # grassy green
+  description: !!null
 
 - name: "waiting on author"
   color: "bfd6f6"  # baby blue
+  description: "The PR or issue is waiting on a response from the author"
 
 - name: "closed-inactivity"
   color: "dbcd00"  # gold
+  description: "Indicates a PR has been closed because the author has been inactive for a long period of time."
 
 - name: "needs test run"
   color: "f5424b"  # crimson red
+  description: !!null
 
 - name: "good first issue :tada:"
   color: "43dd35"  # lime green
+  description: !!null
