@@ -1,12 +1,31 @@
 """
 Run checks Against Repos and correct them if they're missing something.
 
-Needs a token with the following scopes:
+Should be run from the repo root.
 
-    - admin:org
-    - repo
-    - user
-    - workflow
+Example setup & usage:
+
+    # Get a GH personal access token with the following scopes:
+    #  - admin:org
+    #  - repo
+    #  - user
+    #  - workflow
+    # and copy it into your environment, however you'd normally do that.
+    export GITHUB_TOKEN="$(pass github-token)"
+
+    # Create and active a venv, however you'd normally do that.
+    python3 -m venv venv
+    . venv/bin/activate
+
+    # Install Python deps (from repo root).
+    cd path/to/terraform-github
+    pip install -r requirements.txt
+
+    # Run the script (one of these):
+    python -m migrate.repo_checks                                      # all repos & checks
+    python -m migrate.repo_checks -r edx-platform -r frontend-platform # limit repos
+    python -m migrate.repo_checks -c EnsureLabels -c RequiredCLACheck  # limit checks
+    python -m migrate.repo_checks -c EnsureLabels -r edx-platform      # single repo & check
 """
 import re
 import textwrap
@@ -876,6 +895,8 @@ CHECKS = [
     EnsureLabels,
     EnsureWorkflowTemplates,
 ]
+CHECKS_BY_NAME = {check_cls.__name__: check_cls for check_cls in CHECKS}
+CHECKS_BY_NAME_LOWER = {check_cls.__name__.lower(): check_cls for check_cls in CHECKS}
 
 
 @click.command()
@@ -898,9 +919,19 @@ CHECKS = [
     help="Show what changes would be made without making them.",
 )
 @click.option(
+    "--check",
+    "-c",
+    "check_names",
+    default=None,
+    multiple=True,
+    type=click.Choice(CHECKS_BY_NAME.keys(), case_sensitive=False),
+    help=f"Limit to specific check(s), case-insensitive."
+)
+@click.option(
     "--target",
     "-t",
     multiple=True,
+    help="Repos to run checks in.",
 )
 @click.option(
     "--start-at",
@@ -908,7 +939,7 @@ CHECKS = [
     default=None,
     help="Which repo in the list to start running checks at.",
 )
-def main(org, dry_run, github_token, target, start_at):
+def main(org, dry_run, github_token, check_names, target, start_at):
     api = GhApi()
     if target:
         repos = target
@@ -927,7 +958,16 @@ def main(org, dry_run, github_token, target, start_at):
         ]
 
     if dry_run:
-        click.secho("DRY RUN MODE: No Actual Changes Being Made", fg="yellow")
+        click.secho("DRY RUN MODE: ", fg="yellow", bold=True, nl=False)
+        click.secho("No Actual Changes Being Made", fg="yellow")
+
+    if check_names:
+        active_checks = [CHECKS_BY_NAME[check_name] for check_name in check_names]
+    else:
+        active_checks = CHECKS
+    click.secho(f"The following checks will be run:", fg="magenta", bold=True)
+    active_checks_string = "\n".join("\t" + check_cls.__name__ for check_cls in active_checks)
+    click.secho(active_checks_string, fg="magenta")
 
     before_start_at = bool(start_at)
     for repo in repos:
@@ -937,8 +977,9 @@ def main(org, dry_run, github_token, target, start_at):
         if before_start_at:
             continue
 
-        click.secho(f"{repo}: ")
-        for CheckType in CHECKS:
+        click.secho(f"{repo}: ", bold=True)
+        for CheckType in active_checks:
+
             check = CheckType(api, org, repo)
 
             if check.is_relevant():
@@ -971,7 +1012,7 @@ def main(org, dry_run, github_token, target, start_at):
                         "\n\t\t".join([step.replace("\n", "\n\t\t") for step in steps])
                     )
             else:
-                click.secho(f"Skipping {CheckType} as it is not relevant on this repo.")
+                click.secho(f"\tSkipping {CheckType.__name__} as it is not relevant on this repo.", fg="cyan")
 
 
 if __name__ == "__main__":
