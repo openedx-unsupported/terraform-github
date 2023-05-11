@@ -62,7 +62,7 @@ def is_empty(api, org, repo):
             f"heads/{default_branch}",
         )
     except HTTP409ConflictError as e:
-        if "Git Repository is empty." in e.fp.read().decode():
+        if "Git Repository is empty." in str(e):
             return True
         raise
     except Exception as e:
