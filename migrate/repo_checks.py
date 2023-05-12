@@ -928,10 +928,12 @@ CHECKS_BY_NAME_LOWER = {check_cls.__name__.lower(): check_cls for check_cls in C
     help=f"Limit to specific check(s), case-insensitive."
 )
 @click.option(
-    "--target",
-    "-t",
+    "--repo",
+    "-r",
+    "repos",
+    default=None,
     multiple=True,
-    help="Repos to run checks in.",
+    help="Limit to specific repo(s).",
 )
 @click.option(
     "--start-at",
@@ -939,11 +941,9 @@ CHECKS_BY_NAME_LOWER = {check_cls.__name__.lower(): check_cls for check_cls in C
     default=None,
     help="Which repo in the list to start running checks at.",
 )
-def main(org, dry_run, github_token, check_names, target, start_at):
+def main(org, dry_run, github_token, check_names, repos, start_at):
     api = GhApi()
-    if target:
-        repos = target
-    else:
+    if not repos:
         repos = [
             repo.name
             for repo in chain.from_iterable(
