@@ -481,10 +481,11 @@ class EnsureLabels(Check):
             if not dry_run:
                 try:
                     self.api.issues.create_label(
-                        self.org_name,
-                        self.repo_name,
-                        label,
-                        self.labels[label],
+                        owner=self.org_name,
+                        repo=self.repo_name,
+                        name=label["name"],
+                        color=label["color"],
+                        description=label["description"],
                     )
                 except HTTP4xxClientError as e:
                     click.echo(e.fp.read().decode("utf-8"))
@@ -496,8 +497,8 @@ class EnsureLabels(Check):
             if not dry_run:
                 try:
                     self.api.issues.update_label(
-                        self.org_name,
-                        self.repo_name,
+                        owner=self.org_name,
+                        repo=self.repo_name,
                         name=current_label["name"],
                         color=new_label["color"],
                         description=new_label["description"],
