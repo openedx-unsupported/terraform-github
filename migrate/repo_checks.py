@@ -1,3 +1,4 @@
+# pylint: disable=too-many-lines
 """
 Run checks Against Repos and correct them if they're missing something.
 
@@ -29,8 +30,7 @@ Example setup & usage:
 """
 import re
 import textwrap
-from base64 import standard_b64decode, standard_b64encode
-from functools import cache
+from functools import lru_cache
 from itertools import chain
 from pathlib import Path
 from pprint import pformat
@@ -40,7 +40,6 @@ import requests
 import yaml
 from fastcore.net import (
     HTTP4xxClientError,
-    HTTP5xxServerError,
     HTTP404NotFoundError,
     HTTP409ConflictError,
 )
@@ -49,6 +48,11 @@ from ghapi.all import GhApi, paged
 HAS_GHSA_SUFFIX = re.compile(r".*?-ghsa-\w{4}-\w{4}-\w{4}$")
 
 LABELS_YAML_PATH = Path("./labels.yml")
+
+# Note: This is functionally equivalent to `from functools import cache`,
+# which becomes available in Python 3.9.
+# https://docs.python.org/3/library/functools.html#functools.cache
+cache = lru_cache(maxsize=None)
 
 
 def is_security_private_fork(api, org, repo):
@@ -84,8 +88,8 @@ def is_empty(api, org, repo):
             repo,
             f"heads/{default_branch}",
         )
-    except HTTP409ConflictError as e:
-        if "Git Repository is empty." in str(e):
+    except HTTP409ConflictError as err:
+        if "Git Repository is empty." in str(err):
             return True
         raise
     except Exception as e:
@@ -196,7 +200,8 @@ class EnsureWorkflowTemplates(Check):
             self.files_to_update = files_that_differ
             return (
                 False,
-                f"Some workflows in this repo don't match the template.\n\t\t{files_that_differ=}\n\t\t{files_that_are_missing=}",
+                f"Some workflows in this repo don't match the template.\n"
+                f"\t\t{files_that_differ=}\n\t\t{files_that_are_missing=}",
             )
 
         return (
@@ -227,7 +232,8 @@ class EnsureWorkflowTemplates(Check):
                 )
             except HTTP4xxClientError as e:
                 click.echo(
-                    f"File: https://github.com/{org_name}/.github/blob/{dot_github_default_branch}/{file_path}"
+                    f"File: https://github.com/{org_name}/"
+                    f".github/blob/{dot_github_default_branch}/{file_path}"
                 )
                 click.echo(e.fp.read().decode("utf-8"))
                 raise
@@ -423,6 +429,11 @@ class EnsureLabels(Check):
         # Load up the labels file in the class definition so that we fail
         # fast if the YAML if malformed.
         labels = yaml.safe_load(labels_yaml)
+
+    def __init__(self):
+        super().__init__()
+        self.missing_labels = []
+        self.labels_that_need_updates = []  # pair of (current_label, new_label)
 
     def is_relevant(self):
         return not is_security_private_fork(self.api, self.org_name, self.repo_name)
@@ -857,9 +868,15 @@ class RequiredCLACheck(Check):
         required_pr_reviews = None
         if "required_pull_request_reviews" in bp:
             required_pr_reviews = {
-                "dismiss_stale_reviews": bp.required_pull_request_reviews.dismiss_stale_reviews,
-                "require_code_owner_reviews": bp.required_pull_request_reviews.require_code_owner_reviews,
-                "required_approving_review_count": bp.required_pull_request_reviews.required_approving_review_count,
+                "dismiss_stale_reviews": (
+                    bp.required_pull_request_reviews.dismiss_stale_reviews,
+                ),
+                "require_code_owner_reviews": (
+                    bp.required_pull_request_reviews.require_code_owner_reviews,
+                ),
+                "required_approving_review_count": (
+                    bp.required_pull_request_reviews.required_approving_review_count,
+                ),
             }
 
         restrictions = None
