@@ -412,6 +412,7 @@ class EnsureLabels(Check):
     """
     All repos in the org should have certain labels.
     """
+
     # Each item should be a dict with the fields:
     #  name: str
     #  color: str (rrggbb hex string)
@@ -466,9 +467,12 @@ class EnsureLabels(Check):
                 False,
                 "Labels need updating. "
                 f"{len(self.missing_labels)} to create, "
-                f"{len(self.labels_that_need_updates)} to fix."
+                f"{len(self.labels_that_need_updates)} to fix.",
             )
-        return (True, "All desired labels exist with the right name, color, description.")
+        return (
+            True,
+            "All desired labels exist with the right name, color, description.",
+        )
 
     def dry_run(self):
         return self.fix(dry_run=True)
@@ -916,7 +920,7 @@ CHECKS_BY_NAME_LOWER = {check_cls.__name__.lower(): check_cls for check_cls in C
     default=None,
     multiple=True,
     type=click.Choice(CHECKS_BY_NAME.keys(), case_sensitive=False),
-    help=f"Limit to specific check(s), case-insensitive."
+    help=f"Limit to specific check(s), case-insensitive.",
 )
 @click.option(
     "--repo",
@@ -957,7 +961,9 @@ def main(org, dry_run, github_token, check_names, repos, start_at):
     else:
         active_checks = CHECKS
     click.secho(f"The following checks will be run:", fg="magenta", bold=True)
-    active_checks_string = "\n".join("\t" + check_cls.__name__ for check_cls in active_checks)
+    active_checks_string = "\n".join(
+        "\t" + check_cls.__name__ for check_cls in active_checks
+    )
     click.secho(active_checks_string, fg="magenta")
 
     before_start_at = bool(start_at)
@@ -970,7 +976,6 @@ def main(org, dry_run, github_token, check_names, repos, start_at):
 
         click.secho(f"{repo}: ", bold=True)
         for CheckType in active_checks:
-
             check = CheckType(api, org, repo)
 
             if check.is_relevant():
@@ -1003,7 +1008,10 @@ def main(org, dry_run, github_token, check_names, repos, start_at):
                         "\n\t\t".join([step.replace("\n", "\n\t\t") for step in steps])
                     )
             else:
-                click.secho(f"\tSkipping {CheckType.__name__} as it is not relevant on this repo.", fg="cyan")
+                click.secho(
+                    f"\tSkipping {CheckType.__name__} as it is not relevant on this repo.",
+                    fg="cyan",
+                )
 
 
 if __name__ == "__main__":
