@@ -1,4 +1,4 @@
-from unittest.mock import MagicMock, call
+from unittest.mock import MagicMock, call, patch
 
 import pytest
 
@@ -11,12 +11,26 @@ def maintenance_label():
     Quickly make a basic label to return via the API.
     """
     maintenance_label = MagicMock()
-    maintenance_label.name = ":hammer_and_wrench: maintenance"
-    maintenance_label.color = "169509"
+    maintenance_label.name = "maintenance"
+    maintenance_label.color = "ff9125"
+    maintenance_label.description = (
+        "Routine upkeep necessary for the health of the platform"
+    )
 
     return maintenance_label
 
 
+# Our list of expected labels, normally defined in labels.yaml.
+labels_yaml = [
+    {
+        "name": "maintenance",
+        "color": "ff9125",
+        "description": "Routine upkeep necessary for the health of the platform",
+    }
+]
+
+
+@patch.object(EnsureLabels, "labels", labels_yaml)
 class TestEnsureLabels:
     def test_check_for_no_change(self, maintenance_label):
         api = MagicMock()
@@ -39,10 +53,11 @@ class TestEnsureLabels:
 
         call_args = api.issues.create_label.call_args
         expected_call = call(
-            "test_org",
-            "test_repo",
-            maintenance_label.name,
-            maintenance_label.color,
+            owner="test_org",
+            repo="test_repo",
+            name=maintenance_label.name,
+            color=maintenance_label.color,
+            description=maintenance_label.description,
         )
         assert call_args == expected_call
         assert not api.issues.update_label.called
@@ -59,11 +74,12 @@ class TestEnsureLabels:
 
         call_args = api.issues.update_label.call_args
         expected_call = call(
-            "test_org",
-            "test_repo",
+            owner="test_org",
+            repo="test_repo",
             name=maintenance_label.name,
             color=maintenance_label.color,
-            new_name=":hammer_and_wrench: maintenance",
+            new_name="maintenance",
+            description=maintenance_label.description,
         )
 
         assert call_args == expected_call
